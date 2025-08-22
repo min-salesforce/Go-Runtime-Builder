@@ -521,6 +521,108 @@
             background: #3eb370;
         }
 
+        /* Add Section Button */
+        .add-section-btn {
+            display: none;
+            background: #1589ee;
+            color: white;
+            border: 2px dashed #1589ee;
+            border-radius: 6px;
+            padding: 12px;
+            margin: 16px 0;
+            width: 100%;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .add-section-btn:hover {
+            background: #0e6db8;
+            border-color: #0e6db8;
+            transform: translateY(-1px);
+        }
+
+        .add-section-btn.editing {
+            display: block;
+        }
+
+        /* Drag Handle */
+        .drag-handle {
+            display: none;
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #706e6b;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            width: 24px;
+            height: 24px;
+            cursor: grab;
+            font-size: 14px;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .drag-handle:hover {
+            background: #5c5a57;
+        }
+
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+
+        .drag-handle.editing {
+            display: flex;
+        }
+
+        /* Section positioning for drag handle */
+        .config-section {
+            position: relative;
+        }
+
+        /* Dragging states */
+        .config-section.dragging {
+            opacity: 0.5;
+            transform: rotate(2deg);
+        }
+
+        .config-section.drag-over {
+            border-top: 3px solid #1589ee;
+        }
+
+        /* Delete section button */
+        .delete-section-btn {
+            display: none;
+            position: absolute;
+            right: 44px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #d83b01;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            font-size: 12px;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .delete-section-btn:hover {
+            background: #b32b00;
+        }
+
+        .delete-section-btn.editing {
+            display: flex;
+        }
+
         /* Editable Field Styles */
         .editable {
             position: relative;
@@ -698,13 +800,22 @@
                     </div>
                 </div>
 
-                <!-- Turn On Section -->
-                <div class="config-section">
-                    <div class="section-header" onclick="toggleSection(this)">
-                        <span class="section-toggle">▼</span>
-                        <h2 class="section-title editable" data-field="section-turn-on-title">Turn On {{ metadata.name | default("Feature Name") }}</h2>
-                        <div class="turn-on-badge">Turn On</div>
-                    </div>
+                <!-- Sections Container -->
+                <div id="sections-container">
+                    <!-- Add Section Button (top) -->
+                    <button class="add-section-btn" onclick="addSection(this)">
+                        ➕ Add New Section Above
+                    </button>
+
+                    <!-- Turn On Section -->
+                    <div class="config-section" data-section-id="turn-on">
+                        <div class="section-header" onclick="toggleSection(this)">
+                            <span class="section-toggle">▼</span>
+                            <h2 class="section-title editable" data-field="section-turn-on-title">Turn On {{ metadata.name | default("Feature Name") }}</h2>
+                            <div class="turn-on-badge">Turn On</div>
+                            <button class="delete-section-btn" onclick="deleteSection(this)" title="Delete Section">✖</button>
+                            <button class="drag-handle" draggable="true" title="Drag to reorder">≡</button>
+                        </div>
                     <div class="section-content">
                         <div class="section-links">
                             <a href="#">📋 Preview Default Settings</a>
@@ -728,15 +839,22 @@
                             <div class="step-icon">○</div>
                             <div class="step-title editable" data-field="step-3-title">Step Title</div>
                         </div>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Set Up the Basics -->
-                <div class="config-section">
-                    <div class="section-header" onclick="toggleSection(this)">
-                        <span class="section-toggle">▼</span>
-                        <h2 class="section-title editable" data-field="section-basics-title">Set Up the Basics</h2>
-                    </div>
+                    <!-- Add Section Button -->
+                    <button class="add-section-btn" onclick="addSection(this)">
+                        ➕ Add New Section Here
+                    </button>
+
+                    <!-- Set Up the Basics -->
+                    <div class="config-section" data-section-id="basics">
+                        <div class="section-header" onclick="toggleSection(this)">
+                            <span class="section-toggle">▼</span>
+                            <h2 class="section-title editable" data-field="section-basics-title">Set Up the Basics</h2>
+                            <button class="delete-section-btn" onclick="deleteSection(this)" title="Delete Section">✖</button>
+                            <button class="drag-handle" draggable="true" title="Drag to reorder">≡</button>
+                        </div>
                     <div class="section-content">
                         <p class="section-description">Complete the required steps to get a basic version of this feature.</p>
                         
@@ -757,15 +875,22 @@
                             <div class="step-title">Create Forecast Types<br><small>0 active types</small></div>
                             <a href="#" class="step-action">Create</a>
                         </div>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Review Email-to-Case Settings -->
-                <div class="config-section">
-                    <div class="section-header" onclick="toggleSection(this)">
-                        <span class="section-toggle">▼</span>
-                        <h2 class="section-title">Review Email-to-Case Settings</h2>
-                    </div>
+                    <!-- Add Section Button -->
+                    <button class="add-section-btn" onclick="addSection(this)">
+                        ➕ Add New Section Here
+                    </button>
+
+                    <!-- Review Email-to-Case Settings -->
+                    <div class="config-section" data-section-id="email-case">
+                        <div class="section-header" onclick="toggleSection(this)">
+                            <span class="section-toggle">▼</span>
+                            <h2 class="section-title editable" data-field="section-email-case-title">Review Email-to-Case Settings</h2>
+                            <button class="delete-section-btn" onclick="deleteSection(this)" title="Delete Section">✖</button>
+                            <button class="drag-handle" draggable="true" title="Drag to reorder">≡</button>
+                        </div>
                     <div class="section-content">
                         <div class="step-item">
                             <div class="step-icon">☐</div>
@@ -784,15 +909,22 @@
                             <div class="step-title">Define Unauthorized Sender Action <span style="color: #706e6b;">Optional</span></div>
                             <a href="#" class="step-action">Go to Setup ↗</a>
                         </div>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Unlock Advanced Functionality -->
-                <div class="config-section">
-                    <div class="section-header" onclick="toggleSection(this)">
-                        <span class="section-toggle">▼</span>
-                        <h2 class="section-title">Unlock Advanced Functionality</h2>
-                    </div>
+                    <!-- Add Section Button -->
+                    <button class="add-section-btn" onclick="addSection(this)">
+                        ➕ Add New Section Here
+                    </button>
+
+                    <!-- Unlock Advanced Functionality -->
+                    <div class="config-section" data-section-id="advanced">
+                        <div class="section-header" onclick="toggleSection(this)">
+                            <span class="section-toggle">▼</span>
+                            <h2 class="section-title editable" data-field="section-advanced-title">Unlock Advanced Functionality</h2>
+                            <button class="delete-section-btn" onclick="deleteSection(this)" title="Delete Section">✖</button>
+                            <button class="drag-handle" draggable="true" title="Drag to reorder">≡</button>
+                        </div>
                     <div class="section-content">
                         <p class="section-description">Customize or improve your implementation with the following optional steps.</p>
                         
@@ -819,15 +951,28 @@
                             <div class="step-title">Select the Insights You Want to Show</div>
                             <a href="#" class="step-action">Go to Setup ↗</a>
                         </div>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Purchase Options -->
-                <div class="config-section">
-                    <div class="section-header" onclick="toggleSection(this)">
-                        <span class="section-toggle">▶</span>
-                        <h2 class="section-title">Purchase Options</h2>
+                    <!-- Add Section Button -->
+                    <button class="add-section-btn" onclick="addSection(this)">
+                        ➕ Add New Section Here
+                    </button>
+
+                    <!-- Purchase Options -->
+                    <div class="config-section" data-section-id="purchase">
+                        <div class="section-header" onclick="toggleSection(this)">
+                            <span class="section-toggle">▶</span>
+                            <h2 class="section-title editable" data-field="section-purchase-title">Purchase Options</h2>
+                            <button class="delete-section-btn" onclick="deleteSection(this)" title="Delete Section">✖</button>
+                            <button class="drag-handle" draggable="true" title="Drag to reorder">≡</button>
+                        </div>
                     </div>
+
+                    <!-- Add Section Button (bottom) -->
+                    <button class="add-section-btn" onclick="addSection(this)">
+                        ➕ Add New Section Below
+                    </button>
                 </div>
             </div>
 
@@ -951,6 +1096,135 @@
             });
         }
 
+        // Section management functions
+        let sectionCounter = Date.now(); // Use timestamp for unique IDs
+
+        function addSection(button) {
+            const newSectionId = 'section-' + (++sectionCounter);
+            const newSectionHTML = `
+                <!-- Add Section Button -->
+                <button class="add-section-btn editing" onclick="addSection(this)">
+                    ➕ Add New Section Here
+                </button>
+
+                <!-- New Section -->
+                <div class="config-section" data-section-id="${newSectionId}">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <span class="section-toggle">▼</span>
+                        <h2 class="section-title editable editing" data-field="section-${newSectionId}-title">New Section Title</h2>
+                        <button class="delete-section-btn editing" onclick="deleteSection(this)" title="Delete Section">✖</button>
+                        <button class="drag-handle editing" draggable="true" title="Drag to reorder">≡</button>
+                    </div>
+                    <div class="section-content">
+                        <p class="section-description editable editing" data-field="section-${newSectionId}-description">Describe what this section helps users accomplish.</p>
+                        
+                        <div class="step-item">
+                            <div class="step-icon">○</div>
+                            <div class="step-title editable editing" data-field="step-${newSectionId}-1-title">New Step Title</div>
+                            <a href="#" class="step-action">Action ↗</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Insert the new section after the button
+            button.insertAdjacentHTML('afterend', newSectionHTML);
+
+            // Initialize edit data for new fields
+            document.querySelectorAll(`.editable[data-field^="section-${newSectionId}"]`).forEach(element => {
+                const field = element.getAttribute('data-field');
+                editData[field] = element.textContent.trim();
+                if (editMode) {
+                    makeElementEditable(element);
+                }
+            });
+
+            // Setup drag and drop for the new section
+            setupDragAndDrop();
+
+            // Show save indicator
+            showSaveIndicator();
+        }
+
+        function deleteSection(button) {
+            if (confirm('Are you sure you want to delete this section?')) {
+                const section = button.closest('.config-section');
+                const sectionId = section.getAttribute('data-section-id');
+                
+                // Remove from edit data
+                Object.keys(editData).forEach(key => {
+                    if (key.includes(sectionId)) {
+                        delete editData[key];
+                    }
+                });
+
+                // Remove the section and the preceding add button
+                const prevAddButton = section.previousElementSibling;
+                if (prevAddButton && prevAddButton.classList.contains('add-section-btn')) {
+                    prevAddButton.remove();
+                }
+                section.remove();
+
+                // Show save indicator
+                showSaveIndicator();
+            }
+        }
+
+        // Drag and drop functionality
+        function setupDragAndDrop() {
+            const container = document.getElementById('sections-container');
+            let draggedElement = null;
+
+            document.querySelectorAll('.drag-handle').forEach(handle => {
+                handle.addEventListener('dragstart', function(e) {
+                    draggedElement = this.closest('.config-section');
+                    draggedElement.classList.add('dragging');
+                    e.dataTransfer.effectAllowed = 'move';
+                });
+
+                handle.addEventListener('dragend', function(e) {
+                    if (draggedElement) {
+                        draggedElement.classList.remove('dragging');
+                        draggedElement = null;
+                    }
+                    // Remove drag-over class from all sections
+                    document.querySelectorAll('.config-section').forEach(section => {
+                        section.classList.remove('drag-over');
+                    });
+                });
+            });
+
+            document.querySelectorAll('.config-section').forEach(section => {
+                section.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    if (draggedElement && draggedElement !== this) {
+                        this.classList.add('drag-over');
+                    }
+                });
+
+                section.addEventListener('dragleave', function(e) {
+                    this.classList.remove('drag-over');
+                });
+
+                section.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('drag-over');
+                    
+                    if (draggedElement && draggedElement !== this) {
+                        // Get the add button before dragged element
+                        const draggedAddButton = draggedElement.previousElementSibling;
+                        
+                        // Insert dragged element and its add button before this section
+                        this.parentNode.insertBefore(draggedAddButton, this);
+                        this.parentNode.insertBefore(draggedElement, this);
+                        
+                        // Show save indicator
+                        showSaveIndicator();
+                    }
+                });
+            });
+        }
+
         // Toggle edit mode
         function toggleEditMode() {
             editMode = !editMode;
@@ -968,6 +1242,17 @@
                     element.classList.add('editing');
                     makeElementEditable(element);
                 });
+
+                // Show section controls
+                document.querySelectorAll('.add-section-btn').forEach(btn => {
+                    btn.classList.add('editing');
+                });
+                document.querySelectorAll('.drag-handle').forEach(handle => {
+                    handle.classList.add('editing');
+                });
+                document.querySelectorAll('.delete-section-btn').forEach(btn => {
+                    btn.classList.add('editing');
+                });
             } else {
                 // Exit edit mode
                 toggleBtn.textContent = '✏️ Edit Mode';
@@ -978,6 +1263,17 @@
                 document.querySelectorAll('.editable').forEach(element => {
                     element.classList.remove('editing');
                     makeElementReadOnly(element);
+                });
+
+                // Hide section controls
+                document.querySelectorAll('.add-section-btn').forEach(btn => {
+                    btn.classList.remove('editing');
+                });
+                document.querySelectorAll('.drag-handle').forEach(handle => {
+                    handle.classList.remove('editing');
+                });
+                document.querySelectorAll('.delete-section-btn').forEach(btn => {
+                    btn.classList.remove('editing');
                 });
                 
                 // Show save confirmation
@@ -1044,13 +1340,36 @@
         }
 
         function saveToLocalStorage() {
+            // Save section order
+            const sectionOrder = [];
+            document.querySelectorAll('.config-section').forEach(section => {
+                sectionOrder.push(section.getAttribute('data-section-id'));
+            });
+
             const pageData = {
                 url: window.location.href,
                 timestamp: new Date().toISOString(),
-                data: editData
+                data: editData,
+                sectionOrder: sectionOrder,
+                customSections: getCustomSections()
             };
             localStorage.setItem('pageEdit_' + window.location.pathname, JSON.stringify(pageData));
             console.log('Page edits saved to localStorage:', pageData);
+        }
+
+        function getCustomSections() {
+            const customSections = {};
+            document.querySelectorAll('.config-section').forEach(section => {
+                const sectionId = section.getAttribute('data-section-id');
+                if (sectionId.startsWith('section-')) {
+                    // This is a custom section
+                    customSections[sectionId] = {
+                        html: section.outerHTML,
+                        addButtonHtml: section.previousElementSibling.outerHTML
+                    };
+                }
+            });
+            return customSections;
         }
 
         function loadFromLocalStorage() {
@@ -1059,6 +1378,60 @@
                 const pageData = JSON.parse(saved);
                 editData = { ...editData, ...pageData.data };
                 
+                // Restore custom sections first
+                if (pageData.customSections) {
+                    Object.entries(pageData.customSections).forEach(([sectionId, sectionData]) => {
+                        // Add the custom section if it doesn't exist
+                        if (!document.querySelector(`[data-section-id="${sectionId}"]`)) {
+                            const container = document.getElementById('sections-container');
+                            const lastAddButton = container.querySelector('.add-section-btn:last-child');
+                            if (lastAddButton) {
+                                lastAddButton.insertAdjacentHTML('beforebegin', sectionData.addButtonHtml + sectionData.html);
+                            }
+                        }
+                    });
+                }
+
+                // Restore section order
+                if (pageData.sectionOrder) {
+                    const container = document.getElementById('sections-container');
+                    const sectionsMap = {};
+                    const addButtonsMap = {};
+                    
+                    // Collect all sections and their add buttons
+                    document.querySelectorAll('.config-section').forEach(section => {
+                        const sectionId = section.getAttribute('data-section-id');
+                        sectionsMap[sectionId] = section;
+                        const prevButton = section.previousElementSibling;
+                        if (prevButton && prevButton.classList.contains('add-section-btn')) {
+                            addButtonsMap[sectionId] = prevButton;
+                        }
+                    });
+
+                    // Clear container (keep first add button)
+                    const firstAddButton = container.querySelector('.add-section-btn');
+                    while (container.children.length > 1) {
+                        container.removeChild(container.lastChild);
+                    }
+
+                    // Re-add sections in saved order
+                    pageData.sectionOrder.forEach(sectionId => {
+                        if (sectionsMap[sectionId]) {
+                            if (addButtonsMap[sectionId]) {
+                                container.appendChild(addButtonsMap[sectionId]);
+                            }
+                            container.appendChild(sectionsMap[sectionId]);
+                        }
+                    });
+
+                    // Add final add button
+                    const finalAddButton = document.createElement('button');
+                    finalAddButton.className = 'add-section-btn';
+                    finalAddButton.onclick = function() { addSection(this); };
+                    finalAddButton.innerHTML = '➕ Add New Section Below';
+                    container.appendChild(finalAddButton);
+                }
+                
                 // Apply saved data to elements
                 document.querySelectorAll('.editable').forEach(element => {
                     const field = element.getAttribute('data-field');
@@ -1066,6 +1439,9 @@
                         element.textContent = editData[field];
                     }
                 });
+
+                // Setup drag and drop again after restoring sections
+                setupDragAndDrop();
             }
         }
 
@@ -1086,6 +1462,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             initializeEditData();
             loadFromLocalStorage();
+            setupDragAndDrop();
             
             // Add event listener to edit toggle button
             document.getElementById('edit-toggle').addEventListener('click', toggleEditMode);
