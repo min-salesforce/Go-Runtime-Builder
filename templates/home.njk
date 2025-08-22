@@ -1,0 +1,762 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ title | default('Setup Overview') }} | Salesforce Setup</title>
+    <link rel="stylesheet" href="css/slds2-temp.css" />
+    <style>
+      /* Modern Salesforce admin interface styling */
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      
+      body {
+        font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, "Roboto", sans-serif;
+        background-color: #f3f3f3;
+        color: #181818;
+        line-height: 1.5;
+      }
+
+      /* Global Header */
+      .global-header {
+        background: #ffffff;
+        border-bottom: 3px solid #1589ee;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .header-masthead {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 7px 16px;
+        border-bottom: 1px solid #e1e4ea;
+      }
+
+      .header-logo {
+        width: 40px;
+        height: 28px;
+        background: #0176d3;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        font-size: 14px;
+      }
+
+      /* Main Layout */
+      .main-layout {
+        display: flex;
+        min-height: calc(100vh - 90px);
+      }
+
+      /* Sidebar Navigation */
+      .sidebar {
+        width: 288px;
+        background: #ffffff;
+        border-right: 1px solid #aeaeae;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .nav-item {
+        display: flex;
+        align-items: center;
+        padding: 10px 14px;
+        font-size: 13px;
+        color: #181818;
+        text-decoration: none;
+        transition: background-color 0.15s ease;
+      }
+
+      .nav-item.active {
+        background-color: #edf1f5;
+        box-shadow: inset 4px 0 0 #8595ad;
+      }
+
+      /* Content Area */
+      .content-area {
+        flex: 1;
+        padding: 24px;
+      }
+
+      /* Hero Section */
+      .hero-section {
+        background: linear-gradient(135deg, #1589ee 0%, #0c5cbc 100%);
+        border-radius: 12px;
+        padding: 48px 32px;
+        margin-bottom: 32px;
+        color: white;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(21, 137, 238, 0.3);
+      }
+
+      .hero-title {
+        font-size: 48px;
+        font-weight: 600;
+        margin-bottom: 16px;
+        color: white;
+      }
+
+      .hero-subtitle {
+        font-size: 18px;
+        opacity: 0.9;
+        margin-bottom: 24px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .cloud-badge {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 23px;
+        padding: 8px 16px;
+        font-size: 14px;
+        font-weight: 500;
+        color: white;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      /* Setup Overview Card */
+      .overview-card {
+        background: #ffffff;
+        border: 1px solid #c9c9c9;
+        border-radius: 8px;
+        padding: 32px 24px;
+        margin-bottom: 32px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+
+      .setup-type-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 16px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 16px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .feature-set-badge { 
+        background: #0176d3; 
+        color: white; 
+      }
+
+      .feature-badge { 
+        background: #2e844a; 
+        color: white; 
+      }
+
+      .solution-badge { 
+        background: #fe9339; 
+        color: white; 
+      }
+
+      .agent-badge { 
+        background: linear-gradient(135deg, #1589ee 0%, #0c5cbc 100%); 
+        color: white; 
+      }
+
+      .overview-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #181818;
+        margin-bottom: 8px;
+      }
+
+      .overview-description {
+        font-size: 16px;
+        color: #444444;
+        line-height: 1.6;
+        margin-bottom: 24px;
+      }
+
+      .jtbd-section {
+        background: linear-gradient(135deg, #f8f9fc 0%, #ffffff 100%);
+        border-left: 4px solid #0176d3;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 24px;
+      }
+
+      .jtbd-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #181818;
+        margin-bottom: 8px;
+      }
+
+      .jtbd-text {
+        font-size: 14px;
+        color: #444444;
+        line-height: 1.5;
+      }
+
+      /* Progress Overview */
+      .progress-section {
+        background: #f8f9fc;
+        border: 1px solid #e1e4ea;
+        border-radius: 8px;
+        padding: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 32px;
+      }
+
+      .progress-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .progress-label {
+        font-size: 16px;
+        font-weight: 600;
+        color: #181818;
+      }
+
+      .progress-badge {
+        background: #ffffff;
+        border: 1px solid #c9c9c9;
+        border-radius: 16px;
+        padding: 4px 12px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #181818;
+        display: inline-block;
+      }
+
+      .progress-button {
+        background: #0176d3;
+        color: #ffffff;
+        border: none;
+        border-radius: 4px;
+        padding: 12px 24px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+
+      .progress-button:hover {
+        background: #014486;
+      }
+
+      /* Component Grid */
+      .components-section {
+        margin-bottom: 32px;
+      }
+
+      .section-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #181818;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .component-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 20px;
+      }
+
+      .component-card {
+        background: #ffffff;
+        border: 1px solid #c9c9c9;
+        border-radius: 8px;
+        padding: 24px;
+        transition: all 0.2s ease;
+        position: relative;
+      }
+
+      .component-card:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        transform: translateY(-2px);
+      }
+
+      .component-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 12px;
+      }
+
+      .component-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #181818;
+        margin-bottom: 4px;
+      }
+
+      .component-badge {
+        background: #0176d3;
+        color: white;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 10px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .component-description {
+        font-size: 14px;
+        color: #444444;
+        line-height: 1.5;
+        margin-bottom: 16px;
+      }
+
+      .component-meta {
+        font-size: 13px;
+        color: #747474;
+        margin-bottom: 16px;
+        padding: 8px 0;
+        border-bottom: 1px solid #f3f3f3;
+      }
+
+      .component-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+      }
+
+      .component-link {
+        color: #0b5cab;
+        text-decoration: none;
+        font-size: 13px;
+        padding: 6px 12px;
+        border-radius: 4px;
+        border: 1px solid #e1e4ea;
+        transition: all 0.2s ease;
+        font-weight: 500;
+      }
+
+      .component-link.primary {
+        background: #0176d3;
+        color: white;
+        border-color: #0176d3;
+      }
+
+      .component-link:hover {
+        background: #f8f9fc;
+        text-decoration: none;
+      }
+
+      .component-link.primary:hover {
+        background: #014486;
+      }
+
+      .component-status {
+        background: #f8f9fc;
+        border: 1px solid #e1e4ea;
+        border-radius: 4px;
+        padding: 8px 12px;
+        font-size: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .status-label {
+        font-weight: 500;
+        color: #181818;
+      }
+
+      .status-value {
+        color: #0176d3;
+        font-weight: 600;
+      }
+
+      /* Quick Actions */
+      .quick-actions-card {
+        background: #ffffff;
+        border: 1px solid #c9c9c9;
+        border-radius: 8px;
+        padding: 32px 24px;
+        margin-bottom: 32px;
+      }
+
+      .quick-actions-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 12px;
+      }
+
+      .quick-action {
+        color: #0b5cab;
+        text-decoration: none;
+        padding: 12px 16px;
+        border: 1px solid #e1e4ea;
+        border-radius: 4px;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+      }
+
+      .quick-action:hover {
+        background: #f8f9fc;
+        border-color: #0176d3;
+        text-decoration: none;
+      }
+
+      /* Footer */
+      .page-footer {
+        text-align: center;
+        padding: 32px 24px;
+        border-top: 1px solid #e5e5e5;
+        background: #fafbfc;
+        color: #747474;
+      }
+
+      .footer-text {
+        font-size: 14px;
+        margin-bottom: 4px;
+      }
+
+      .footer-version {
+        font-size: 12px;
+        color: #9a9a9a;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 1024px) {
+        .main-layout {
+          flex-direction: column;
+        }
+        
+        .sidebar {
+          width: 100%;
+          order: 2;
+        }
+        
+        .content-area {
+          padding: 16px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .hero-title {
+          font-size: 36px;
+        }
+        
+        .hero-subtitle {
+          font-size: 16px;
+        }
+        
+        .component-grid {
+          grid-template-columns: 1fr;
+        }
+        
+        .progress-section {
+          flex-direction: column;
+          gap: 16px;
+          text-align: center;
+        }
+        
+        .quick-actions-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Global Header -->
+    <div class="global-header">
+      <div class="header-masthead">
+        <div class="header-logo">SF</div>
+        <div style="flex: 1; text-align: center;">
+          <div style="display: inline-flex; align-items: center; background: #ffffff; border: 1px solid #c9c9c9; border-radius: 4px;">
+            <div style="padding: 8px 12px; border-right: 1px solid #c9c9c9; font-size: 12px; color: #3e3e3c;">All</div>
+            <div style="padding: 8px 12px; font-size: 13px; color: #706e6b; display: flex; align-items: center; gap: 8px;">
+              <span>🔍</span>
+              Search Salesforce
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 16px; font-size: 12px;">
+          <span>⚡</span><span>🔔</span><span>🎯</span><span>📊</span><span>⚙️</span><span>👤</span>
+        </div>
+      </div>
+      
+      <div style="display: flex; align-items: center; gap: 24px; padding: 0 16px; height: 37px;">
+        <span>🏠</span>
+        <span style="font-size: 18px; font-weight: 400; color: #000000;">Setup</span>
+        <a href="#" style="background: #eef4ff; padding: 8px 12px; border-radius: 4px; font-weight: 500; color: #181818; text-decoration: none; box-shadow: inset 0 -3px 0 #1589ee;">Home</a>
+        <div style="flex: 1; background: #ffffff; border: 1px solid #d4dbe6; border-radius: 4px; height: 21px; padding: 0 14px; display: flex; align-items: center; justify-content: space-between;">
+          <div style="width: 88px; height: 8px; background: #d4dbe6; border-radius: 20px;"></div>
+          <span>⌄</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Layout -->
+    <div class="main-layout">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div style="padding: 16px; border-bottom: 1px solid #e5e5e5;">
+          <input type="text" style="width: 100%; height: 36px; padding: 8px 12px 8px 40px; border: 1px solid #e1e4ea; border-radius: 4px; font-size: 14px;" placeholder="">
+        </div>
+        
+        <div style="flex: 1; padding-bottom: 40px;">
+          <a href="#" class="nav-item active">Setup Home</a>
+          <a href="#" class="nav-item">Salesforce Go</a>
+          
+          <div style="display: flex; align-items: center; padding: 10px 14px; font-size: 11px; color: #181818; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;">ADMINISTRATION</div>
+          <a href="#" class="nav-item">▶ Users</a>
+          <a href="#" class="nav-item">▶ Data</a>
+          <a href="#" class="nav-item">▶ Email</a>
+          
+          <div style="display: flex; align-items: center; padding: 10px 14px; font-size: 11px; color: #181818; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;">PLATFORM TOOLS</div>
+          <a href="#" class="nav-item">▶ Apps</a>
+          <a href="#" class="nav-item">▶ Feature Settings</a>
+          <a href="#" class="nav-item">▶ Slack</a>
+          <a href="#" class="nav-item">▶ Heroku</a>
+          <a href="#" class="nav-item">▶ MuleSoft</a>
+          <a href="#" class="nav-item">▶ Einstein</a>
+        </div>
+      </div>
+
+      <!-- Content Area -->
+      <div class="content-area">
+        <!-- Hero Section -->
+        <div class="hero-section">
+          <h1 class="hero-title">{{ metadata.name | default('Setup Configuration') }}</h1>
+          <p class="hero-subtitle">{{ metadata.description | default('Your Salesforce feature configuration overview') }}</p>
+          
+          {% if metadata.cloud %}
+          <div class="cloud-badge">
+            <span>☁️</span>
+            {{ metadata.cloud }}
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- Setup Type Overview -->
+        <div class="overview-card">
+          <div class="setup-type-badge {{ setupType.replace('-', '-') }}-badge">
+            {{ setupTypeLabel }}
+          </div>
+          
+          <h2 class="overview-title">Setup Overview</h2>
+          
+          <div class="overview-description">
+            {% if setupType === 'feature-set-and-features' %}
+              This feature set groups {{ features.length }} related features that solve a common job to be done.
+            {% elif setupType === 'feature' %}
+              A standalone feature {% if metadata.belongsToFeatureSet %}that belongs to the {{ metadata.belongsToFeatureSet }} feature set{% endif %}.
+            {% elif setupType === 'solution-initial-setup' %}
+              An automated foundational setup required for your cloud to function.
+            {% elif setupType === 'agent-setup' %}
+              Agentforce agent configuration with {{ agentforce.templates.length }} template{{ 's' if agentforce.templates.length !== 1 }}.
+            {% endif %}
+          </div>
+
+          {% if metadata.jtbd %}
+          <div class="jtbd-section">
+            <div class="jtbd-title">Job to be Done</div>
+            <div class="jtbd-text">{{ metadata.jtbd }}</div>
+          </div>
+          {% endif %}
+
+          <!-- Progress Overview -->
+          <div class="progress-section">
+            <div class="progress-info">
+              <div class="progress-label">Configuration Status</div>
+              <div style="margin-top: 8px;">
+                {% if setupType === 'feature-set-and-features' %}
+                  <span class="progress-badge">{{ featuresConfigured | default(0) }} of {{ features.length }} features configured</span>
+                {% elif setupType === 'agent-setup' %}
+                  <span class="progress-badge">{{ templatesOn | default(0) }} of {{ agentforce.templates.length }} templates active</span>
+                {% else %}
+                  <span class="progress-badge">{% if isConfigured %}Configured{% else %}Not Started{% endif %}</span>
+                {% endif %}
+              </div>
+            </div>
+            
+            <button class="progress-button">
+              {% if isConfigured %}Continue Setup{% else %}Get Started{% endif %}
+            </button>
+          </div>
+        </div>
+
+        <!-- Components/Features Grid -->
+        {% if setupType === 'feature-set-and-features' and features.length > 0 %}
+        <div class="components-section">
+          <div class="section-title">
+            <span>🔧</span>
+            Features in this Set
+          </div>
+          
+          <div class="component-grid">
+            {% for feature in features %}
+            <div class="component-card">
+              <div class="component-header">
+                <div>
+                  <div class="component-title">{{ feature.name }}</div>
+                </div>
+                {% if feature.soldToCustomers %}
+                <div class="component-badge">Customer Feature</div>
+                {% endif %}
+              </div>
+              
+              {% if feature.description %}
+              <div class="component-description">{{ feature.description }}</div>
+              {% endif %}
+              
+              <div class="component-actions">
+                <a class="component-link primary" href="feature/{{ feature.slug | default(feature.name | lower | replace(' ', '-')) }}.html">
+                  Configure
+                </a>
+                {% if feature.detailsUrl %}
+                <a class="component-link" href="{{ feature.detailsUrl }}">Learn More</a>
+                {% endif %}
+              </div>
+              
+              <div class="component-status">
+                <span class="status-label">Status:</span>
+                <span class="status-value">{{ feature.status | default('Not Started') }}</span>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+
+        {% if setupType === 'agent-setup' and agentforce.templates.length > 0 %}
+        <div class="components-section">
+          <div class="section-title">
+            <span>🤖</span>
+            Agent Templates
+          </div>
+          
+          <div class="component-grid">
+            {% for template in agentforce.templates %}
+            <div class="component-card">
+              <div class="component-header">
+                <div class="component-title">{{ template.name }}</div>
+              </div>
+              
+              {% if template.description %}
+              <div class="component-description">{{ template.description }}</div>
+              {% endif %}
+              
+              <div class="component-meta">
+                Steps: {{ template.steps.length }}
+              </div>
+              
+              <div class="component-actions">
+                <a class="component-link primary" href="agent/{{ metadata.slug | default(metadata.name | lower | replace(' ', '-')) }}.html#template-{{ loop.index0 }}">
+                  Configure Template
+                </a>
+              </div>
+              
+              <div class="component-status">
+                <span class="status-label">Status:</span>
+                <span class="status-value">{{ template.status | default('Not Started') }}</span>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Solution Components -->
+        {% if setupType === 'solution-initial-setup' and components.length > 0 %}
+        <div class="components-section">
+          <div class="section-title">
+            <span>🧩</span>
+            Solution Components
+          </div>
+          
+          <div class="component-grid">
+            {% for component in components %}
+            <div class="component-card">
+              <div class="component-header">
+                <div class="component-title">{{ component.name }}</div>
+              </div>
+              
+              {% if component.description %}
+              <div class="component-description">{{ component.description }}</div>
+              {% endif %}
+              
+              <div class="component-actions">
+                <a class="component-link primary" href="solution/{{ metadata.slug | default(metadata.name | lower | replace(' ', '-')) }}.html#component-{{ component.id }}">
+                  Configure
+                </a>
+              </div>
+              
+              <div class="component-status">
+                <span class="status-label">Status:</span>
+                <span class="status-value">{{ component.status | default('Not Started') }}</span>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Quick Actions -->
+        <div class="quick-actions-card">
+          <div class="section-title">
+            <span>⚡</span>
+            Quick Actions
+          </div>
+          
+          <div class="quick-actions-grid">
+            {% if setupType === 'feature-set-and-features' %}
+            <a class="quick-action" href="feature-set/{{ metadata.slug | default(metadata.name | lower | replace(' ', '-')) }}.html">
+              View Feature Set Page
+            </a>
+            {% elif setupType === 'feature' %}
+            <a class="quick-action" href="feature/{{ metadata.slug | default(metadata.name | lower | replace(' ', '-')) }}.html">
+              Configure Feature
+            </a>
+            {% elif setupType === 'solution-initial-setup' %}
+            <a class="quick-action" href="solution/{{ metadata.slug | default(metadata.name | lower | replace(' ', '-')) }}.html">
+              Begin Setup
+            </a>
+            {% elif setupType === 'agent-setup' %}
+            <a class="quick-action" href="agent/{{ metadata.slug | default(metadata.name | lower | replace(' ', '-')) }}.html">
+              Configure Agentforce
+            </a>
+            {% endif %}
+            
+            {% if assets.resources.helpTopicUrl %}
+            <a class="quick-action" href="{{ assets.resources.helpTopicUrl }}">Documentation</a>
+            {% endif %}
+            
+            {% if assets.resources.trailheadBadges and assets.resources.trailheadBadges.length > 0 %}
+            <a class="quick-action" href="{{ assets.resources.trailheadBadges[0].url }}">Learn on Trailhead</a>
+            {% endif %}
+            
+            <a class="quick-action" href="#" onclick="window.print(); return false;">Print Configuration</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="page-footer">
+      <div class="footer-text">
+        Generated by Salesforce Go Runtime Builder
+      </div>
+      {% if metadata.version %}
+      <div class="footer-version">
+        Version {{ metadata.version }}
+      </div>
+      {% endif %}
+    </div>
+  </body>
+</html>

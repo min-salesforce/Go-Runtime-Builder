@@ -1,0 +1,122 @@
+{
+
+  "$id": "https://example.com/schemas/questionnaire.schema.json",
+  "title": "QuestionnaireSession",
+  "type": "object",
+  "properties": {
+    "setupType": {
+      "type": "string",
+      "enum": [
+        "feature-set-and-features",
+        "feature",
+        "feature-2",
+        "solution-initial-setup",
+        "agent-setup"
+      ],
+      "description": "Resolved or user-selected setup type"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "jtbd": { "type": "string" },
+        "cloud": { "type": "string" },
+        "version": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "slug": { "type": "string" },
+          "soldToCustomers": { "type": "boolean" },
+          "belongsToFeatureSet": { "type": "string" }
+        },
+        "required": ["name"],
+        "additionalProperties": false
+      }
+    },
+    "agentforce": {
+      "type": "object",
+      "properties": {
+        "needed": { "type": "boolean" },
+        "templates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "steps": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "title": { "type": "string" },
+                    "validation": { "type": "string", "enum": ["system", "manual", "none"] },
+                    "links": {
+                      "type": "array",
+                      "items": { "type": "string", "format": "uri" },
+                      "maxItems": 3
+                    }
+                  },
+                  "required": ["title"],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": ["name"]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "assets": {
+      "type": "object",
+      "properties": {
+        "screenshotUrl": { "type": "string", "format": "uri" },
+        "screenshotDataUrl": { "type": "string" },
+        "screenshotFileName": { "type": "string" },
+        "screenshotFileSize": { "type": "number" },
+        "videoUrl": { "type": "string", "format": "uri" },
+        "guidedTourUrl": { "type": "string", "format": "uri" },
+        "optionalLinks": {
+          "type": "array",
+          "items": { "type": "string", "format": "uri" },
+          "maxItems": 3
+        },
+        "resources": {
+          "type": "object",
+          "properties": {
+            "helpTopicUrl": { "type": "string", "format": "uri" },
+            "releaseNotesUrl": { "type": "string", "format": "uri" },
+            "trailheadBadges": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "title": { "type": "string" },
+                  "moduleId": { "type": "string" },
+                  "url": { "type": "string", "format": "uri" }
+                },
+                "required": ["title", "moduleId", "url"],
+                "additionalProperties": false
+              },
+              "maxItems": 3
+            },
+            "blogUrl": { "type": "string", "format": "uri" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": ["metadata"],
+  "additionalProperties": false
+}
+

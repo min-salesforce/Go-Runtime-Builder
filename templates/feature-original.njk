@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="../css/slds2-temp.css" />
+    <style>
+      .page { 
+        max-width: 960px; 
+        margin: 0 auto; 
+        padding: 2rem 1rem;
+        background: var(--slds-g-color-surface-1);
+        color: var(--slds-g-color-on-surface-2);
+        font-family: var(--slds-g-font-family-base);
+        font-size: var(--slds-g-font-size-base);
+      }
+      .header { 
+        display: flex; 
+        align-items: center; 
+        justify-content: space-between; 
+        margin-bottom: 1rem; 
+      }
+      .slds2-card {
+        background: var(--slds-g-color-surface-1);
+        border-radius: var(--slds-g-radius-border-4);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        box-shadow: var(--slds-g-shadow-1);
+        border: 1px solid var(--slds-g-color-border-1);
+      }
+      .slds2-button {
+        background: var(--slds-s-button-color-background);
+        color: var(--slds-s-button-color);
+        border: var(--slds-s-button-sizing-border) solid transparent;
+        border-radius: var(--slds-s-button-radius-border);
+        padding: var(--slds-s-input-spacing);
+        font-size: var(--slds-s-input-font-size);
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .slds2-button:hover {
+        background: var(--slds-s-button-color-background-hover);
+        box-shadow: var(--slds-s-button-shadow-hover);
+      }
+      .slds2-button:focus {
+        outline: none;
+        box-shadow: var(--slds-s-button-shadow-focus);
+      }
+      .slds2-link {
+        color: var(--slds-s-link-color);
+        text-decoration: none;
+      }
+      .slds2-link:hover {
+        color: var(--slds-s-link-color-hover);
+        text-decoration: underline;
+      }
+      .slds2-link:focus {
+        outline: none;
+        box-shadow: var(--slds-s-link-shadow-focus);
+      }
+      .slds2-label {
+        color: var(--slds-g-color-on-surface-3);
+        font-weight: var(--slds-s-label-font-weight);
+        font-size: var(--slds-s-label-font-size);
+      }
+      .slds2-helptext {
+        color: var(--slds-g-color-on-surface-1);
+        font-size: var(--slds-s-helptext-font-size);
+      }
+      .slds2-divider-neutral-90 {
+        border: none;
+        height: 1px;
+        background: var(--slds-g-color-border-1);
+        margin: 1.5rem 0;
+      }
+      .slds2-progress-badge {
+        background: var(--slds-g-color-surface-2);
+        padding: 0.25rem 0.75rem;
+        border-radius: 100px;
+        font-size: 0.75rem;
+        color: var(--slds-g-color-on-surface-1);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <!-- Navigation Breadcrumbs -->
+      {% if navigation %}
+      <nav style="margin-bottom: 1.5rem;">
+        <ol style="display: flex; list-style: none; padding: 0; margin: 0; align-items: center; gap: 0.5rem;">
+          <li><a class="slds2-link" href="{{ navigation.home }}">Home</a></li>
+          {% if navigation.related.length > 0 %}
+          {% for related in navigation.related %}
+          {% if related.type === 'feature-set' %}
+          <li style="color: var(--slds-g-color-on-surface-1);">›</li>
+          <li><a class="slds2-link" href="{{ related.url }}">{{ related.title }}</a></li>
+          {% endif %}
+          {% endfor %}
+          {% endif %}
+          <li style="color: var(--slds-g-color-on-surface-1);">›</li>
+          <li style="color: var(--slds-g-color-on-surface-1); font-weight: 600;">{{ title }}</li>
+        </ol>
+      </nav>
+      {% endif %}
+
+      <div class="header">
+        <h1 class="slds2-label">{{ labels.header.featureTitle | default(title) }}</h1>
+        <span class="slds2-progress-badge">{{ labels.header.progressBadge | safe }}</span>
+      </div>
+      
+      {% if assets.screenshotUrl or assets.screenshotDataUrl %}
+      <div style="margin-bottom: 1rem;">
+        <img src="{{ assets.screenshotDataUrl or assets.screenshotUrl }}" alt="{{ title }} screenshot" style="width: 100%; max-width: 600px; border-radius: var(--slds-g-radius-border-2);" />
+      </div>
+      {% endif %}
+      
+      <p class="slds2-helptext">{{ description }}</p>
+
+      <div class="slds2-card" style="margin-top: 1rem;">
+        <h2 class="slds2-label">{{ labels.activation.title }}</h2>
+        <div style="display:flex; gap: 1rem; flex-wrap: wrap; margin-top: .5rem;">
+          {% if labels.activation.previewDefaultsLabel %}
+          <a class="slds2-link" href="#">{{ labels.activation.previewDefaultsLabel }}</a>
+          {% endif %}
+          {% if labels.activation.seeConsiderationsLabel %}
+          <a class="slds2-link" href="#">{{ labels.activation.seeConsiderationsLabel }}</a>
+          {% endif %}
+          {% if labels.activation.setupHelpLabel %}
+          <a class="slds2-link" href="#">{{ labels.activation.setupHelpLabel }}</a>
+          {% endif %}
+        </div>
+        <div style="margin-top: .75rem;">
+          <button class="slds2-button">{{ labels.activation.button.notStarted | default('Get Started') }}</button>
+        </div>
+      </div>
+
+      <hr class="slds2-divider-neutral-90" />
+
+      {% if labels.templates and labels.templates.cards %}
+      <div>
+        <h3 class="slds2-label">{{ labels.templates.sectionTitle | default('Templates') }}</h3>
+        {% for card in labels.templates.cards %}
+        <div class="slds2-card" style="margin-top: 1rem;">
+          <h4 class="slds2-label">{{ card.title }}</h4>
+          {% if card.steps %}
+          <div style="margin-top:.5rem;">
+            {% for step in card.steps %}
+              <div style="padding:.5rem 0;">
+                <div class="slds2-label">{{ step.title }}</div>
+                {% if step.description %}
+                <div class="slds2-helptext">{{ step.description }}</div>
+                {% endif %}
+              </div>
+              {% if not loop.last %}<hr class="slds2-divider-neutral-90" />{% endif %}
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% if labels.benefits and labels.benefits.items %}
+      <div class="slds2-card" style="margin-top: 1rem;">
+        <h3 class="slds2-label">{{ labels.benefits.title | default('Benefits') }}</h3>
+        <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; margin-top: .5rem;">
+          {% for b in labels.benefits.items %}
+          <div>
+            <div class="slds2-label">{{ b.title }}</div>
+            <div class="slds2-helptext">{{ b.description }}</div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      <div class="slds2-card" style="margin-top: 1rem;">
+        <h3 class="slds2-label">Resources</h3>
+        <ul style="margin: .5rem 0 0 1rem;">
+          {% if assets.resources.helpTopicUrl %}
+          <li><a class="slds2-link" href="{{ assets.resources.helpTopicUrl }}">{{ labels.resources.helpLabel | default('Explore Salesforce Help') }}</a></li>
+          {% endif %}
+          {% if assets.resources.releaseNotesUrl %}
+          <li><a class="slds2-link" href="{{ assets.resources.releaseNotesUrl }}">{{ labels.resources.releaseNotesLabel | default('New in this feature') }}</a></li>
+          {% endif %}
+          {% if not assets.resources.helpTopicUrl and not assets.resources.releaseNotesUrl %}
+          <li style="color: var(--slds-g-color-on-surface-1); font-style: italic;">No additional resources provided</li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </body>
+  </html>
+
+

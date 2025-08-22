@@ -1,0 +1,85 @@
+{
+  "$id": "https://example.com/schemas/setup-definition.schema.json",
+  "title": "SetupDefinition",
+  "type": "object",
+  "properties": {
+    "setupType": {
+      "type": "string",
+      "enum": [
+        "feature-set-and-features",
+        "feature",
+        "solution-initial-setup",
+        "agent-setup"
+      ]
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "jtbd": { "type": "string" },
+        "version": { "type": "string" },
+        "cloud": { "type": "string" },
+        "slug": { "type": "string" }
+      },
+      "required": ["name"],
+      "additionalProperties": false
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "type": { "type": "string", "enum": ["feature", "feature-set-and-features", "solution-initial-setup", "agent-setup"] },
+          "configuration": { "type": "object", "additionalProperties": true },
+          "dependencies": { "type": "array", "items": { "type": "string" } },
+          "relationships": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["name", "type"],
+        "additionalProperties": false
+      }
+    },
+    "globalSettings": { "type": "object", "additionalProperties": true },
+    "assets": {
+      "type": "object",
+      "properties": {
+        "screenshotUrl": { "type": "string", "format": "uri" },
+        "screenshotDataUrl": { "type": "string" },
+        "screenshotFileName": { "type": "string" },
+        "screenshotFileSize": { "type": "number" },
+        "videoUrl": { "type": "string", "format": "uri" },
+        "guidedTourUrl": { "type": "string", "format": "uri" },
+        "optionalLinks": { "type": "array", "items": { "type": "string", "format": "uri" }, "maxItems": 3 },
+        "resources": {
+          "type": "object",
+          "properties": {
+            "helpTopicUrl": { "type": "string", "format": "uri" },
+            "releaseNotesUrl": { "type": "string", "format": "uri" },
+            "trailheadBadges": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "title": { "type": "string" },
+                  "moduleId": { "type": "string" },
+                  "url": { "type": "string", "format": "uri" }
+                },
+                "required": ["title", "moduleId", "url"],
+                "additionalProperties": false
+              },
+              "maxItems": 3
+            },
+            "blogUrl": { "type": "string", "format": "uri" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": ["setupType", "metadata"],
+  "additionalProperties": false
+}
+

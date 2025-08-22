@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ title }} | Salesforce Setup</title>
+    <link rel="stylesheet" href="../css/slds2-temp.css" />
+    <style>
+      /* Modern Salesforce admin interface styling */
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      
+      body {
+        font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, "Roboto", sans-serif;
+        background-color: #f3f3f3;
+        color: #181818;
+        line-height: 1.5;
+      }
+
+      /* Global Header */
+      .global-header {
+        background: #ffffff;
+        border-bottom: 3px solid #1589ee;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .header-masthead {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 7px 16px;
+        border-bottom: 1px solid #e1e4ea;
+      }
+
+      .header-logo {
+        width: 40px;
+        height: 28px;
+        background: #0176d3;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        font-size: 14px;
+      }
+
+      /* Main Layout */
+      .main-layout {
+        display: flex;
+        min-height: calc(100vh - 90px);
+      }
+
+      /* Sidebar Navigation */
+      .sidebar {
+        width: 288px;
+        background: #ffffff;
+        border-right: 1px solid #aeaeae;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .nav-item {
+        display: flex;
+        align-items: center;
+        padding: 10px 14px;
+        font-size: 13px;
+        color: #181818;
+        text-decoration: none;
+        transition: background-color 0.15s ease;
+      }
+
+      .nav-item.active {
+        background-color: #edf1f5;
+        box-shadow: inset 4px 0 0 #8595ad;
+      }
+
+      /* Content Area */
+      .content-area {
+        flex: 1;
+        display: flex;
+        gap: 24px;
+      }
+
+      .main-content {
+        flex: 1;
+        max-width: 837px;
+        padding: 24px;
+      }
+
+      .sidebar-content {
+        width: 475px;
+        padding: 24px 24px 24px 12px;
+      }
+
+      /* Page Header */
+      .page-header {
+        background: #ffffff;
+        border-top: 12px solid #022ac0;
+        padding: 8px 24px 24px;
+        margin-bottom: 24px;
+        border-radius: 8px;
+      }
+
+      .page-title {
+        font-size: 42px;
+        font-weight: 400;
+        color: #181818;
+        line-height: 1;
+        margin: 0;
+      }
+
+      /* Section Cards */
+      .section-card {
+        background: #ffffff;
+        border: 1px solid #c9c9c9;
+        border-radius: 8px;
+        padding: 24px 16px;
+        margin-bottom: 24px;
+      }
+
+      .section-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 18px;
+        font-weight: 600;
+        color: #181818;
+      }
+
+      .setup-button {
+        background: #0176d3;
+        color: #ffffff;
+        border: none;
+        border-radius: 4px;
+        padding: 4px 16px;
+        font-size: 13px;
+        cursor: pointer;
+        height: 32px;
+      }
+
+      /* Welcome Card */
+      .welcome-card {
+        background: linear-gradient(135deg, #f8f9fc 0%, #ffffff 100%);
+        border-left: 4px solid #0176d3;
+      }
+
+      /* Component Grid */
+      .component-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 16px;
+        padding-left: 24px;
+      }
+
+      .component-card {
+        background: #ffffff;
+        border: 1px solid #c9c9c9;
+        border-radius: 8px;
+        padding: 16px;
+        transition: box-shadow 0.2s ease;
+      }
+
+      /* Resource Cards */
+      .resource-card {
+        background: #ffffff;
+        border: 1px solid #c9c9c9;
+        border-radius: 8px;
+        box-shadow: 0 2px 2px rgba(0,0,0,0.1);
+        padding: 24px;
+        margin-bottom: 16px;
+      }
+
+      .resource-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #181818;
+        margin-bottom: 16px;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 1024px) {
+        .main-layout { flex-direction: column; }
+        .sidebar { width: 100%; order: 2; }
+        .content-area { flex-direction: column; }
+        .sidebar-content { width: 100%; padding: 24px; }
+        .component-grid { grid-template-columns: 1fr; }
+      }
+
+      @media (max-width: 768px) {
+        .page-title { font-size: 32px; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Global Header -->
+    <div class="global-header">
+      <div class="header-masthead">
+        <div class="header-logo">SF</div>
+        <div style="flex: 1; text-align: center;">
+          <div style="display: inline-flex; align-items: center; background: #ffffff; border: 1px solid #c9c9c9; border-radius: 4px;">
+            <div style="padding: 8px 12px; border-right: 1px solid #c9c9c9; font-size: 12px; color: #3e3e3c;">All</div>
+            <div style="padding: 8px 12px; font-size: 13px; color: #706e6b; display: flex; align-items: center; gap: 8px;">
+              <span>🔍</span>
+              Search Salesforce
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 16px; font-size: 12px;">
+          <span>⚡</span><span>🔔</span><span>🎯</span><span>📊</span><span>⚙️</span><span>👤</span>
+        </div>
+      </div>
+      
+      <div style="display: flex; align-items: center; gap: 24px; padding: 0 16px; height: 37px;">
+        <span>🏠</span>
+        <span style="font-size: 18px; font-weight: 400; color: #000000;">Setup</span>
+        <a href="#" style="background: #eef4ff; padding: 8px 12px; border-radius: 4px; font-weight: 500; color: #181818; text-decoration: none; box-shadow: inset 0 -3px 0 #1589ee;">Home</a>
+        <div style="flex: 1; background: #ffffff; border: 1px solid #d4dbe6; border-radius: 4px; height: 21px; padding: 0 14px; display: flex; align-items: center; justify-content: space-between;">
+          <div style="width: 88px; height: 8px; background: #d4dbe6; border-radius: 20px;"></div>
+          <span>⌄</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Layout -->
+    <div class="main-layout">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div style="padding: 16px; border-bottom: 1px solid #e5e5e5;">
+          <input type="text" style="width: 100%; height: 36px; padding: 8px 12px 8px 40px; border: 1px solid #e1e4ea; border-radius: 4px; font-size: 14px;" placeholder="">
+        </div>
+        
+        <div style="flex: 1; padding-bottom: 40px;">
+          <a href="#" class="nav-item">Setup Home</a>
+          <a href="#" class="nav-item active">Salesforce Go</a>
+          
+          <div style="display: flex; align-items: center; padding: 10px 14px; font-size: 11px; color: #181818; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;">ADMINISTRATION</div>
+          <a href="#" class="nav-item">▶ Users</a>
+          <a href="#" class="nav-item">▶ Data</a>
+          <a href="#" class="nav-item">▶ Email</a>
+          
+          <div style="display: flex; align-items: center; padding: 10px 14px; font-size: 11px; color: #181818; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;">PLATFORM TOOLS</div>
+          <a href="#" class="nav-item">▶ Apps</a>
+          <a href="#" class="nav-item">▶ Feature Settings</a>
+          <a href="#" class="nav-item">▶ Slack</a>
+          <a href="#" class="nav-item">▶ Heroku</a>
+          <a href="#" class="nav-item">▶ MuleSoft</a>
+          <a href="#" class="nav-item">▶ Einstein</a>
+        </div>
+      </div>
+
+      <!-- Content Area -->
+      <div class="content-area">
+        <!-- Main Content -->
+        <div class="main-content">
+          <!-- Page Header -->
+          <div class="page-header">
+            <div style="display: flex; align-items: center; gap: 3px; font-size: 14px; margin-bottom: 8px; flex-wrap: wrap;">
+              <a href="#" style="color: #0b5cab; text-decoration: none;">Salesforce Go</a>
+              <span style="color: #0b5cab; margin: 0 3px;">></span>
+              <span style="color: #181818;">{{ title }}</span>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 12px; font-size: 14px; color: #181818;">
+              <div style="width: 24px; height: 24px; background: #0176d3; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 10px;">S</div>
+              <span>Solution</span>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+              <h1 class="page-title">{{ title }}</h1>
+              <div style="width: 29px; height: 29px; border: 1px solid #c9c9c9; background: #ffffff; border-radius: 4px; display: flex; align-items: center; justify-content: center; cursor: pointer;">⌄</div>
+            </div>
+
+            <p style="font-size: 14px; color: #181818; line-height: 1.5; margin-bottom: 16px;">{{ description }}</p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div style="display: flex; align-items: center; gap: 16px;">
+                {% if labels.header.progressBadge %}
+                <span style="background: #ffffff; border: 1px solid #c9c9c9; border-radius: 23px; padding: 4px 8px; font-size: 12px; font-weight: bold; color: #181818;">{{ labels.header.progressBadge }}</span>
+                {% endif %}
+                <button style="background: #ffffff; border: none; border-radius: 4px; padding: 4px 16px; font-size: 13px; color: #0176d3; cursor: pointer; display: flex; align-items: center; gap: 8px; height: 32px;">🔄 Refresh</button>
+              </div>
+              <div style="background: #ddd0ff; border-radius: 23px; padding: 4px 8px; font-size: 12px; font-weight: bold; color: #181818; display: flex; align-items: center; gap: 4px;">⭐ Automated Setup</div>
+            </div>
+          </div>
+
+          <!-- Welcome Section -->
+          {% if labels.welcome %}
+          <div class="section-card welcome-card">
+            <div class="section-title">
+              <span>👋</span>
+              {{ labels.welcome.title | default('Welcome') }}
+            </div>
+            <div style="font-size: 14px; color: #444444; margin-top: 12px; padding-left: 0;">
+              {{ labels.welcome.message }}
+            </div>
+          </div>
+          {% endif %}
+
+          <!-- Setup Initialization -->
+          <div class="section-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <div class="section-title">
+                <span>🚀</span>
+                {{ labels.activation.title | default('Initialize Setup') }}
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 12px; color: #747474; text-align: center;">Automated setup process</span>
+                <button class="setup-button">{{ labels.activation.button.notStarted | default('Begin Setup') }}</button>
+              </div>
+            </div>
+            
+            <div style="font-size: 14px; color: #444444; margin-bottom: 16px; padding-left: 24px;">
+              {{ labels.activation.description | default('This setup will be handled automatically and is required for your solution to function properly.') }}
+            </div>
+
+            <!-- Automated Setup Steps -->
+            {% if setupSteps and setupSteps.length > 0 %}
+            <div style="background: #f8f9fc; border: 1px solid #e1e4ea; border-radius: 8px; padding: 16px; margin-top: 16px; margin-left: 24px;">
+              <div style="font-size: 16px; font-weight: 600; color: #181818; margin-bottom: 12px;">Automated Setup Steps</div>
+              {% for step in setupSteps %}
+              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                <div style="width: 16px; height: 16px; border-radius: 50%; background: #0176d3; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; flex-shrink: 0;">✓</div>
+                <div style="font-size: 14px; color: #181818; font-weight: 500;">{{ step.title }}</div>
+              </div>
+              {% endfor %}
+            </div>
+            {% endif %}
+          </div>
+
+          <!-- Solution Components -->
+          {% if components and components.length > 0 %}
+          <div class="section-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <div class="section-title">
+                <span>🧩</span>
+                Solution Components
+              </div>
+            </div>
+            
+            <div style="font-size: 14px; color: #444444; margin-bottom: 16px; padding-left: 24px;">
+              The following components will be configured as part of this solution.
+            </div>
+
+            <div class="component-grid">
+              {% for component in components %}
+              <div class="component-card">
+                <div style="font-size: 16px; font-weight: 600; color: #181818; margin-bottom: 8px;">{{ component.name }}</div>
+                {% if component.description %}
+                <div style="font-size: 14px; color: #444444; line-height: 1.5; margin-bottom: 12px;">{{ component.description }}</div>
+                {% endif %}
+                
+                {% if component.features and component.features.length > 0 %}
+                <div style="margin-bottom: 16px;">
+                  <div style="font-size: 14px; font-weight: 600; color: #181818; margin-bottom: 8px;">Includes:</div>
+                  <div style="list-style: none; padding: 0; margin: 0;">
+                    {% for feature in component.features %}
+                    <div style="font-size: 13px; color: #444444; margin-bottom: 4px; padding-left: 16px; position: relative;">
+                      <span style="position: absolute; left: 0; color: #0176d3;">•</span>
+                      {{ feature.name }}
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+                {% endif %}
+                
+                <button style="background: #0176d3; color: #ffffff; border: none; border-radius: 4px; padding: 8px 16px; font-size: 13px; cursor: pointer; height: 32px;">Configure</button>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
+          <!-- Integration Points -->
+          {% if integrations and integrations.length > 0 %}
+          <div class="section-card">
+            <div class="section-title">
+              <span>🔗</span>
+              Integration Points
+            </div>
+            
+            <div style="padding-left: 24px; margin-top: 16px;">
+              {% for integration in integrations %}
+              <div style="padding: 16px 0; border-bottom: 1px solid #e5e5e5;">
+                {% if loop.last %}<div style="border-bottom: none;">{% endif %}
+                <div style="font-size: 16px; font-weight: 600; color: #181818; margin-bottom: 4px;">{{ integration.name }}</div>
+                <div style="font-size: 14px; color: #444444; margin-bottom: 8px;">{{ integration.description }}</div>
+                {% if integration.configUrl %}
+                <a href="{{ integration.configUrl }}" style="color: #0b5cab; text-decoration: none; font-size: 13px;">Configure Integration</a>
+                {% endif %}
+                {% if loop.last %}</div>{% endif %}
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
+          <!-- Troubleshooting -->
+          {% if labels.troubleshooting %}
+          <div class="section-card">
+            <div class="section-title">
+              <span>🔧</span>
+              {{ labels.troubleshooting.title | default('Troubleshooting') }}
+            </div>
+            
+            <div style="padding-left: 24px; margin-top: 16px;">
+              {% for issue in labels.troubleshooting.items %}
+              <div style="margin-bottom: 12px;">
+                <details>
+                  <summary style="font-size: 14px; font-weight: 600; color: #181818; cursor: pointer; padding: 8px 0;">{{ issue.problem }}</summary>
+                  <div style="font-size: 14px; color: #444444; margin-top: 8px; padding-left: 16px; line-height: 1.5;">{{ issue.solution }}</div>
+                </details>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
+          <!-- What's Next -->
+          {% if labels.whatsNext %}
+          <div class="section-card" style="background: linear-gradient(135deg, #f8f9fc 0%, #ffffff 100%); border-left: 4px solid #2e844a;">
+            <div class="section-title">
+              <span>➡️</span>
+              {{ labels.whatsNext.title | default("What's Next") }}
+            </div>
+            
+            <div style="padding-left: 24px; margin-top: 16px;">
+              {% for item in labels.whatsNext.items %}
+              <div style="margin-bottom: 16px;">
+                <div style="font-size: 16px; font-weight: 600; color: #181818; margin-bottom: 4px;">{{ item.title }}</div>
+                <div style="font-size: 14px; color: #444444; margin-bottom: 8px; line-height: 1.5;">{{ item.description }}</div>
+                {% if item.actionUrl %}
+                <a href="{{ item.actionUrl }}" style="color: #0b5cab; text-decoration: none; font-size: 13px;">{{ item.actionLabel | default('Get Started') }}</a>
+                {% endif %}
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- Right Sidebar -->
+        <div class="sidebar-content">
+          <!-- Screenshot Display -->
+          {% if assets.screenshotUrl or assets.screenshotDataUrl %}
+          <div class="resource-card">
+            <div class="resource-title">Solution Preview</div>
+            <div style="width: 100%; height: 200px; background: #f3f3f3; border-radius: 8px; background-image: url('{{ assets.screenshotDataUrl or assets.screenshotUrl }}'); background-size: cover; background-position: center;"></div>
+          </div>
+          {% endif %}
+
+          <!-- Resources -->
+          <div class="resource-card">
+            <div class="resource-title">Resources</div>
+            {% if assets.resources.helpTopicUrl or assets.resources.releaseNotesUrl or assets.resources.trailheadBadges or assets.resources.blogUrl %}
+            <div style="list-style: none; padding: 0; margin: 0;">
+              {% if assets.resources.helpTopicUrl %}
+              <div style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: #0176d3; font-weight: 600;">→</span>
+                <a href="{{ assets.resources.helpTopicUrl }}" style="color: #0b5cab; text-decoration: none; font-size: 14px; line-height: 1.5;">{{ labels.resources.helpLabel | default('Explore Salesforce Help') }}</a>
+              </div>
+              {% endif %}
+              {% if assets.resources.releaseNotesUrl %}
+              <div style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: #0176d3; font-weight: 600;">→</span>
+                <a href="{{ assets.resources.releaseNotesUrl }}" style="color: #0b5cab; text-decoration: none; font-size: 14px; line-height: 1.5;">{{ labels.resources.releaseNotesLabel | default('Setup Guide') }}</a>
+              </div>
+              {% endif %}
+              {% if assets.resources.trailheadBadges and assets.resources.trailheadBadges.length > 0 %}
+              <div style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: #0176d3; font-weight: 600;">→</span>
+                <strong>Trailhead:</strong>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;">
+                  {% for badge in assets.resources.trailheadBadges %}
+                  <a href="{{ badge.url }}" style="color: #0b5cab; text-decoration: none; font-size: 14px; line-height: 1.5;">{{ badge.title }}</a>
+                  {% endfor %}
+                </div>
+              </div>
+              {% endif %}
+              {% if assets.resources.blogUrl %}
+              <div style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: #0176d3; font-weight: 600;">→</span>
+                <a href="{{ assets.resources.blogUrl }}" style="color: #0b5cab; text-decoration: none; font-size: 14px; line-height: 1.5;">{{ labels.resources.blogLabel | default('Read the Blog Post') }}</a>
+              </div>
+              {% endif %}
+            </div>
+            {% else %}
+            <div style="color: #747474; font-style: italic; text-align: center; padding: 16px;">No additional resources provided</div>
+            {% endif %}
+          </div>
+
+          <!-- Solution Overview -->
+          <div class="resource-card">
+            <div class="resource-title">Solution Setup Guide</div>
+            <div style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+              <span style="position: absolute; left: 0; color: #0176d3; font-weight: 600;">→</span>
+              <a href="#" style="color: #0b5cab; text-decoration: none; font-size: 14px; line-height: 1.5;">Implementation Checklist</a>
+            </div>
+            <div style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+              <span style="position: absolute; left: 0; color: #0176d3; font-weight: 600;">→</span>
+              <a href="#" style="color: #0b5cab; text-decoration: none; font-size: 14px; line-height: 1.5;">Best Practices</a>
+            </div>
+            <div style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+              <span style="position: absolute; left: 0; color: #0176d3; font-weight: 600;">→</span>
+              <a href="#" style="color: #0b5cab; text-decoration: none; font-size: 14px; line-height: 1.5;">Post-Setup Validation</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,271 @@
+/*
+  SLDS2 Temporary Stylesheet
+  - Generated from SLDS2 reference to unblock development
+  - Safe to swap later; prefer using variables below in your components
+*/
+
+:root {
+  /* Global surfaces */
+  --slds-g-color-surface-1: #ffffff;
+  --slds-g-color-surface-2: #f3f3f3;
+  --slds-g-color-surface-3: #e5e5e5;
+
+  /* Global containers */
+  --slds-g-color-surface-container-1: #ffffff;
+  --slds-g-color-surface-container-2: #f3f3f3;
+  --slds-g-color-surface-container-3: #e5e5e5;
+
+  /* Global on-surface text */
+  --slds-g-color-on-surface-1: #747474; /* body/labels/help text */
+  --slds-g-color-on-surface-2: #2e2e2e; /* headings/input text */
+  --slds-g-color-on-surface-3: #181818; /* titles */
+
+  /* Borders */
+  --slds-g-color-border-1: #c9c9c9; /* decorative/dividers */
+  --slds-g-color-border-2: #747474; /* interactive borders */
+
+  /* Accent (brand) */
+  --slds-g-color-accent-1: #1b96ff; /* primary */
+  --slds-g-color-accent-2: #0176d3; /* hover */
+  --slds-g-color-accent-3: #014486; /* active */
+  --slds-g-color-on-accent-1: #ffffff;
+
+  /* Feedback */
+  --slds-g-color-error-1: #ba0517;
+  --slds-g-color-error-container-1: #fddde3;
+  --slds-g-color-success-1: #2e844a;
+  --slds-g-color-success-container-1: #acf3e4;
+
+  /* Typography */
+  --slds-g-font-family-base: system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  --slds-g-font-size-base: 13px;
+  --slds-g-font-weight-4: 400; /* regular */
+  --slds-g-font-weight-6: 600; /* semibold */
+  --slds-g-font-lineheight-base: 1.5;
+
+  /* Radius */
+  --slds-g-radius-border-2: 0.5rem; /* inputs, popovers */
+  --slds-g-radius-border-4: 1.25rem; /* cards, modals */
+
+  /* Spacing */
+  --slds-g-spacing-1: 0.25rem;
+  --slds-g-spacing-2: 0.5rem;
+  --slds-g-spacing-3: 0.75rem;
+  --slds-g-spacing-4: 1rem;
+
+  /* INPUT hooks (component-level) */
+  --slds-s-input-color-background: var(--slds-g-color-surface-container-1);
+  --slds-s-input-color-background-focus: var(--slds-g-color-surface-container-1);
+  --slds-s-input-color-background-invalid: var(--slds-g-color-error-container-1);
+  --slds-s-input-color-background-disabled: #ffffff;
+  --slds-s-input-sizing-border: 1px;
+  --slds-s-input-color-border: #5c5c5c; /* aligns to neutral-40 */
+  --slds-s-input-color-border-hover: #5c5c5c;
+  --slds-s-input-color-border-focus: #5c5c5c;
+  --slds-s-input-color-border-invalid: var(--slds-g-color-error-1);
+  --slds-s-input-shadow-focus: 2px 2px 5px 0px rgba(0, 0, 0, 0.08) inset,
+    0px 0.5px 2px 0px rgba(0, 0, 0, 0.35) inset,
+    0px 1px 0px 0px rgba(0, 0, 0, 0.15) inset,
+    0 0 0 2px var(--slds-g-color-surface-1),
+    0 0 0 4px var(--slds-g-color-accent-2);
+  --slds-s-input-shadow-invalid: none;
+  --slds-s-input-color: var(--slds-g-color-on-surface-2);
+  --slds-s-input-color-hover: var(--slds-g-color-on-surface-2);
+  --slds-s-input-color-focus: var(--slds-g-color-on-surface-2);
+  --slds-s-input-color-invalid: #b60554; /* alias to pink-40 */
+  --slds-s-input-color-disabled: #c9c9c9;
+  --slds-s-input-color-placeholder: #5c5c5c; /* on-surface-1 alias */
+  --slds-s-input-font-size: var(--slds-g-font-size-base);
+  --slds-s-input-font-style-placeholder: normal;
+  --slds-s-input-radius-border: var(--slds-g-radius-border-2);
+  --slds-s-input-spacing: var(--slds-g-spacing-3);
+  --slds-s-input-sizing-height: 1.875rem; /* not a hook; provided for convenience */
+  --slds-s-input-spacing-gap: var(--slds-g-spacing-2);
+
+  /* BUTTON hooks (brand) */
+  --slds-s-button-color-background: var(--slds-g-color-accent-1);
+  --slds-s-button-color-background-hover: var(--slds-g-color-accent-2);
+  --slds-s-button-color-background-focus: var(--slds-g-color-accent-1);
+  --slds-s-button-color-background-active: var(--slds-g-color-accent-2);
+  --slds-s-button-color: var(--slds-g-color-on-accent-1);
+  --slds-s-button-color-hover: var(--slds-g-color-on-accent-1);
+  --slds-s-button-color-focus: var(--slds-g-color-on-accent-1);
+  --slds-s-button-color-active: var(--slds-g-color-on-accent-1);
+  --slds-s-button-sizing-border: 1px;
+  --slds-s-button-color-border: var(--slds-g-color-border-2);
+  --slds-s-button-radius-border: 100%;
+  --slds-s-button-shadow-hover: 0px 2px 0px 0px rgba(68, 68, 68, 1),
+    0px 4px 4px 0px rgba(0, 0, 0, 0.25),
+    0px 3px 3px 0px rgba(0, 0, 0, 0.2);
+  --slds-s-button-shadow-focus: 0 0 0 2px var(--slds-g-color-surface-2),
+    0 0 0 4px var(--slds-g-color-accent-2);
+  --slds-s-button-shadow-active: inset 0px 1px 0px 0px rgba(0, 0, 0, 0.25),
+    0px 0.5px 2px 0px rgba(0, 0, 0, 0.5),
+    2px 2px 5px 0px rgba(0, 0, 0, 0.1);
+
+  /* LINK hooks */
+  --slds-s-link-color: var(--slds-g-color-accent-2);
+  --slds-s-link-color-hover: var(--slds-g-color-accent-3);
+  --slds-s-link-shadow-focus: 0 0 0 2px var(--slds-g-color-surface-1),
+    0 0 0 4px var(--slds-g-color-accent-2);
+
+  /* LABEL hooks */
+  --slds-s-label-color: var(--slds-g-color-on-surface-1);
+  --slds-s-label-font-size: var(--slds-g-font-size-base);
+  --slds-s-label-font-weight: var(--slds-g-font-weight-4);
+  --slds-s-label-spacing: var(--slds-g-spacing-2);
+  --slds-s-label-spacing-gap: var(--slds-g-spacing-1);
+
+  /* HELPTEXT hooks */
+  --slds-s-helptext-color: var(--slds-g-color-on-surface-1);
+  --slds-s-helptext-font-size: 0.75rem; /* 12px */
+  --slds-s-helptext-spacing: var(--slds-g-spacing-1);
+
+  /* CONTAINER hooks (cards) */
+  --slds-s-container-color: var(--slds-g-color-on-surface-3);
+  --slds-s-container-shadow: none;
+  --slds-s-container-color-border: transparent;
+}
+
+/* Base reset for demo pages */
+html, body {
+  background: var(--slds-g-color-surface-2);
+  color: var(--slds-g-color-on-surface-2);
+  font-family: var(--slds-g-font-family-base);
+  font-size: var(--slds-g-font-size-base);
+  line-height: var(--slds-g-font-lineheight-base);
+}
+
+/* Inputs */
+.slds2-input {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--slds-s-input-spacing-gap);
+  width: 100%;
+  height: var(--slds-s-input-sizing-height);
+  padding: 0 var(--slds-s-input-spacing);
+  border: var(--slds-s-input-sizing-border) solid var(--slds-s-input-color-border);
+  border-radius: var(--slds-s-input-radius-border);
+  background: var(--slds-s-input-color-background);
+  color: var(--slds-s-input-color);
+}
+.slds2-input::placeholder {
+  color: var(--slds-s-input-color-placeholder);
+}
+.slds2-input:hover {
+  border-color: var(--slds-s-input-color-border-hover);
+  color: var(--slds-s-input-color-hover);
+}
+.slds2-input:focus {
+  outline: none;
+  border-color: var(--slds-s-input-color-border-focus);
+  box-shadow: var(--slds-s-input-shadow-focus);
+  background: var(--slds-s-input-color-background-focus);
+  color: var(--slds-s-input-color-focus);
+}
+.slds2-input[aria-invalid="true"],
+.slds2-input.is-invalid {
+  border-color: var(--slds-s-input-color-border-invalid);
+  background: var(--slds-s-input-color-background-invalid);
+  color: var(--slds-s-input-color-invalid);
+  box-shadow: var(--slds-s-input-shadow-invalid);
+}
+.slds2-input:disabled {
+  border-color: var(--slds-s-input-color-border-disabled);
+  background: var(--slds-s-input-color-background-disabled);
+  color: var(--slds-s-input-color-disabled);
+  cursor: not-allowed;
+}
+
+/* Buttons (brand) */
+.slds2-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--slds-g-spacing-2);
+  padding: 0 var(--slds-g-spacing-4);
+  min-height: 2rem;
+  font-weight: var(--slds-g-font-weight-6);
+  border: 0;
+  border-radius: 999px; /* pill default */
+  background: var(--slds-s-button-color-background);
+  color: var(--slds-s-button-color);
+}
+.slds2-button:hover {
+  background: var(--slds-s-button-color-background-hover);
+  color: var(--slds-s-button-color-hover);
+  box-shadow: var(--slds-s-button-shadow-hover);
+}
+.slds2-button:focus {
+  outline: none;
+  box-shadow: var(--slds-s-button-shadow-focus);
+}
+.slds2-button:active {
+  background: var(--slds-s-button-color-background-active);
+  color: var(--slds-s-button-color-active);
+  box-shadow: var(--slds-s-button-shadow-active);
+}
+.slds2-button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Links */
+.slds2-link {
+  color: var(--slds-s-link-color);
+  text-decoration: none;
+}
+.slds2-link:hover { color: var(--slds-s-link-color-hover); }
+.slds2-link:focus {
+  outline: none;
+  box-shadow: var(--slds-s-link-shadow-focus);
+}
+
+/* Labels and helptext */
+.slds2-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--slds-s-label-spacing-gap);
+  padding-block: 0;
+  color: var(--slds-s-label-color);
+  font-size: var(--slds-s-label-font-size);
+  font-weight: var(--slds-s-label-font-weight);
+}
+.slds2-helptext {
+  color: var(--slds-s-helptext-color);
+  font-size: var(--slds-s-helptext-font-size);
+  margin-top: var(--slds-s-helptext-spacing);
+}
+
+/* Cards / containers */
+.slds2-card {
+  background: var(--slds-g-color-surface-container-1);
+  border: 1px solid var(--slds-s-container-color-border);
+  border-radius: var(--slds-g-radius-border-4);
+  box-shadow: var(--slds-s-container-shadow);
+  padding: var(--slds-g-spacing-4);
+}
+
+/* Neutral 90 divider matching card width */
+.slds2-divider-neutral-90 {
+  height: 1px;
+  background: var(--slds-g-color-surface-3);
+  border: 0;
+  margin: var(--slds-g-spacing-4) 0;
+}
+
+/* Progress badge (templates on/off indicator) */
+.slds2-progress-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--slds-g-spacing-1);
+  padding: 0 var(--slds-g-spacing-2);
+  height: 1.5rem;
+  border-radius: 999px;
+  background: var(--slds-g-color-surface-container-2);
+  color: var(--slds-g-color-on-surface-2);
+  font-size: 0.75rem; /* 12px */
+}
+
+

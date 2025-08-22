@@ -1,0 +1,1425 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ title }} | Salesforce Setup</title>
+    <link rel="stylesheet" href="../css/slds2-temp.css" />
+    <style>
+      /* Modern Salesforce admin interface styling based on Figma design */
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      
+      body {
+        font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, "Roboto", sans-serif;
+        background-color: #f3f3f3;
+        color: #181818;
+        line-height: 1.5;
+      }
+
+      /* Global Header */
+      .global-header {
+        background: #ffffff;
+        border-bottom: 3px solid #1589ee;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .header-masthead {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 7px 16px;
+        border-bottom: 1px solid #e1e4ea;
+      }
+
+      .header-logo {
+        width: 40px;
+        height: 28px;
+        background: #0176d3;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        font-size: 14px;
+      }
+
+      .header-nav {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        padding: 0 16px;
+        height: 37px;
+      }
+
+      .nav-home {
+        background: #eef4ff;
+        padding: 8px 12px;
+        border-radius: 4px;
+        font-weight: 500;
+        color: #181818;
+        text-decoration: none;
+        box-shadow: inset 0 -3px 0 #1589ee;
+      }
+
+      .setup-title {
+        font-size: 18px;
+        font-weight: 400;
+        color: #000000;
+      }
+
+      /* Main Layout */
+      .main-layout {
+        display: flex;
+        min-height: calc(100vh - 90px);
+      }
+
+      /* Sidebar Navigation */
+      .sidebar {
+        width: 288px;
+        background: #ffffff;
+        border-right: 1px solid #aeaeae;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .sidebar-search {
+        padding: 16px;
+        border-bottom: 1px solid #e5e5e5;
+      }
+
+      .search-input {
+        width: 100%;
+        height: 36px;
+        padding: 8px 12px 8px 40px;
+        border: 1px solid #e1e4ea;
+        border-radius: 4px;
+        font-size: 14px;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23747474' d='M6.5 12a5.5 5.5 0 100-11 5.5 5.5 0 000 11zm4.936-1.564l4.314 4.314a1 1 0 001.414-1.414l-4.314-4.314a1 1 0 00-1.414 1.414z'/%3E%3C/svg%3E") no-repeat 12px center;
+      }
+
+      .sidebar-nav {
+        flex: 1;
+        padding-bottom: 40px;
+      }
+
+      .nav-item {
+        display: flex;
+        align-items: center;
+        padding: 10px 14px;
+        font-size: 13px;
+        color: #181818;
+        text-decoration: none;
+        transition: background-color 0.15s ease;
+      }
+
+      .nav-item:hover {
+        background-color: #f8f9fa;
+      }
+
+      .nav-item.active {
+        background-color: #edf1f5;
+        box-shadow: inset 4px 0 0 #8595ad;
+      }
+
+      .nav-item.section-header {
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        font-size: 11px;
+        color: #181818;
+        background: none;
+      }
+
+      .nav-item.section-header:hover {
+        background: none;
+      }
+
+      /* Content Area */
+      .content-area {
+        flex: 1;
+        display: flex;
+        gap: 24px;
+      }
+
+      .main-content {
+        flex: 1;
+        max-width: 837px;
+        padding: 24px;
+      }
+
+      .sidebar-content {
+        width: 475px;
+        padding: 24px 24px 24px 12px;
+      }
+
+      /* Page Header with blue accent */
+      .page-header {
+        background: #ffffff;
+        border-top: 12px solid #022ac0;
+        padding: 8px 24px 24px;
+        margin-bottom: 24px;
+        border-radius: 8px;
+      }
+
+      .page-breadcrumbs {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        font-size: 14px;
+        margin-bottom: 8px;
+        flex-wrap: wrap;
+      }
+
+      .breadcrumb-link {
+        color: #0b5cab;
+        text-decoration: none;
+      }
+
+      .breadcrumb-separator {
+        color: #0b5cab;
+        margin: 0 3px;
+      }
+
+      .breadcrumb-current {
+        color: #181818;
+      }
+
+      .cloud-badge {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        margin-bottom: 12px;
+        font-size: 14px;
+        color: #181818;
+      }
+
+      .cloud-icon {
+        width: 24px;
+        height: 24px;
+        background: #0176d3;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        font-size: 10px;
+      }
+
+      .page-header-main {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 12px;
+      }
+
+      .page-title {
+        font-size: 42px;
+        font-weight: 400;
+        color: #181818;
+        line-height: 1;
+        margin: 0;
+      }
+
+      .header-actions {
+        display: flex;
+        gap: 8px;
+      }
+
+      .fave-menu {
+        width: 29px;
+        height: 29px;
+        border: 1px solid #c9c9c9;
+        background: #ffffff;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      .page-description {
+        font-size: 14px;
+        color: #181818;
+        line-height: 1.5;
+        margin-bottom: 16px;
+      }
+
+      .progress-area {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .progress-badge {
+        background: #ffffff;
+        border: 1px solid #c9c9c9;
+        border-radius: 23px;
+        padding: 4px 8px;
+        font-size: 12px;
+        font-weight: bold;
+        color: #181818;
+      }
+
+      .refresh-button {
+        background: #ffffff;
+        border: none;
+        border-radius: 4px;
+        padding: 4px 16px;
+        font-size: 13px;
+        color: #0176d3;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        height: 32px;
+      }
+
+      .suggested-badge {
+        background: #ddd0ff;
+        border-radius: 23px;
+        padding: 4px 8px;
+        font-size: 12px;
+        font-weight: bold;
+        color: #181818;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      /* Section Cards */
+      .section-card {
+        background: #ffffff;
+        border: 1px solid #c9c9c9;
+        border-radius: 8px;
+        padding: 24px 16px;
+        margin-bottom: 24px;
+      }
+
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 4px;
+      }
+
+      .section-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 18px;
+        font-weight: 600;
+        color: #181818;
+      }
+
+      .chevron-icon {
+        width: 16px;
+        height: 16px;
+        color: #747474;
+      }
+
+      .section-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .section-message {
+        font-size: 12px;
+        color: #747474;
+        text-align: center;
+      }
+
+      .turn-on-button {
+        background: #0176d3;
+        color: #ffffff;
+        border: none;
+        border-radius: 4px;
+        padding: 4px 16px;
+        font-size: 13px;
+        cursor: pointer;
+        height: 32px;
+      }
+
+      .section-assets {
+        display: flex;
+        gap: 24px;
+        align-items: center;
+        padding: 0 24px;
+        height: 24px;
+        margin-bottom: 12px;
+      }
+
+      .asset-link {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        color: #0b5cab;
+        text-decoration: none;
+        font-size: 13px;
+      }
+
+      .asset-icon {
+        width: 12px;
+        height: 12px;
+        background: #0b5cab;
+        border-radius: 2px;
+      }
+
+      /* Step Components */
+      .steps-container {
+        padding-left: 24px;
+      }
+
+      .section-description {
+        font-size: 14px;
+        color: #444444;
+        margin-bottom: 12px;
+        padding-left: 24px;
+      }
+
+      .step-item {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+
+      .step-indicator {
+        width: 26px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex-shrink: 0;
+      }
+
+      .step-top-line {
+        width: 2px;
+        height: 4px;
+        background: #c9c9c9;
+        opacity: 0;
+      }
+
+      .step-circle {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: #ffffff;
+        border: 1px solid #c9c9c9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        flex-shrink: 0;
+      }
+
+      .step-circle.error {
+        background: #ba0517;
+        border-color: #ba0517;
+        color: #ffffff;
+      }
+
+      .step-circle.in-progress {
+        background: #0176d3;
+        border-color: #0176d3;
+        color: #ffffff;
+      }
+
+      .step-bottom-line {
+        width: 2px;
+        flex: 1;
+        background: #c9c9c9;
+        min-height: 16px;
+      }
+
+      .step-content {
+        flex: 1;
+        padding-bottom: 8px;
+      }
+
+      .step-main-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 24px;
+      }
+
+      .step-details {
+        flex: 1;
+        padding-top: 4px;
+      }
+
+      .step-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #444444;
+        margin-bottom: 2px;
+      }
+
+      .step-subtitle {
+        font-size: 12px;
+        color: #8c4b02;
+        margin-bottom: 4px;
+      }
+
+      .step-subtitle.inactive {
+        color: #747474;
+      }
+
+      .step-description-text {
+        font-size: 14px;
+        color: #444444;
+        line-height: 1.5;
+      }
+
+      .step-actions {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .step-button {
+        background: #ffffff;
+        border: none;
+        border-radius: 4px;
+        padding: 4px 16px;
+        font-size: 13px;
+        color: #0176d3;
+        cursor: pointer;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .optional-badge {
+        background: #ffffff;
+        border: 1px solid #c9c9c9;
+        border-radius: 23px;
+        padding: 4px 8px;
+        font-size: 12px;
+        color: #181818;
+      }
+
+      .toggle-switch {
+        width: 48px;
+        height: 24px;
+        background: #0176d3;
+        border-radius: 12px;
+        position: relative;
+        cursor: pointer;
+      }
+
+      .toggle-circle {
+        width: 20px;
+        height: 20px;
+        background: #ffffff;
+        border-radius: 50%;
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      }
+
+      .toggle-label {
+        font-size: 10px;
+        color: #444444;
+        text-align: center;
+        margin-top: 2px;
+      }
+
+      /* Purchase Options */
+      .purchase-section {
+        background: #ffffff;
+        border: 1px solid #c9c9c9;
+        border-radius: 8px;
+        padding: 0;
+        margin-bottom: 24px;
+        box-shadow: 0 2px 2px rgba(0,0,0,0.1);
+      }
+
+      .purchase-header {
+        padding: 0 24px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 18px;
+        font-weight: 600;
+        color: #181818;
+        height: 48px;
+      }
+
+      .purchase-content {
+        padding: 24px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+
+      .purchase-card {
+        background: #ffffff;
+        border: 1px solid #c9c9c9;
+        border-radius: 12px;
+        padding: 16px;
+        text-align: center;
+        height: 517px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .purchase-title {
+        font-size: 16px;
+        font-weight: bold;
+        color: #0176d3;
+        margin-bottom: 12px;
+        line-height: 1.5;
+      }
+
+      .purchase-title.enterprise {
+        color: #181818;
+      }
+
+      .purchase-description {
+        font-size: 12px;
+        color: #181818;
+        line-height: 1.4;
+        margin-bottom: 16px;
+      }
+
+      .purchase-price {
+        font-size: 40px;
+        font-weight: 600;
+        color: #03234d;
+        margin-bottom: 4px;
+      }
+
+      .purchase-price .currency {
+        font-size: 26px;
+      }
+
+      .purchase-period {
+        font-size: 12px;
+        color: #444444;
+        margin-bottom: 16px;
+      }
+
+      .purchase-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+
+      .purchase-primary {
+        background: #ffffff;
+        border: 1px solid #0176d3;
+        color: #0176d3;
+        border-radius: 4px;
+        padding: 8px 16px;
+        font-size: 13px;
+        cursor: pointer;
+        height: 32px;
+      }
+
+      .purchase-secondary {
+        background: none;
+        border: none;
+        color: #0176d3;
+        font-size: 13px;
+        cursor: pointer;
+        text-decoration: underline;
+      }
+
+      .purchase-features {
+        flex: 1;
+        text-align: left;
+      }
+
+      .feature-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        margin-bottom: 4px;
+        font-size: 13px;
+        color: #181818;
+        line-height: 1.5;
+      }
+
+      .feature-bullet {
+        width: 12px;
+        height: 12px;
+        background: #0176d3;
+        border-radius: 2px;
+        margin-top: 4px;
+        flex-shrink: 0;
+      }
+
+      .feature-more {
+        color: #0b5cab;
+        text-decoration: underline;
+        font-size: 13px;
+        cursor: pointer;
+      }
+
+      /* Right Sidebar Components */
+      .monitor-card {
+        background: #ffffff;
+        border: 1px solid #c9c9c9;
+        border-radius: 8px;
+        padding: 16px 24px 20px;
+        margin-bottom: 16px;
+      }
+
+      .monitor-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 18px;
+        font-weight: 600;
+        color: #181818;
+        margin-bottom: 16px;
+      }
+
+      .info-icon {
+        width: 16px;
+        height: 16px;
+        color: #747474;
+      }
+
+      .psl-set {
+        margin-bottom: 24px;
+      }
+
+      .psl-set-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #000000;
+        text-align: center;
+        margin-bottom: 12px;
+      }
+
+      .progress-bar-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .progress-item {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .progress-labels {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        color: #000000;
+      }
+
+      .progress-bar {
+        display: flex;
+        gap: 2px;
+        height: 8px;
+      }
+
+      .progress-fill {
+        flex: 1;
+        border-radius: 1px;
+      }
+
+      .progress-assigned {
+        background: #9050e9;
+      }
+
+      .progress-active {
+        background: #2e844a;
+      }
+
+      .progress-track {
+        background: #c9c9c9;
+      }
+
+      .monitor-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 16px;
+      }
+
+      .show-all-button {
+        background: #ffffff;
+        border: none;
+        color: #0176d3;
+        font-size: 13px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        height: 32px;
+        padding: 0 16px;
+        border-radius: 4px;
+      }
+
+      /* Resource Cards */
+      .resource-card {
+        background: #ffffff;
+        border: 1px solid #c9c9c9;
+        border-radius: 8px;
+        box-shadow: 0 2px 2px rgba(0,0,0,0.1);
+        padding: 24px;
+        margin-bottom: 16px;
+        max-width: 450px;
+        min-width: 250px;
+      }
+
+      .resource-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #181818;
+        margin-bottom: 16px;
+      }
+
+      .resource-video-title {
+        font-size: 16px;
+        font-weight: bold;
+        color: #0b5cab;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+
+      .play-icon {
+        width: 16px;
+        height: 16px;
+        color: #0b5cab;
+      }
+
+      .resource-screenshot {
+        width: 100%;
+        height: 254px;
+        background: #f3f3f3;
+        border-radius: 8px;
+        margin-bottom: 12px;
+        background-size: cover;
+        background-position: center;
+      }
+
+      .feature-sets-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .feature-badge {
+        background: #eef4ff;
+        border: 1px solid #1b96ff;
+        border-radius: 16px;
+        padding: 5px 12px;
+        font-size: 12px;
+        font-weight: 500;
+        color: #0b5cab;
+      }
+
+      .resource-link {
+        color: #0b5cab;
+        text-decoration: none;
+        font-size: 14px;
+        line-height: 1.5;
+        display: block;
+        margin-bottom: 4px;
+      }
+
+      .resource-link:hover {
+        text-decoration: underline;
+      }
+
+      .trailhead-icon {
+        width: 12px;
+        height: 12px;
+        display: inline-block;
+        margin-left: 4px;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 1200px) {
+        .sidebar-content {
+          width: 400px;
+        }
+      }
+
+      @media (max-width: 1024px) {
+        .main-layout {
+          flex-direction: column;
+        }
+        
+        .sidebar {
+          width: 100%;
+          order: 2;
+        }
+        
+        .content-area {
+          flex-direction: column;
+        }
+        
+        .sidebar-content {
+          width: 100%;
+          padding: 24px;
+        }
+
+        .purchase-content {
+          grid-template-columns: 1fr;
+          gap: 16px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .page-title {
+          font-size: 32px;
+        }
+        
+        .page-header-main {
+          flex-direction: column;
+          gap: 16px;
+        }
+        
+        .section-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+        }
+        
+        .step-main-content {
+          flex-direction: column;
+          gap: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Global Header -->
+    <div class="global-header">
+      <div class="header-masthead">
+        <div class="header-logo">SF</div>
+        <div style="flex: 1; text-align: center;">
+          <div style="display: inline-flex; align-items: center; background: #ffffff; border: 1px solid #c9c9c9; border-radius: 4px;">
+            <div style="padding: 8px 12px; border-right: 1px solid #c9c9c9; font-size: 12px; color: #3e3e3c;">All</div>
+            <div style="padding: 8px 12px; font-size: 13px; color: #706e6b; display: flex; align-items: center; gap: 8px;">
+              <span>🔍</span>
+              Search Salesforce
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 16px; font-size: 12px;">
+          <span>⚡</span><span>🔔</span><span>🎯</span><span>📊</span><span>⚙️</span><span>👤</span>
+        </div>
+      </div>
+      
+      <div class="header-nav">
+        <span>🏠</span>
+        <span class="setup-title">Setup</span>
+        <a href="#" class="nav-home">Home</a>
+        <div style="flex: 1; background: #ffffff; border: 1px solid #d4dbe6; border-radius: 4px; height: 21px; padding: 0 14px; display: flex; align-items: center; justify-content: space-between;">
+          <div style="width: 88px; height: 8px; background: #d4dbe6; border-radius: 20px;"></div>
+          <span>⌄</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Layout -->
+    <div class="main-layout">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="sidebar-search">
+          <input type="text" class="search-input" placeholder="">
+        </div>
+        
+        <div class="sidebar-nav">
+          <a href="#" class="nav-item">Setup Home</a>
+          <a href="#" class="nav-item active">Salesforce Go</a>
+          
+          <div class="nav-item section-header">ADMINISTRATION</div>
+          <a href="#" class="nav-item">▶ Users</a>
+          <a href="#" class="nav-item">▶ Data</a>
+          <a href="#" class="nav-item">▶ Email</a>
+          
+          <div class="nav-item section-header">PLATFORM TOOLS</div>
+          <a href="#" class="nav-item">▶ Apps</a>
+          <a href="#" class="nav-item">▶ Feature Settings</a>
+          <a href="#" class="nav-item">▶ Slack</a>
+          <a href="#" class="nav-item">▶ Heroku</a>
+          <a href="#" class="nav-item">▶ MuleSoft</a>
+          <a href="#" class="nav-item">▶ Einstein</a>
+        </div>
+      </div>
+
+      <!-- Content Area -->
+      <div class="content-area">
+        <!-- Main Content -->
+        <div class="main-content">
+          <!-- Page Header -->
+          <div class="page-header">
+            <div class="page-breadcrumbs">
+              <a href="#" class="breadcrumb-link">Salesforce Go</a>
+              <span class="breadcrumb-separator">></span>
+              {% if navigation and navigation.related.length > 0 %}
+              {% for related in navigation.related %}
+              {% if related.type === 'feature-set' %}
+              <a href="{{ related.url }}" class="breadcrumb-link">{{ related.title }}</a>
+              <span class="breadcrumb-separator">></span>
+              {% endif %}
+              {% endfor %}
+              {% endif %}
+              <span class="breadcrumb-current">{{ title }}</span>
+            </div>
+
+            <div class="cloud-badge">
+              <div class="cloud-icon">F</div>
+              <span>Foundations</span>
+            </div>
+
+            <div class="page-header-main">
+              <h1 class="page-title">{{ title }}</h1>
+              <div class="header-actions">
+                <div class="fave-menu">⌄</div>
+              </div>
+            </div>
+
+            <p class="page-description">{{ description }}</p>
+
+            <div class="progress-area">
+              <div style="display: flex; align-items: center; gap: 16px;">
+                {% if labels.header.progressBadge %}
+                <span class="progress-badge">{{ labels.header.progressBadge }}</span>
+                {% endif %}
+                <button class="refresh-button">
+                  🔄 Refresh
+                </button>
+              </div>
+              <div class="suggested-badge">
+                ⭐ Suggested for You
+              </div>
+            </div>
+          </div>
+
+          <!-- Turn On Section -->
+          <div class="section-card">
+            <div class="section-header">
+              <div class="section-title">
+                <span class="chevron-icon">⌄</span>
+                Turn On {{ title }}
+              </div>
+              <div class="section-actions">
+                <span class="section-message">This might take awhile...</span>
+                <button class="turn-on-button">Turn On</button>
+              </div>
+            </div>
+            
+            <div class="section-assets">
+              <a href="#" class="asset-link">
+                <div class="asset-icon"></div>
+                Preview Default Settings
+              </a>
+              <a href="#" class="asset-link">
+                <div class="asset-icon"></div>
+                See Considerations
+              </a>
+              <a href="#" class="asset-link">
+                <div class="asset-icon"></div>
+                Setup Help
+              </a>
+            </div>
+
+            <div class="section-description">
+              Description as needed to help user understand the list of steps below.
+            </div>
+
+            <div class="steps-container">
+              <div class="step-item">
+                <div class="step-indicator">
+                  <div class="step-top-line" style="opacity: 0;"></div>
+                  <div class="step-circle error">⚠</div>
+                  <div class="step-bottom-line"></div>
+                </div>
+                <div class="step-content">
+                  <div class="step-main-content">
+                    <div class="step-details">
+                      <div class="step-title">Step Title</div>
+                    </div>
+                    <div class="step-actions">
+                      <button class="step-button">Review ➤</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="step-item">
+                <div class="step-indicator">
+                  <div class="step-top-line"></div>
+                  <div class="step-circle in-progress">⏱</div>
+                  <div class="step-bottom-line" style="opacity: 0;"></div>
+                </div>
+                <div class="step-content">
+                  <div class="step-main-content">
+                    <div class="step-details">
+                      <div class="step-title">Step Title</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Set Up the Basics Section -->
+          <div class="section-card">
+            <div class="section-header">
+              <div class="section-title">
+                <span class="chevron-icon">🔄</span>
+                Set Up the Basics
+              </div>
+            </div>
+            
+            <div class="section-description">
+              Complete the required steps to get a basic version of this feature.
+            </div>
+
+            <div class="steps-container">
+              {% if labels.templates and labels.templates.cards %}
+              {% for card in labels.templates.cards %}
+              {% if card.steps %}
+              {% for step in card.steps %}
+              <div class="step-item">
+                <div class="step-indicator">
+                  {% if not loop.first %}<div class="step-top-line" style="opacity: 0;"></div>{% endif %}
+                  <div class="step-circle {% if step.completed %}in-progress{% elif step.inProgress %}in-progress{% endif %}">
+                    {% if step.completed %}✓{% elif step.inProgress %}⏱{% else %}{{ loop.index }}{% endif %}
+                  </div>
+                  {% if not loop.last %}<div class="step-bottom-line" style="opacity: 0;"></div>{% endif %}
+                </div>
+                <div class="step-content">
+                  <div class="step-main-content">
+                    <div class="step-details">
+                      <div class="step-title">{{ step.title }}</div>
+                      {% if step.description %}
+                      <div class="step-subtitle">{{ step.description }}</div>
+                      {% endif %}
+                    </div>
+                    <div class="step-actions">
+                      <button class="step-button">Manage</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+              {% endif %}
+              {% endfor %}
+              {% else %}
+              <div class="step-item">
+                <div class="step-indicator">
+                  <div class="step-top-line" style="opacity: 0;"></div>
+                  <div class="step-circle in-progress">⏱</div>
+                  <div class="step-bottom-line" style="opacity: 0;"></div>
+                </div>
+                <div class="step-content">
+                  <div class="step-main-content">
+                    <div class="step-details">
+                      <div class="step-title">Manage User Access</div>
+                      <div class="step-subtitle">0 out of 20 assigned</div>
+                    </div>
+                    <div class="step-actions">
+                      <button class="step-button">Manage</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- Unlock Advanced Functionality Section -->
+          <div class="section-card">
+            <div class="section-header">
+              <div class="section-title">
+                <span class="chevron-icon">🔄</span>
+                Unlock Advanced Functionality
+              </div>
+            </div>
+            
+            <div class="section-description">
+              Customize or improve your implementation with the following optional steps.
+            </div>
+
+            <div class="steps-container">
+              <div class="step-item">
+                <div class="step-indicator">
+                  <div class="step-top-line" style="opacity: 0;"></div>
+                  <div class="step-circle in-progress">⏱</div>
+                  <div class="step-bottom-line" style="opacity: 0;"></div>
+                </div>
+                <div class="step-content">
+                  <div class="step-main-content">
+                    <div class="step-details">
+                      <div class="step-title">Default Activity Sharing for New Users</div>
+                      <div class="step-description-text">
+                        With activity sharing, each user controls who sees their activities. Select the default activity sharing for new users.
+                      </div>
+                    </div>
+                    <div class="step-actions">
+                      <button class="step-button">Manage</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="step-item">
+                <div class="step-indicator">
+                  <div class="step-top-line" style="opacity: 0;"></div>
+                  <div class="step-circle in-progress">⏱</div>
+                  <div class="step-bottom-line" style="opacity: 0;"></div>
+                </div>
+                <div class="step-content">
+                  <div class="step-main-content">
+                    <div class="step-details">
+                      <div class="step-title">Enforce Default Activity Sharing for New Users</div>
+                      <div class="step-description-text">
+                        Require new Einstein Activity Capture users to keep their activity sharing setting as Don't Share.
+                      </div>
+                    </div>
+                    <div class="step-actions">
+                      <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
+                        <div class="toggle-switch">
+                          <div class="toggle-circle"></div>
+                        </div>
+                        <div class="toggle-label">On</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Purchase Options -->
+          <div class="purchase-section">
+            <div class="purchase-header">
+              <span>▶</span>
+              <span>Purchase Options</span>
+            </div>
+            
+            <div class="purchase-content">
+              <div class="purchase-card">
+                <div class="purchase-title">Einstein Conversation<br/>Insights</div>
+                <div class="purchase-description">
+                  Get the real-time insights you need to personalize every customer experience.
+                </div>
+                <div class="purchase-price">
+                  <span class="currency">$</span>100
+                </div>
+                <div class="purchase-period">USD/user/month</div>
+                <div class="purchase-buttons">
+                  <button class="purchase-primary">Buy Now</button>
+                  <button class="purchase-secondary">Contact Sales</button>
+                </div>
+                <div class="purchase-features">
+                  <div class="feature-item">
+                    <div class="feature-bullet"></div>
+                    <span>Revenue Milestones</span>
+                  </div>
+                  <div class="feature-item">
+                    <div class="feature-bullet"></div>
+                    <span>Guidance Center</span>
+                  </div>
+                  <div class="feature-item">
+                    <div class="feature-bullet"></div>
+                    <span>Enablement Analytics</span>
+                  </div>
+                  <div class="feature-more">See more...</div>
+                </div>
+              </div>
+
+              <div class="purchase-card">
+                <div class="purchase-title">Sales<br/>Engagement</div>
+                <div class="purchase-description">
+                  Get the real-time insights you need to personalize every customer experience.
+                </div>
+                <div class="purchase-price">
+                  <span class="currency">$</span>100
+                </div>
+                <div class="purchase-period">USD/user/month</div>
+                <div class="purchase-buttons">
+                  <button class="purchase-primary">Buy Now</button>
+                  <button class="purchase-secondary">Contact Sales</button>
+                </div>
+                <div class="purchase-features">
+                  <div class="feature-item">
+                    <div class="feature-bullet"></div>
+                    <span>Revenue Milestones</span>
+                  </div>
+                  <div class="feature-item">
+                    <div class="feature-bullet"></div>
+                    <span>Guidance Center</span>
+                  </div>
+                  <div class="feature-item">
+                    <div class="feature-bullet"></div>
+                    <span>Enablement Analytics</span>
+                  </div>
+                  <div class="feature-more">See more...</div>
+                </div>
+              </div>
+
+              <div class="purchase-card">
+                <div class="purchase-title enterprise">Einstein 1 for Sales</div>
+                <div class="purchase-description">
+                  The CRM for sales with intelligent automation and developer support built in.
+                </div>
+                <div class="purchase-price">
+                  <span class="currency">$</span>500
+                </div>
+                <div class="purchase-period">USD/user/month</div>
+                <div class="purchase-buttons">
+                  <button class="purchase-primary">Contact Sales</button>
+                  <button class="purchase-secondary">Compare Editions</button>
+                </div>
+                <div class="purchase-features">
+                  <div class="feature-item">
+                    <div class="feature-bullet"></div>
+                    <span>Everything in Unlimited plus Einstein Copilot Powered by Generative AI</span>
+                  </div>
+                  <div class="feature-item">
+                    <div class="feature-bullet"></div>
+                    <span>Performance Management, Sales Programs, and Team Collaboration with Slack</span>
+                  </div>
+                  <div class="feature-item">
+                    <div class="feature-bullet"></div>
+                    <span>Connect and Unify All Data with Data Cloud and Revenue Intelligence</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Sidebar -->
+        <div class="sidebar-content">
+          <!-- Monitor Feature Usage -->
+          <div class="monitor-card">
+            <div class="monitor-title">
+              <span>Monitor Feature User</span>
+              <div class="info-icon">ℹ</div>
+            </div>
+
+            <div class="psl-set">
+              <div class="psl-set-title">PSL Set Name</div>
+              <div class="progress-bar-group">
+                <div class="progress-item">
+                  <div class="progress-labels">
+                    <span>Assigned 300</span>
+                    <span>600 total</span>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-fill progress-assigned"></div>
+                    <div class="progress-fill progress-track"></div>
+                  </div>
+                </div>
+                <div class="progress-item">
+                  <div class="progress-labels">
+                    <span>Active 300</span>
+                    <span>600 total</span>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-fill progress-active"></div>
+                    <div class="progress-fill progress-track"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="psl-set">
+              <div class="psl-set-title">PSL Set Name</div>
+              <div class="progress-bar-group">
+                <div class="progress-item">
+                  <div class="progress-labels">
+                    <span>Assigned 300</span>
+                    <span>600 total</span>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-fill progress-assigned"></div>
+                    <div class="progress-fill progress-track"></div>
+                  </div>
+                </div>
+                <div class="progress-item">
+                  <div class="progress-labels">
+                    <span>Active 300</span>
+                    <span>600 total</span>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-fill progress-active"></div>
+                    <div class="progress-fill progress-track"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="monitor-actions">
+              <button class="show-all-button">
+                Show All 🔄
+              </button>
+            </div>
+          </div>
+
+          <!-- Get to Know Your Feature -->
+          <div class="resource-title">Get to Know Your {{ title }}</div>
+
+          <!-- Video Resource Card -->
+          <div class="resource-card">
+            {% if assets.screenshotUrl or assets.screenshotDataUrl %}
+            <div class="resource-screenshot" style="background-image: url('{{ assets.screenshotDataUrl or assets.screenshotUrl }}');"></div>
+            {% else %}
+            <div class="resource-screenshot"></div>
+            {% endif %}
+            <div class="resource-video-title">
+              See How It Works
+              <div class="play-icon">▶</div>
+            </div>
+          </div>
+
+          <!-- Feature Sets Card -->
+          <div class="resource-card">
+            <div class="resource-title">Feature Sets</div>
+            <div class="feature-sets-badges">
+              <span class="feature-badge">Automate & Guide Selling</span>
+              <span class="feature-badge">Boost Seller Productivity with AI</span>
+            </div>
+          </div>
+
+          <!-- Latest Updates Card -->
+          <div class="resource-card">
+            <div class="resource-title">See the Latest Updates</div>
+            <a href="#" class="resource-link">New in Einstein Conversation Insights</a>
+          </div>
+
+          <!-- Trailhead Card -->
+          <div class="resource-card">
+            <div class="resource-title">Learn on Trailhead</div>
+            <a href="#" class="resource-link">Meet Einstein Conversation Insights for Sales <span class="trailhead-icon">🎯</span></a>
+            <a href="#" class="resource-link">Find Out How Einstein Einstein Conversation Insights Works</a>
+            <a href="#" class="resource-link">User Management</a>
+          </div>
+
+          <!-- Salesforce Help Card -->
+          <div class="resource-card">
+            <div class="resource-title">Explore Salesforce Help</div>
+            {% if assets.resources.helpTopicUrl %}
+            <a href="{{ assets.resources.helpTopicUrl }}" class="resource-link">{{ labels.resources.helpLabel | default('Set Up Einstein Conversation Insights for Sales') }}</a>
+            {% else %}
+            <a href="#" class="resource-link">Set Up Einstein Conversation Insights for Sales</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

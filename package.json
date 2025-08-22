@@ -1,0 +1,45 @@
+{
+  "name": "go-runtime-builder",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "go-runtime-builder": "./scripts/cli.js"
+  },
+  "scripts": {
+    "build": "node scripts/generate.js",
+    "questionnaire": "node scripts/questionnaire.js",
+    "generate": "node scripts/enhanced-generator.js",
+    "validate": "node scripts/validator.js",
+    "cli": "node scripts/cli.js",
+    "dev": "node scripts/cli.js create",
+    "preview": "node scripts/cli.js preview",
+    "clean": "node scripts/cli.js clean",
+    "info": "node scripts/cli.js info",
+    "start": "node server.js",
+    "web": "npm start"
+  },
+  "dependencies": {
+    "fs-extra": "^11.2.0",
+    "gray-matter": "^4.0.3",
+    "nunjucks": "^3.2.4",
+    "ajv": "^8.12.0",
+    "ajv-formats": "^2.1.1",
+    "commander": "^11.1.0",
+    "chalk": "^5.3.0",
+    "express": "^4.18.2",
+    "ejs": "^3.1.9"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "keywords": [
+    "salesforce",
+    "configuration",
+    "runtime-builder",
+    "static-pages",
+    "questionnaire"
+  ],
+  "description": "Generate Salesforce configuration screens from guided questionnaires"
+}
+

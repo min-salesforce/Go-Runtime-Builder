@@ -1,0 +1,382 @@
+# Salesforce Go Runtime Builder
+
+A comprehensive web application that generates Salesforce configuration screens through guided questionnaires, following the [Salesforce Go Design Flow Guide](https://www.figma.com/design/KPHLTBFCme5GVw69iwBxaN/How-to-GO---Guidelines) and implementing SLDS2 design patterns.
+
+## 🌐 Web Application
+
+This is a **web application** that can be deployed to Heroku or any Node.js hosting platform. It features:
+
+- **Interactive Web Questionnaire** - Browser-based guided questions  
+- **Real-time Page Generation** - Generate configuration screens instantly
+- **Heroku Ready** - One-click deployment to Heroku
+
+## 🎯 Overview
+
+This tool creates a series of static web pages that present users with configuration questions to determine what screens should show in what order. User decisions influence both the page sequence and the components displayed on each page.
+
+### Page Sequence
+
+Following the Figma design pattern:
+1. **Home Page** - Entry point with configuration overview
+2. **Feature Set Page** - For grouping multiple related features  
+3. **Feature Pages** - Individual feature configuration
+4. **Solution/Agent Pages** - Specialized setup types
+
+## 🚀 Quick Start
+
+### Web Application
+
+```bash
+# Install dependencies
+npm install
+
+# Start the web server
+npm start
+# Server runs at http://localhost:3000
+
+# For development with auto-reload
+npm run dev
+```
+
+### CLI Tool (Alternative)
+
+```bash
+# Initialize with example content
+npm run cli init
+
+# Start interactive CLI questionnaire
+npm run cli create
+```
+
+### Heroku Deployment
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
+**One-Click Deploy:**
+1. Click the "Deploy to Heroku" button above
+2. Choose an app name
+3. Click "Deploy app"
+4. Start creating your configuration screens
+
+**Manual Deploy:**
+```bash
+# Create Heroku app
+heroku create your-app-name
+
+# Deploy
+git push heroku main
+
+# Open your app
+heroku open
+```
+
+### CLI Commands
+
+```bash
+# Interactive questionnaire and page generation
+npm run cli create
+
+# Generate from existing session file
+npm run cli generate path/to/session.json
+
+# Validate session data
+npm run cli validate path/to/session.json
+
+# Preview generated pages
+npm run cli preview
+
+# Show information about setup types
+npm run cli info
+
+# Clean output directory
+npm run cli clean
+```
+
+## 📋 Setup Types
+
+Based on the decision tree in `decision tree.md`, the app supports four setup types:
+
+### 1. Feature Set and Features
+**When to use:** Multiple features grouped by a Job to be Done (JTBD)
+- Requires ≥2 features
+- Must have a clear JTBD
+- Examples: Authentication (Login, Registration, Password Reset)
+
+### 2. Feature  
+**When to use:** Single feature or capability
+- Can belong to existing Feature Set
+- Customer-facing or sold capability
+- Examples: File Upload, Email Notifications
+
+### 3. Solution / Initial Setup
+**When to use:** Foundational automated setup
+- Handled by automation
+- Required for cloud functionality
+- No specific JTBD
+- Examples: E-commerce Platform, CMS Setup
+
+### 4. Agent Setup
+**When to use:** Agentforce configuration needed
+- AI agent creation/setup
+- Agent training/deployment
+- Performance monitoring
+- Examples: Chatbot Configuration, Automated Deployment
+
+## 🎨 Design System
+
+### SLDS2 Integration
+- Uses SLDS2 styling hooks and tokens from `SLDS2 reference.md`
+- Responsive design following Salesforce guidelines
+- WCAG 2.1 AA accessibility compliance
+
+### Page Components (from `page_anatomy.md`)
+1. **Headers** - Agentforce/Feature page headers with progress badges
+2. **Turn On Sections** - Expandable cards with activation controls
+3. **Template Cards** - Agent templates with step components
+4. **Resource Sections** - Help links, Trailhead badges, documentation
+5. **Dividers** - Neutral 90 horizontal separators
+
+## 📁 Project Structure
+
+```
+Go Runtime Builder/
+├── schemas/                    # JSON schemas for validation
+│   ├── questionnaire.schema.json
+│   ├── setup-definition.schema.json
+│   ├── page-model.schema.json
+│   └── content.schema.json
+├── scripts/                    # Core application logic
+│   ├── cli.js                 # Main CLI interface
+│   ├── questionnaire.js       # Interactive questionnaire engine
+│   ├── validator.js           # Schema and canonical validation
+│   ├── enhanced-generator.js   # Page generation engine
+│   └── generate.js            # Original generator (legacy)
+├── templates/                  # Nunjucks templates
+│   ├── home.njk               # Home/overview page
+│   ├── feature-set.njk        # Feature set pages
+│   ├── feature.njk            # Individual feature pages
+│   ├── solution.njk           # Solution setup pages
+│   └── agent.njk              # Agentforce configuration
+├── styles/
+│   └── slds2-temp.css         # SLDS2 styling tokens
+├── content/                    # Content and labels
+│   └── feature/example-feature/content.md
+├── output/                     # Generated questionnaire sessions
+└── dist/                      # Generated static pages
+    ├── css/
+    ├── feature-set/
+    ├── feature/
+    ├── solution/
+    └── agent/
+```
+
+## 🔄 Questionnaire Flow
+
+The interactive questionnaire follows the decision tree logic:
+
+1. **Basic Information** - Name, description, cloud type
+2. **Experience Type Selection** - Determines setup category
+3. **Setup Type Resolution** - Maps to specific template type
+4. **Component Configuration** - Collects features, templates, etc.
+5. **Asset Collection** - Screenshots, videos, resources
+6. **Validation** - Schema and canonical rule checking
+7. **Page Generation** - Static HTML with proper linking
+
+## ✅ Validation Rules
+
+### Schema Validation
+- JSON Schema validation for all data structures
+- Type checking and required field validation
+
+### Canonical Rules (from `canonical.md`)
+- Screenshot required in header
+- Help topic URL mandatory
+- Maximum 3 Trailhead badges
+- Feature Sets require ≥2 features and JTBD
+- Fixed activation labels (non-editable)
+- Benefits section 2-4 items maximum
+
+### URL Whitelisting
+- salesforce.com domains
+- help.salesforce.com
+- trailhead.salesforce.com
+- play.vidyard.com (videos)
+
+## 🌐 Page Generation
+
+### Home Page Flow
+1. Hero section with setup overview
+2. Configuration status and progress
+3. Quick access to main setup pages
+4. Component/feature grid (for feature sets)
+5. Quick actions and resource links
+
+### Feature Set → Feature Flow
+- Home → Feature Set Page → Individual Feature Pages
+- Breadcrumb navigation between levels
+- Cross-linking between related features
+- Progress tracking across the feature set
+
+### Navigation Structure
+```
+Home (index.html)
+├── Feature Set (feature-set/{slug}.html)
+│   ├── Feature A (feature/{slug-a}.html)
+│   ├── Feature B (feature/{slug-b}.html)
+│   └── Feature C (feature/{slug-c}.html)
+├── Solution Setup (solution/{slug}.html)
+└── Agent Configuration (agent/{slug}.html)
+```
+
+## 🎯 Content Management
+
+### Content Structure
+Content labels are loaded from `content/{type}/{slug}/content.md` files with YAML frontmatter:
+
+```yaml
+---
+labels:
+  header:
+    featureTitle: "My Feature"
+    progressBadge: "Ready to Configure"
+  activation:
+    title: "Turn On My Feature"
+    previewDefaultsLabel: "Preview Default Settings"
+    seeConsiderationsLabel: "See Considerations" 
+    setupHelpLabel: "Setup Help"
+  resources:
+    helpLabel: "Explore Salesforce Help"
+---
+
+# Feature Description
+Markdown content for the feature description.
+```
+
+### Canonical Constraints
+- Some labels are framework-fixed and cannot be edited
+- Benefits section has strict formatting rules
+- Resource requirements follow specific patterns
+- Agentforce pages may have non-standard link placement
+
+## 🔧 Development
+
+### Adding New Setup Types
+1. Update `questionnaire.js` decision logic
+2. Create new template in `templates/`
+3. Add validation rules in `validator.js`
+4. Update `enhanced-generator.js` rendering logic
+5. Add schema definitions in `schemas/`
+
+### Customizing Templates
+- Templates use Nunjucks templating engine
+- SLDS2 tokens available as CSS variables
+- Component patterns follow `page_anatomy.md`
+- Navigation automatically generated based on setup type
+
+### Testing Generated Pages
+```bash
+# Generate and preview
+npm run cli create
+# or
+npm run cli preview
+
+# Validate session file
+npm run cli validate output/session-file.json
+
+# Clean and regenerate
+npm run cli clean
+npm run cli generate output/session-file.json
+```
+
+## 📚 Documentation References
+
+- `decision tree.md` - Setup type selection logic
+- `configuration_plan.md` - Setup types and structure
+- `page_anatomy.md` - Component specifications
+- `SLDS2 reference.md` - Styling tokens and hooks
+- `canonical.md` - Content rules and constraints
+- `architecture.md` - System architecture overview
+
+## 🔮 Future Enhancements
+
+- **Figma MCP Integration** - Import screenshots and specifications
+- **Real-time Preview** - Live preview during questionnaire
+- **Multi-user Collaboration** - Shared configuration development
+- **Version Control** - Track configuration changes
+- **Template Customization** - User-modifiable page templates
+- **Integration Plugins** - Connect with external systems
+
+## 🤝 Contributing
+
+1. Follow existing code patterns and architecture
+2. Validate changes against canonical rules
+3. Test with all setup types
+4. Update documentation for any API changes
+5. Ensure accessibility compliance (WCAG 2.1 AA)
+
+---
+
+## 🌐 Web Interface Features
+
+### Interactive Questionnaire
+- **Multi-step Form** - Guided 5-step process with progress tracking
+- **Dynamic Configuration** - Form adapts based on your selections  
+- **Real-time Validation** - Instant feedback on required fields and formats
+- **Auto-save Progress** - Questionnaire state saved in browser storage
+
+### Page Generation  
+- **Instant Generation** - Generate pages directly in the browser
+- **Live Preview** - View generated pages immediately 
+- **Multiple Formats** - Home, Feature Set, Feature, Solution, and Agent pages
+- **Download Configuration** - Export your session data as JSON
+
+
+
+## 🚀 Getting Started Example
+
+### Web Application
+```bash
+# 1. Start the server
+npm start
+
+# 2. Open browser to http://localhost:3000
+# 3. Click "Start Configuration"
+# 4. Follow the guided questionnaire:
+#    - Enter basic info (name, description, cloud)
+#    - Select experience type
+#    - Configure details based on your selection
+#    - Add required assets (screenshot, help URL)
+#    - Review and generate pages
+
+# 5. View your generated configuration screens
+# Navigate: Home → Feature Set → Individual Features
+```
+
+### CLI Alternative  
+```bash
+# 1. Initialize project
+npm run cli init
+
+# 2. Run interactive questionnaire  
+npm run cli create
+
+# 3. Generated files available in dist/
+ls dist/
+# index.html (home)
+# feature-set/my-feature-set.html
+# feature/feature-a.html
+# feature/feature-b.html
+```
+
+The app provides a complete solution for generating Salesforce configuration screens that follow design guidelines, implement proper page flows, and maintain consistency across different setup types.
+
+## 🔄 API Endpoints
+
+The web application exposes several API endpoints:
+
+- `GET /` - Main web interface
+- `GET /questionnaire` - Interactive questionnaire form
+- `POST /api/generate` - Generate pages from questionnaire data
+- `POST /api/validate` - Validate session data
+- `GET /api/setup-types` - Get available setup types
+- `GET /health` - Health check endpoint

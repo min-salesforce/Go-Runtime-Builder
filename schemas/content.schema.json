@@ -1,0 +1,129 @@
+{
+  "$id": "https://example.com/schemas/content.schema.json",
+  "title": "ContentMarkdownFrontMatter",
+  "type": "object",
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "jtbd": { "type": "string" },
+        "cloud": { "type": "string" }
+      },
+      "required": ["title"],
+      "additionalProperties": false
+    },
+    "labels": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "object",
+          "properties": {
+            "featureTitle": { "type": "string" },
+            "progressBadge": { "type": "string" }
+          },
+          "additionalProperties": false
+        },
+        "activation": {
+          "type": "object",
+          "properties": {
+            "title": { "type": "string" },
+            "previewDefaultsLabel": { "type": "string" },
+            "seeConsiderationsLabel": { "type": "string" },
+            "setupHelpLabel": { "type": "string" },
+            "button": {
+              "type": "object",
+              "properties": {
+                "notStarted": { "type": "string" },
+                "loading": { "type": "string" },
+                "on": { "type": "string" }
+              },
+              "additionalProperties": false
+            },
+            "toggle": {
+              "type": "object",
+              "properties": {
+                "offLabel": { "type": "string" },
+                "onLabel": { "type": "string" },
+                "disabledOnLabel": { "type": "string" },
+                "confirmTitle": { "type": "string" },
+                "confirmBody": { "type": "string" }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "templates": {
+          "type": "object",
+          "properties": {
+            "sectionTitle": { "type": "string" },
+            "cards": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "title": { "type": "string" },
+                  "steps": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "title": { "type": "string" },
+                        "infoBubble": { "type": "string" },
+                        "badge": { "type": "string" },
+                        "description": { "type": "string" }
+                      },
+                      "required": ["title"],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": ["title"],
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "benefits": {
+          "type": "object",
+          "properties": {
+            "title": { "type": "string" },
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "title": { "type": "string" },
+                  "description": { "type": "string", "maxLength": 160 },
+                  "imageUrl": { "type": "string" },
+                  "linkUrl": { "type": "string" }
+                },
+                "required": ["title", "description"],
+                "additionalProperties": false
+              },
+              "minItems": 2,
+              "maxItems": 4
+            }
+          },
+          "additionalProperties": false
+        },
+        "resources": {
+          "type": "object",
+          "properties": {
+            "helpLabel": { "type": "string" },
+            "releaseNotesLabel": { "type": "string" },
+            "trailheadLabels": { "type": "array", "items": { "type": "string" }, "maxItems": 3 }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": ["metadata", "labels"],
+  "additionalProperties": false
+}
+

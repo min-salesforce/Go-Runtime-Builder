@@ -1,0 +1,165 @@
+{
+  "$id": "https://example.com/schemas/page-model.schema.json",
+  "title": "PageModel",
+  "type": "object",
+  "properties": {
+    "pages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "type": { "type": "string", "enum": ["feature-set", "feature", "solution", "agent"] },
+          "title": { "type": "string" },
+          "route": { "type": "string" },
+          "components": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "oneOf": [
+                { "$ref": "#/definitions/Header" },
+                { "$ref": "#/definitions/TurnOnCard" },
+                { "$ref": "#/definitions/Divider" },
+                { "$ref": "#/definitions/SectionHeader" },
+                { "$ref": "#/definitions/TemplateCard" },
+                { "$ref": "#/definitions/ResourceSection" },
+                { "$ref": "#/definitions/BenefitsSection" }
+              ]
+            }
+          }
+        },
+        "required": ["type", "title", "route", "components"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["pages"],
+  "additionalProperties": false,
+  "definitions": {
+    "Header": {
+      "type": "object",
+      "properties": {
+        "component": { "const": "header" },
+        "agentforce": { "type": "boolean" },
+        "featureTitle": { "type": "string" },
+        "progress": {
+          "type": "object",
+          "properties": {
+            "on": { "type": "number" },
+            "total": { "type": "number" }
+          },
+          "required": ["on", "total"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["component", "featureTitle"],
+      "additionalProperties": false
+    },
+    "TurnOnCard": {
+      "type": "object",
+      "properties": {
+        "component": { "const": "turn-on" },
+        "state": { "type": "string", "enum": ["not-on", "loading", "on"] },
+        "title": { "type": "string" },
+        "links": {
+          "type": "array",
+          "items": { "type": "object", "properties": { "label": { "type": "string" }, "url": { "type": "string", "format": "uri" } }, "required": ["label", "url"], "additionalProperties": false },
+          "maxItems": 3
+        },
+        "action": {
+          "type": "object",
+          "properties": {
+            "kind": { "type": "string", "enum": ["button", "toggle"] },
+            "state": { "type": "string", "enum": ["not-started", "loading", "on", "on-disabled"] }
+          },
+          "required": ["kind", "state"],
+          "additionalProperties": false
+        },
+        "expandable": { "type": "boolean" }
+      },
+      "required": ["component", "state", "title", "action"],
+      "additionalProperties": false
+    },
+    "Divider": {
+      "type": "object",
+      "properties": { "component": { "const": "divider" }, "tone": { "const": "neutral-90" } },
+      "required": ["component"],
+      "additionalProperties": false
+    },
+    "SectionHeader": {
+      "type": "object",
+      "properties": { "component": { "const": "section-header" }, "title": { "type": "string" } },
+      "required": ["component", "title"],
+      "additionalProperties": false
+    },
+    "TemplateCard": {
+      "type": "object",
+      "properties": {
+        "component": { "const": "template-card" },
+        "title": { "type": "string" },
+        "expandedByDefault": { "type": "boolean" },
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": { "type": "string" },
+              "validation": { "type": "string", "enum": ["system", "manual", "none"] },
+              "indicator": { "type": "string", "enum": ["not-started", "completed", "error", "warning"] },
+              "metadataInsights": { "type": "string", "enum": ["yellow-minimum-not-met", "green-minimum-met", "grey-unknown"] },
+              "description": { "type": "string" },
+              "assets": { "type": "array", "items": { "type": "string", "format": "uri" } },
+              "systemValidateInfo": { "type": "string" }
+            },
+            "required": ["title"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["component", "title"],
+      "additionalProperties": false
+    },
+    "ResourceSection": {
+      "type": "object",
+      "properties": {
+        "component": { "const": "resource-section" },
+        "helpTopicUrl": { "type": "string", "format": "uri" },
+        "releaseNotesUrl": { "type": "string", "format": "uri" },
+        "trailhead": {
+          "type": "array",
+          "items": { "type": "object", "properties": { "title": { "type": "string" }, "url": { "type": "string", "format": "uri" } }, "required": ["title", "url"], "additionalProperties": false },
+          "maxItems": 3
+        },
+        "blogUrl": { "type": "string", "format": "uri" }
+      },
+      "required": ["component", "helpTopicUrl"],
+      "additionalProperties": false
+    },
+    "BenefitsSection": {
+      "type": "object",
+      "properties": {
+        "component": { "const": "benefits" },
+        "title": { "type": "string" },
+        "items": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": { "type": "string", "maxLength": 80 },
+              "description": { "type": "string", "maxLength": 160 },
+              "imageUrl": { "type": "string", "format": "uri" },
+              "linkUrl": { "type": "string", "format": "uri" }
+            },
+            "required": ["title", "description"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["component", "items"],
+      "additionalProperties": false
+    }
+  }
+}
+

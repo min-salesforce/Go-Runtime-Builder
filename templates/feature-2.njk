@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ metadata.name | default("Feature Name") }} - Salesforce Setup</title>
+    <link rel="stylesheet" href="../css/slds2-temp.css">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Salesforce Sans", Arial, sans-serif;
+            background-color: #f3f2f2;
+            color: #080707;
+        }
+
+        /* Salesforce Header */
+        .sf-header {
+            background: #fff;
+            border-bottom: 1px solid #dddbda;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .sf-header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .sf-logo {
+            color: #1589ee;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .sf-nav {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .sf-nav-item {
+            padding: 8px 12px;
+            color: #080707;
+            text-decoration: none;
+            font-size: 13px;
+            border-radius: 4px;
+        }
+
+        .sf-nav-item.active {
+            background: #f3f2f2;
+            font-weight: 600;
+        }
+
+        .sf-header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sf-search {
+            display: flex;
+            align-items: center;
+            background: #f3f2f2;
+            border-radius: 4px;
+            padding: 6px 12px;
+            min-width: 300px;
+        }
+
+        .sf-search input {
+            background: none;
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 13px;
+        }
+
+        /* Main Layout */
+        .page-layout {
+            display: flex;
+            margin-top: 48px;
+            min-height: calc(100vh - 48px);
+        }
+
+        /* Left Sidebar */
+        .setup-sidebar {
+            width: 240px;
+            background: #fff;
+            border-right: 1px solid #dddbda;
+            padding: 16px 0;
+        }
+
+        .setup-nav {
+            list-style: none;
+        }
+
+        .setup-nav-item {
+            display: block;
+            padding: 8px 16px;
+            color: #080707;
+            text-decoration: none;
+            font-size: 13px;
+            border-left: 3px solid transparent;
+        }
+
+        .setup-nav-item.active {
+            background: #f3f2f2;
+            border-left-color: #1589ee;
+            font-weight: 600;
+        }
+
+        .setup-nav-section {
+            margin: 16px 0;
+        }
+
+        .setup-nav-section-title {
+            padding: 8px 16px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #706e6b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            gap: 24px;
+            padding: 24px;
+            background: #f7f6f6;
+        }
+
+        .content-primary {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .content-secondary {
+            width: 300px;
+        }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            font-size: 12px;
+        }
+
+        .breadcrumbs a {
+            color: #1589ee;
+            text-decoration: none;
+        }
+
+        .breadcrumbs span {
+            color: #706e6b;
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-bottom: 24px;
+        }
+
+        .feature-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #1589ee;
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #080707;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            color: #706e6b;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .progress-status {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+        }
+
+        .progress-text {
+            color: #706e6b;
+        }
+
+        .refresh-btn {
+            color: #1589ee;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .suggested-badge {
+            background: #9f2a9f;
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+            margin-left: auto;
+        }
+
+        /* Collapsible Sections */
+        .config-section {
+            background: #fff;
+            border-radius: 4px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            cursor: pointer;
+            border-bottom: 1px solid #f3f2f2;
+        }
+
+        .section-toggle {
+            margin-right: 12px;
+            font-size: 16px;
+            color: #706e6b;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #080707;
+        }
+
+        .turn-on-badge {
+            margin-left: auto;
+            background: #1589ee;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .section-content {
+            padding: 20px;
+        }
+
+        .section-description {
+            color: #706e6b;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+
+        .section-links {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            font-size: 12px;
+        }
+
+        .section-links a {
+            color: #1589ee;
+            text-decoration: none;
+        }
+
+        /* Step Items */
+        .step-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f3f2f2;
+        }
+
+        .step-item:last-child {
+            border-bottom: none;
+        }
+
+        .step-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #dddbda;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: #706e6b;
+        }
+
+        .step-title {
+            flex: 1;
+            font-size: 13px;
+            color: #080707;
+        }
+
+        .step-action {
+            color: #1589ee;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            background: #1589ee;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            transition: transform 0.2s;
+        }
+
+        /* Right Sidebar */
+        .sidebar-card {
+            background: #fff;
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #080707;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #706e6b;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+
+        /* Progress Bars */
+        .progress-item {
+            margin-bottom: 16px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+
+        .progress-label {
+            font-size: 12px;
+            color: #080707;
+        }
+
+        .progress-value {
+            font-size: 12px;
+            color: #706e6b;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: #f3f2f2;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 3px;
+        }
+
+        .progress-assigned { background: #9f2a9f; }
+        .progress-active { background: #4bca81; }
+
+        .show-all-btn {
+            color: #1589ee;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 500;
+            display: block;
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        /* Feature Preview */
+        .feature-preview {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .preview-image {
+            width: 100%;
+            height: 120px;
+            background: #f3f2f2;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #706e6b;
+            font-size: 12px;
+        }
+
+        .see-how-works {
+            color: #1589ee;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Feature Sets */
+        .feature-sets {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .feature-set-tag {
+            background: #f3f2f2;
+            color: #080707;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            text-decoration: none;
+        }
+
+        /* Learning Resources */
+        .learning-item {
+            margin-bottom: 12px;
+        }
+
+        .learning-item a {
+            color: #1589ee;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        .learning-section {
+            margin-bottom: 20px;
+        }
+
+        .learning-section h4 {
+            font-size: 12px;
+            font-weight: 600;
+            color: #080707;
+            margin-bottom: 8px;
+        }
+
+        /* Edit Mode Styles */
+        .edit-toggle-btn {
+            background: #f99120;
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 12px;
+            transition: background 0.2s;
+        }
+
+        .edit-toggle-btn:hover {
+            background: #e6820e;
+        }
+
+        .edit-toggle-btn.editing {
+            background: #4bca81;
+        }
+
+        .edit-toggle-btn.editing:hover {
+            background: #3eb370;
+        }
+
+        /* Editable Field Styles */
+        .editable {
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .editable.editing {
+            background: #fffacd;
+            border: 2px dashed #f99120;
+            border-radius: 4px;
+            padding: 4px;
+            cursor: text;
+        }
+
+        .editable.editing:hover {
+            border-color: #e6820e;
+        }
+
+        .editable.editing::before {
+            content: '✏️';
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #f99120;
+            color: white;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            z-index: 10;
+        }
+
+        .editable input,
+        .editable textarea {
+            width: 100%;
+            border: none;
+            background: transparent;
+            font-family: inherit;
+            font-size: inherit;
+            font-weight: inherit;
+            color: inherit;
+            padding: 0;
+            margin: 0;
+            outline: none;
+            resize: none;
+        }
+
+        .editable textarea {
+            min-height: 40px;
+        }
+
+        .edit-mode-indicator {
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            background: #f99120;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            z-index: 1001;
+            display: none;
+        }
+
+        .edit-mode-indicator.show {
+            display: block;
+        }
+
+        .save-indicator {
+            position: fixed;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #4bca81;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            z-index: 1001;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .save-indicator.show {
+            display: block;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Salesforce Header -->
+    <div class="sf-header">
+        <div class="sf-header-left">
+            <div class="sf-logo">☁</div>
+            <nav class="sf-nav">
+                <a href="#" class="sf-nav-item active">Setup</a>
+                <a href="#" class="sf-nav-item">Home ▾</a>
+            </nav>
+        </div>
+        <div class="sf-header-right">
+            <div class="sf-search">
+                <span>🔍</span>
+                <input type="text" placeholder="Search Salesforce">
+            </div>
+            <div style="display: flex; gap: 8px; align-items: center;">
+                <span>📱</span>
+                <span>📊</span>
+                <span>⚙️</span>
+                <span>🔔</span>
+                <span>👤</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-layout">
+        <!-- Left Sidebar -->
+        <nav class="setup-sidebar">
+            <ul class="setup-nav">
+                <li><a href="#" class="setup-nav-item">Setup Home</a></li>
+                <li><a href="#" class="setup-nav-item active">Salesforce Go</a></li>
+                
+                <div class="setup-nav-section">
+                    <div class="setup-nav-section-title">Administration</div>
+                    <li><a href="#" class="setup-nav-item">Users</a></li>
+                    <li><a href="#" class="setup-nav-item">Data</a></li>
+                    <li><a href="#" class="setup-nav-item">Email</a></li>
+                </div>
+                
+                <div class="setup-nav-section">
+                    <div class="setup-nav-section-title">Platform Tools</div>
+                    <li><a href="#" class="setup-nav-item">Apps</a></li>
+                    <li><a href="#" class="setup-nav-item">Feature Settings</a></li>
+                    <li><a href="#" class="setup-nav-item">Slack</a></li>
+                    <li><a href="#" class="setup-nav-item">Heroku</a></li>
+                    <li><a href="#" class="setup-nav-item">MuleSoft</a></li>
+                    <li><a href="#" class="setup-nav-item">Einstein</a></li>
+                </div>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="content-primary">
+                <!-- Breadcrumbs -->
+                <div class="breadcrumbs">
+                    <a href="#">Salesforce Go</a>
+                    <span>›</span>
+                    <a href="#">Deflect more cases with self-service</a>
+                    <span>›</span>
+                    <span>{{ metadata.name | default("Feature Name") }}</span>
+                </div>
+
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div class="feature-badge">
+                        <span>☁</span>
+                        Foundations
+                    </div>
+                    <h1 class="page-title editable" data-field="title">{{ metadata.name | default("Feature Name") }}</h1>
+                    <p class="page-subtitle editable" data-field="description">{{ metadata.description | default("Build trust by solving issues with self-service features like Agentforce Service Agent and more.") }}</p>
+                    
+                    <div class="progress-status">
+                        <span class="progress-text">3 of 5 Steps Completed</span>
+                        <a href="#" class="refresh-btn">🔄 Refresh</a>
+                        <div class="suggested-badge">💡 Suggested for You</div>
+                        <button id="edit-toggle" class="edit-toggle-btn">✏️ Edit Mode</button>
+                    </div>
+                </div>
+
+                <!-- Turn On Section -->
+                <div class="config-section">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <span class="section-toggle">▼</span>
+                        <h2 class="section-title editable" data-field="section-turn-on-title">Turn On {{ metadata.name | default("Feature Name") }}</h2>
+                        <div class="turn-on-badge">Turn On</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-links">
+                            <a href="#">📋 Preview Default Settings</a>
+                            <a href="#">🔍 See Considerations</a>
+                            <a href="#">❓ Setup Help</a>
+                        </div>
+                        <p class="section-description editable" data-field="section-turn-on-description">Description as needed to help user understand the list of steps below.</p>
+                        
+                        <div class="step-item">
+                            <div class="step-icon">○</div>
+                            <div class="step-title editable" data-field="step-1-title">Step Title</div>
+                            <a href="#" class="step-action">Review ↗</a>
+                        </div>
+                        
+                        <div class="step-item">
+                            <div class="step-icon">○</div>
+                            <div class="step-title editable" data-field="step-2-title">Step Title</div>
+                        </div>
+                        
+                        <div class="step-item">
+                            <div class="step-icon">○</div>
+                            <div class="step-title editable" data-field="step-3-title">Step Title</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Set Up the Basics -->
+                <div class="config-section">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <span class="section-toggle">▼</span>
+                        <h2 class="section-title editable" data-field="section-basics-title">Set Up the Basics</h2>
+                    </div>
+                    <div class="section-content">
+                        <p class="section-description">Complete the required steps to get a basic version of this feature.</p>
+                        
+                        <div class="step-item">
+                            <div class="step-icon">○</div>
+                            <div class="step-title">Manage User Access<br><small>2 out of 10 assigned</small></div>
+                            <a href="#" class="step-action">Manage</a>
+                        </div>
+                        
+                        <div class="step-item">
+                            <div class="step-icon">○</div>
+                            <div class="step-title">Add Components, Fields, and Actions to Lightning Record Pages<br><small>Component names not found in Accounts</small></div>
+                            <a href="#" class="step-action">Manage</a>
+                        </div>
+                        
+                        <div class="step-item">
+                            <div class="step-icon">○</div>
+                            <div class="step-title">Create Forecast Types<br><small>0 active types</small></div>
+                            <a href="#" class="step-action">Create</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review Email-to-Case Settings -->
+                <div class="config-section">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <span class="section-toggle">▼</span>
+                        <h2 class="section-title">Review Email-to-Case Settings</h2>
+                    </div>
+                    <div class="section-content">
+                        <div class="step-item">
+                            <div class="step-icon">☐</div>
+                            <div class="step-title">Review Email-to-Case Settings</div>
+                            <a href="#" class="step-action">Go to Setup ↗</a>
+                        </div>
+                        
+                        <div class="step-item">
+                            <div class="step-icon">○</div>
+                            <div class="step-title">Define Over Email Rate Limit Action <span style="color: #706e6b;">Optional</span></div>
+                            <a href="#" class="step-action">Go to Setup ↗</a>
+                        </div>
+                        
+                        <div class="step-item">
+                            <div class="step-icon">○</div>
+                            <div class="step-title">Define Unauthorized Sender Action <span style="color: #706e6b;">Optional</span></div>
+                            <a href="#" class="step-action">Go to Setup ↗</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Unlock Advanced Functionality -->
+                <div class="config-section">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <span class="section-toggle">▼</span>
+                        <h2 class="section-title">Unlock Advanced Functionality</h2>
+                    </div>
+                    <div class="section-content">
+                        <p class="section-description">Customize or improve your implementation with the following optional steps.</p>
+                        
+                        <div class="step-item">
+                            <div class="step-icon">○</div>
+                            <div class="step-title">Default Activity Sharing for New Users</div>
+                            <a href="#" class="step-action">Manage</a>
+                        </div>
+                        
+                        <div class="step-item">
+                            <div class="step-icon">○</div>
+                            <div class="step-title">Enforce Default Activity Sharing for New Users</div>
+                            <div class="toggle-switch"></div>
+                        </div>
+                        
+                        <div class="step-item">
+                            <div class="step-icon">○</div>
+                            <div class="step-title">Customize Your Agent with Topics and Actions</div>
+                            <a href="#" class="step-action">Go to Setup ↗</a>
+                        </div>
+                        
+                        <div class="step-item">
+                            <div class="step-icon">○</div>
+                            <div class="step-title">Select the Insights You Want to Show</div>
+                            <a href="#" class="step-action">Go to Setup ↗</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Purchase Options -->
+                <div class="config-section">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <span class="section-toggle">▶</span>
+                        <h2 class="section-title">Purchase Options</h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Sidebar -->
+            <div class="content-secondary">
+                <!-- Monitor Feature User -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        Monitor Feature User
+                        <div class="info-icon">i</div>
+                    </h3>
+                    
+                    <div class="progress-item">
+                        <div class="progress-header">
+                            <span class="progress-label">PSL Set Name</span>
+                            <span class="progress-value">600 total</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-assigned" style="width: 30%"></div>
+                        </div>
+                        <div style="font-size: 10px; color: #9f2a9f; margin-top: 2px;">Assigned 300</div>
+                    </div>
+                    
+                    <div class="progress-item">
+                        <div class="progress-header">
+                            <span class="progress-label">PSL Set Name</span>
+                            <span class="progress-value">600 total</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-active" style="width: 50%"></div>
+                        </div>
+                        <div style="font-size: 10px; color: #4bca81; margin-top: 2px;">Active 300</div>
+                    </div>
+                    
+                    <div class="progress-item">
+                        <div class="progress-header">
+                            <span class="progress-label">PSL Set Name</span>
+                            <span class="progress-value">600 total</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-assigned" style="width: 30%"></div>
+                        </div>
+                        <div style="font-size: 10px; color: #9f2a9f; margin-top: 2px;">Assigned 300</div>
+                    </div>
+                    
+                    <a href="#" class="show-all-btn">Show All ▼</a>
+                </div>
+
+                <!-- Get to Know Your Feature -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">Get to Know Your {{ metadata.name | default("Feature Name") }}</h3>
+                    
+                    <div class="feature-preview">
+                        {% if assets.screenshotDataUrl %}
+                        <img src="{{ assets.screenshotDataUrl }}" alt="Feature Preview" style="width: 100%; height: 120px; object-fit: cover; border-radius: 4px;">
+                        {% else %}
+                        <div class="preview-image">Feature Preview</div>
+                        {% endif %}
+                        <a href="#" class="see-how-works">See How It Works 📺</a>
+                    </div>
+                    
+                    <div class="feature-sets">
+                        <a href="#" class="feature-set-tag">Automate & Close Setting</a>
+                        <a href="#" class="feature-set-tag">Boost Sales Productivity with AI</a>
+                    </div>
+                </div>
+
+                <!-- See the Latest Updates -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">See the Latest Updates</h3>
+                    <div class="learning-item">
+                        <a href="#">New in Einstein Conversation Insights</a>
+                    </div>
+                </div>
+
+                <!-- Learn on Trailhead -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">Learn on Trailhead</h3>
+                    <div class="learning-section">
+                        <div class="learning-item">
+                            <a href="#">Meet Einstein Conversation Insights for Sales 🏆</a>
+                        </div>
+                        <div class="learning-item">
+                            <a href="#">Find Out How Einstein Einstein Conversation Insights...</a>
+                        </div>
+                        <div class="learning-item">
+                            <a href="#">User Management</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Explore Salesforce Help -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">Explore Salesforce Help</h3>
+                    <div class="learning-item">
+                        <a href="#">Set Up Einstein Conversation Insights for Sales</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Mode Indicators -->
+    <div id="edit-mode-indicator" class="edit-mode-indicator">
+        📝 Edit Mode Active - Click on highlighted content to edit
+    </div>
+    
+    <div id="save-indicator" class="save-indicator">
+        💾 Changes Saved
+    </div>
+
+    <script>
+        let editMode = false;
+        let editData = {};
+
+        // Initialize edit data with current content
+        function initializeEditData() {
+            document.querySelectorAll('.editable').forEach(element => {
+                const field = element.getAttribute('data-field');
+                editData[field] = element.textContent.trim();
+            });
+        }
+
+        // Toggle edit mode
+        function toggleEditMode() {
+            editMode = !editMode;
+            const toggleBtn = document.getElementById('edit-toggle');
+            const indicator = document.getElementById('edit-mode-indicator');
+            
+            if (editMode) {
+                // Enter edit mode
+                toggleBtn.textContent = '💾 Save & Exit';
+                toggleBtn.classList.add('editing');
+                indicator.classList.add('show');
+                
+                // Make elements editable
+                document.querySelectorAll('.editable').forEach(element => {
+                    element.classList.add('editing');
+                    makeElementEditable(element);
+                });
+            } else {
+                // Exit edit mode
+                toggleBtn.textContent = '✏️ Edit Mode';
+                toggleBtn.classList.remove('editing');
+                indicator.classList.remove('show');
+                
+                // Save and make elements read-only
+                document.querySelectorAll('.editable').forEach(element => {
+                    element.classList.remove('editing');
+                    makeElementReadOnly(element);
+                });
+                
+                // Show save confirmation
+                showSaveIndicator();
+                
+                // Save to localStorage
+                saveToLocalStorage();
+            }
+        }
+
+        function makeElementEditable(element) {
+            const field = element.getAttribute('data-field');
+            const currentText = element.textContent.trim();
+            
+            // Create appropriate input element
+            let inputElement;
+            if (element.tagName === 'H1' || element.tagName === 'H2') {
+                inputElement = document.createElement('input');
+                inputElement.type = 'text';
+                inputElement.value = currentText;
+            } else {
+                inputElement = document.createElement('textarea');
+                inputElement.value = currentText;
+                // Auto-resize textarea
+                inputElement.addEventListener('input', autoResize);
+            }
+            
+            // Apply styles and event handlers
+            inputElement.addEventListener('blur', function() {
+                editData[field] = this.value.trim();
+            });
+            
+            inputElement.addEventListener('input', function() {
+                editData[field] = this.value.trim();
+            });
+            
+            // Replace content with input
+            element.innerHTML = '';
+            element.appendChild(inputElement);
+            
+            // Auto-resize for textareas
+            if (inputElement.tagName === 'TEXTAREA') {
+                autoResize.call(inputElement);
+            }
+        }
+
+        function makeElementReadOnly(element) {
+            const field = element.getAttribute('data-field');
+            const savedValue = editData[field] || element.textContent.trim();
+            element.innerHTML = savedValue;
+        }
+
+        function autoResize() {
+            this.style.height = 'auto';
+            this.style.height = this.scrollHeight + 'px';
+        }
+
+        function showSaveIndicator() {
+            const indicator = document.getElementById('save-indicator');
+            indicator.classList.add('show');
+            setTimeout(() => {
+                indicator.classList.remove('show');
+            }, 2000);
+        }
+
+        function saveToLocalStorage() {
+            const pageData = {
+                url: window.location.href,
+                timestamp: new Date().toISOString(),
+                data: editData
+            };
+            localStorage.setItem('pageEdit_' + window.location.pathname, JSON.stringify(pageData));
+            console.log('Page edits saved to localStorage:', pageData);
+        }
+
+        function loadFromLocalStorage() {
+            const saved = localStorage.getItem('pageEdit_' + window.location.pathname);
+            if (saved) {
+                const pageData = JSON.parse(saved);
+                editData = { ...editData, ...pageData.data };
+                
+                // Apply saved data to elements
+                document.querySelectorAll('.editable').forEach(element => {
+                    const field = element.getAttribute('data-field');
+                    if (editData[field]) {
+                        element.textContent = editData[field];
+                    }
+                });
+            }
+        }
+
+        function toggleSection(header) {
+            const toggle = header.querySelector('.section-toggle');
+            const content = header.nextElementSibling;
+            
+            if (toggle.textContent === '▼') {
+                toggle.textContent = '▶';
+                content.style.display = 'none';
+            } else {
+                toggle.textContent = '▼';
+                content.style.display = 'block';
+            }
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeEditData();
+            loadFromLocalStorage();
+            
+            // Add event listener to edit toggle button
+            document.getElementById('edit-toggle').addEventListener('click', toggleEditMode);
+            
+            // Add keyboard shortcut (Ctrl/Cmd + E)
+            document.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'e') {
+                    e.preventDefault();
+                    toggleEditMode();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

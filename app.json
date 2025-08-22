@@ -1,0 +1,40 @@
+{
+  "name": "Salesforce Go Runtime Builder",
+  "description": "Generate Salesforce configuration screens from guided questionnaires following SLDS2 design patterns",
+  "repository": "https://github.com/your-username/go-runtime-builder",
+  "logo": "https://via.placeholder.com/200x200/0176d3/ffffff?text=Go+Builder",
+  "keywords": [
+    "salesforce",
+    "configuration",
+    "slds2",
+    "questionnaire",
+    "static-pages"
+  ],
+  "image": "heroku/nodejs",
+  "stack": "heroku-22",
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  },
+  "addons": [],
+  "env": {
+    "NODE_ENV": {
+      "description": "Environment for the app",
+      "value": "production"
+    },
+    "NPM_CONFIG_PRODUCTION": {
+      "description": "Skip installing dev dependencies",
+      "value": "false"
+    }
+  },
+
+  "success_url": "/",
+  "website": "https://your-app-name.herokuapp.com"
+}
