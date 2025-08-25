@@ -12,7 +12,7 @@ class EnhancedGenerator {
     this.setupTypeLabels = {
       'feature-set-and-features': 'Feature Set and Features',
       'feature': 'Feature',
-      'feature-2': 'Feature 2',
+      'feature-2': 'Feature Page Builder',
       'solution-initial-setup': 'Solution / Initial Setup',
       'agent-setup': 'Agent Setup'
     };
