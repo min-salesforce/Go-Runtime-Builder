@@ -17,6 +17,7 @@
             font-family: "Salesforce Sans", Arial, sans-serif;
             background-color: #f3f2f2;
             color: #080707;
+            overflow: hidden;
         }
 
         /* Salesforce Header */
@@ -230,10 +231,12 @@
 
         /* Main Layout */
         .page-layout {
+            position: fixed;
+            top: 88px;
+            left: 0;
+            right: 0;
+            bottom: 0;
             display: flex;
-            margin-top: 88px;
-            margin-left: 64px;
-            min-height: calc(100vh - 88px);
         }
 
         /* Salesforce Side Navigation */
@@ -303,7 +306,11 @@
             width: 240px;
             background: #fff;
             border-right: 1px solid #c9c7c5;
-            height: 100%;
+            height: calc(100vh - 88px);
+            position: fixed;
+            top: 88px;
+            left: 64px;
+            z-index: 900;
             overflow-y: auto;
         }
 
@@ -387,11 +394,17 @@
 
         /* Main Content */
         .main-content {
-            flex: 1;
+            position: fixed;
+            top: 88px;
+            left: 304px;
+            right: 0;
+            bottom: 0;
+            background: #f7f6f6;
+            overflow-y: auto;
+            overflow-x: hidden;
             display: flex;
             gap: 24px;
             padding: 24px;
-            background: #f7f6f6;
         }
 
         .content-primary {
