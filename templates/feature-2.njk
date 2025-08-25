@@ -2098,7 +2098,7 @@
                     if (screenshotElement && screenshotElement.classList) {
                         if (screenshotElement.classList.contains('preview-placeholder')) {
                             // Replace placeholder with img
-                            const img = htmlDoc.createElement('img');
+                            const img = document.createElement('img');
                             img.src = editData.screenshotDataUrl;
                             img.alt = 'Feature Preview';
                             img.id = 'screenshot-preview';
@@ -2194,7 +2194,7 @@
                 // Add a note about styling in the head
                 const head = htmlDoc.querySelector('head');
                 if (head) {
-                    const styleNote = htmlDoc.createElement('style');
+                    const styleNote = document.createElement('style');
                     styleNote.textContent = `
                         /* Note: This is a standalone HTML file generated from Salesforce Go Runtime Builder */
                         /* All custom styles are embedded inline in the original template */
