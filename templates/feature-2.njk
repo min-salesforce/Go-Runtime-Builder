@@ -485,6 +485,40 @@
             font-size: 14px;
         }
 
+        /* Screenshot Edit Controls */
+        .screenshot-edit-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            cursor: pointer;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .page-header-image {
+            position: relative;
+        }
+
+        .edit-mode .screenshot-edit-overlay {
+            display: flex;
+        }
+
+        .screenshot-edit-overlay:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        #screenshot-upload {
+            display: none;
+        }
+
         /* Sections Container */
         #sections-container {
             padding: 0 24px 24px 24px;
@@ -1252,10 +1286,14 @@
                         <!-- Screenshot/Preview Image -->
                         <div class="page-header-image">
                             {% if assets.screenshotDataUrl %}
-                            <img src="{{ assets.screenshotDataUrl }}" alt="Feature Preview">
+                            <img id="screenshot-preview" src="{{ assets.screenshotDataUrl }}" alt="Feature Preview">
                             {% else %}
-                            <div class="preview-placeholder">Feature Preview</div>
+                            <div id="screenshot-preview" class="preview-placeholder">Feature Preview</div>
                             {% endif %}
+                            <div class="screenshot-edit-overlay" onclick="document.getElementById('screenshot-upload').click()">
+                                📷 Change Image
+                            </div>
+                            <input type="file" id="screenshot-upload" accept="image/*">
                         </div>
                     </div>
                 </div>
@@ -1689,6 +1727,7 @@
             
             if (editMode) {
                 // Enter edit mode
+                document.body.classList.add('edit-mode');
                 toggleBtn.textContent = '💾 Save & Exit';
                 toggleBtn.classList.add('editing');
                 indicator.classList.add('show');
@@ -1711,6 +1750,7 @@
                 });
             } else {
                 // Exit edit mode
+                document.body.classList.remove('edit-mode');
                 toggleBtn.textContent = '✏️ Edit Mode';
                 toggleBtn.classList.remove('editing');
                 indicator.classList.remove('show');
@@ -1834,6 +1874,11 @@
                 const pageData = JSON.parse(saved);
                 editData = { ...editData, ...pageData.data };
                 
+                // Restore screenshot if saved
+                if (editData.screenshotDataUrl) {
+                    updateScreenshotPreview(editData.screenshotDataUrl);
+                }
+                
                 // Restore custom sections first
                 if (pageData.customSections) {
                     Object.entries(pageData.customSections).forEach(([sectionId, sectionData]) => {
@@ -1915,10 +1960,60 @@
         }
 
         // Initialize the page
+        // Screenshot upload handling
+        function handleScreenshotUpload() {
+            const input = document.getElementById('screenshot-upload');
+            input.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const dataUrl = e.target.result;
+                    
+                    // Update the screenshot preview
+                    updateScreenshotPreview(dataUrl);
+                    
+                    // Save to editData and localStorage
+                    editData.screenshotDataUrl = dataUrl;
+                    saveToLocalStorage();
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function updateScreenshotPreview(dataUrl) {
+            const preview = document.getElementById('screenshot-preview');
+            
+            if (dataUrl) {
+                // Replace with img element if it was placeholder
+                if (preview.classList.contains('preview-placeholder')) {
+                    const img = document.createElement('img');
+                    img.id = 'screenshot-preview';
+                    img.src = dataUrl;
+                    img.alt = 'Feature Preview';
+                    preview.parentNode.replaceChild(img, preview);
+                } else {
+                    // Update existing img src
+                    preview.src = dataUrl;
+                }
+            } else {
+                // Replace with placeholder if no image
+                if (!preview.classList.contains('preview-placeholder')) {
+                    const placeholder = document.createElement('div');
+                    placeholder.id = 'screenshot-preview';
+                    placeholder.className = 'preview-placeholder';
+                    placeholder.textContent = 'Feature Preview';
+                    preview.parentNode.replaceChild(placeholder, preview);
+                }
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             initializeEditData();
             loadFromLocalStorage();
             setupDragAndDrop();
+            handleScreenshotUpload();
             
             // Add event listener to edit toggle button
             document.getElementById('edit-toggle').addEventListener('click', toggleEditMode);
