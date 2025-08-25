@@ -22,43 +22,60 @@
         /* Salesforce Header */
         .sf-header {
             background: #fff;
-            border-bottom: 1px solid #dddbda;
+            border-bottom: 1px solid #c9c7c5;
             height: 48px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 0 16px;
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 1000;
+            padding: 0 12px;
+            box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.1);
         }
 
         .sf-header-left {
             display: flex;
             align-items: center;
             gap: 16px;
+            flex-shrink: 0;
         }
 
         .sf-logo {
-            color: #1589ee;
-            font-size: 18px;
+            width: 24px;
+            height: 24px;
+            background: #1589ee;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
             font-weight: bold;
         }
 
         .sf-nav {
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 8px;
         }
 
         .sf-nav-item {
-            padding: 8px 12px;
+            padding: 6px 8px;
             color: #080707;
             text-decoration: none;
-            font-size: 13px;
             border-radius: 4px;
+            font-size: 13px;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: background 0.15s ease;
+        }
+
+        .sf-nav-item:hover {
+            background: #f3f2f2;
         }
 
         .sf-nav-item.active {
@@ -66,10 +83,28 @@
             font-weight: 600;
         }
 
-        .sf-header-right {
+        .sf-header-center {
             display: flex;
             align-items: center;
+            flex: 1;
+            justify-content: center;
+            max-width: 640px;
+            margin: 0 24px;
             gap: 12px;
+        }
+
+        .sf-app-selector {
+            display: flex;
+            align-items: center;
+            background: #f3f2f2;
+            border-radius: 4px;
+            padding: 6px 8px;
+            color: #080707;
+            font-size: 13px;
+            font-weight: 500;
+            text-decoration: none;
+            gap: 4px;
+            white-space: nowrap;
         }
 
         .sf-search {
@@ -78,7 +113,14 @@
             background: #f3f2f2;
             border-radius: 4px;
             padding: 6px 12px;
-            min-width: 300px;
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .sf-search-icon {
+            color: #706e6b;
+            font-size: 14px;
+            margin-right: 8px;
         }
 
         .sf-search input {
@@ -87,6 +129,60 @@
             outline: none;
             width: 100%;
             font-size: 13px;
+            color: #080707;
+        }
+
+        .sf-search input::placeholder {
+            color: #706e6b;
+        }
+
+        .sf-header-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .sf-icon-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            color: #706e6b;
+            font-size: 14px;
+            text-decoration: none;
+            transition: background 0.15s ease;
+            font-weight: 600;
+        }
+
+        .sf-icon-btn:hover {
+            background: #f3f2f2;
+            color: #080707;
+        }
+
+        .sf-icon-btn.grid-icon {
+            font-size: 12px;
+            line-height: 1;
+        }
+
+        .sf-user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #1589ee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .sf-dropdown-arrow {
+            font-size: 10px;
+            color: #706e6b;
         }
 
         /* Main Layout */
@@ -727,21 +823,28 @@
             <div class="sf-logo">☁</div>
             <nav class="sf-nav">
                 <a href="#" class="sf-nav-item active">Setup</a>
-                <a href="#" class="sf-nav-item">Home ▾</a>
+                <a href="#" class="sf-nav-item">
+                    Home <span class="sf-dropdown-arrow">▼</span>
+                </a>
             </nav>
         </div>
-        <div class="sf-header-right">
+        <div class="sf-header-center">
+            <a href="#" class="sf-app-selector">
+                All <span class="sf-dropdown-arrow">▼</span>
+            </a>
             <div class="sf-search">
-                <span>🔍</span>
+                <span class="sf-search-icon">🔍</span>
                 <input type="text" placeholder="Search Salesforce">
             </div>
-            <div style="display: flex; gap: 8px; align-items: center;">
-                <span>📱</span>
-                <span>📊</span>
-                <span>⚙️</span>
-                <span>🔔</span>
-                <span>👤</span>
-            </div>
+        </div>
+        <div class="sf-header-right">
+            <a href="#" class="sf-icon-btn grid-icon" title="App Launcher">⋮⋮</a>
+            <a href="#" class="sf-icon-btn" title="Add">+</a>
+            <a href="#" class="sf-icon-btn" title="Notifications">🔔</a>
+            <a href="#" class="sf-icon-btn" title="Help">?</a>
+            <a href="#" class="sf-icon-btn" title="Setup">⚙</a>
+            <a href="#" class="sf-icon-btn" title="Notifications">📢</a>
+            <div class="sf-user-avatar" title="User Menu">JD</div>
         </div>
     </div>
 
