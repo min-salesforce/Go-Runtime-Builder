@@ -185,12 +185,55 @@
             color: #706e6b;
         }
 
+        /* Tab Bar Below Header */
+        .sf-tab-bar {
+            background: #fff;
+            border-bottom: 1px solid #c9c7c5;
+            height: 40px;
+            position: fixed;
+            top: 48px;
+            left: 64px;
+            right: 0;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+        }
+
+        .sf-nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sf-nav-item {
+            padding: 6px 12px;
+            color: #080707;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: background 0.15s ease;
+        }
+
+        .sf-nav-item:hover {
+            background: #f3f2f2;
+        }
+
+        .sf-nav-item.active {
+            background: #f3f2f2;
+            font-weight: 600;
+        }
+
         /* Main Layout */
         .page-layout {
             display: flex;
-            margin-top: 48px;
+            margin-top: 88px;
             margin-left: 64px;
-            min-height: calc(100vh - 48px);
+            min-height: calc(100vh - 88px);
         }
 
         /* Salesforce Side Navigation */
@@ -209,7 +252,7 @@
             z-index: 1001;
         }
 
-        .sf-nav-item {
+        .sf-sidenav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -222,12 +265,12 @@
             transition: background 0.15s ease;
         }
 
-        .sf-nav-item:hover {
+        .sf-sidenav-item:hover {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 4px;
         }
 
-        .sf-nav-icon-wrapper {
+        .sf-sidenav-icon-wrapper {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -238,13 +281,13 @@
             margin-bottom: 4px;
         }
 
-        .sf-nav-icon {
+        .sf-sidenav-icon {
             width: 24px;
             height: 24px;
             fill: white;
         }
 
-        .sf-nav-label {
+        .sf-sidenav-label {
             font-family: "SF Pro", "Salesforce Sans", Arial, sans-serif;
             font-size: 10px;
             font-weight: 600;
@@ -844,12 +887,6 @@
     <div class="sf-header">
         <div class="sf-header-left">
             <div class="sf-logo">☁</div>
-            <nav class="sf-nav">
-                <a href="#" class="sf-nav-item active">Setup</a>
-                <a href="#" class="sf-nav-item">
-                    Home <span class="sf-dropdown-arrow">▼</span>
-                </a>
-            </nav>
         </div>
         <div class="sf-header-center">
             <a href="#" class="sf-app-selector">
@@ -871,97 +908,107 @@
         </div>
     </div>
 
+    <!-- Tab Bar -->
+    <div class="sf-tab-bar">
+        <nav class="sf-nav">
+            <a href="#" class="sf-nav-item active">Setup</a>
+            <a href="#" class="sf-nav-item">
+                Home <span class="sf-dropdown-arrow">▼</span>
+            </a>
+        </nav>
+    </div>
+
     <div class="page-layout">
         <!-- Salesforce Side Navigation -->
         <nav class="sf-sidenav">
-            <a href="#" class="sf-nav-item">
-                <div class="sf-nav-icon-wrapper">
-                    <svg class="sf-nav-icon" viewBox="0 0 24 24">
+            <a href="#" class="sf-sidenav-item">
+                <div class="sf-sidenav-icon-wrapper">
+                    <svg class="sf-sidenav-icon" viewBox="0 0 24 24">
                         <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
                     </svg>
                 </div>
-                <div class="sf-nav-label">Sales</div>
+                <div class="sf-sidenav-label">Sales</div>
             </a>
 
-            <a href="#" class="sf-nav-item">
-                <div class="sf-nav-icon-wrapper">
-                    <svg class="sf-nav-icon" viewBox="0 0 24 24">
+            <a href="#" class="sf-sidenav-item">
+                <div class="sf-sidenav-icon-wrapper">
+                    <svg class="sf-sidenav-icon" viewBox="0 0 24 24">
                         <circle cx="12" cy="12" r="3"/>
                         <path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24"/>
                     </svg>
                 </div>
-                <div class="sf-nav-label">Service</div>
+                <div class="sf-sidenav-label">Service</div>
             </a>
 
-            <a href="#" class="sf-nav-item">
-                <div class="sf-nav-icon-wrapper">
-                    <svg class="sf-nav-icon" viewBox="0 0 24 24">
+            <a href="#" class="sf-sidenav-item">
+                <div class="sf-sidenav-icon-wrapper">
+                    <svg class="sf-sidenav-icon" viewBox="0 0 24 24">
                         <path d="M18 20V10M12 20V4M6 20v-6"/>
                     </svg>
                 </div>
-                <div class="sf-nav-label">Marketing</div>
+                <div class="sf-sidenav-label">Marketing</div>
             </a>
 
-            <a href="#" class="sf-nav-item">
-                <div class="sf-nav-icon-wrapper">
-                    <svg class="sf-nav-icon" viewBox="0 0 24 24">
+            <a href="#" class="sf-sidenav-item">
+                <div class="sf-sidenav-icon-wrapper">
+                    <svg class="sf-sidenav-icon" viewBox="0 0 24 24">
                         <circle cx="9" cy="21" r="1"/>
                         <circle cx="20" cy="21" r="1"/>
                         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
                     </svg>
                 </div>
-                <div class="sf-nav-label">Commerce</div>
+                <div class="sf-sidenav-label">Commerce</div>
             </a>
 
-            <a href="#" class="sf-nav-item">
-                <div class="sf-nav-icon-wrapper">
-                    <svg class="sf-nav-icon" viewBox="0 0 24 24">
+            <a href="#" class="sf-sidenav-item">
+                <div class="sf-sidenav-icon-wrapper">
+                    <svg class="sf-sidenav-icon" viewBox="0 0 24 24">
                         <path d="M21.21 15.89A10 10 0 1 1 8 2.83M22 12A10 10 0 0 0 12 2v10z"/>
                     </svg>
                 </div>
-                <div class="sf-nav-label">Analytics</div>
+                <div class="sf-sidenav-label">Analytics</div>
             </a>
 
-            <a href="#" class="sf-nav-item">
-                <div class="sf-nav-icon-wrapper">
-                    <svg class="sf-nav-icon" viewBox="0 0 24 24">
+            <a href="#" class="sf-sidenav-item">
+                <div class="sf-sidenav-icon-wrapper">
+                    <svg class="sf-sidenav-icon" viewBox="0 0 24 24">
                         <path d="M20 6 9 17l-5-5"/>
                     </svg>
                 </div>
-                <div class="sf-nav-label">Tableau</div>
+                <div class="sf-sidenav-label">Tableau</div>
             </a>
 
-            <a href="#" class="sf-nav-item">
-                <div class="sf-nav-icon-wrapper">
-                    <svg class="sf-nav-icon" viewBox="0 0 24 24">
+            <a href="#" class="sf-sidenav-item">
+                <div class="sf-sidenav-icon-wrapper">
+                    <svg class="sf-sidenav-icon" viewBox="0 0 24 24">
                         <ellipse cx="12" cy="5" rx="9" ry="3"/>
                         <path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/>
                         <path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3"/>
                     </svg>
                 </div>
-                <div class="sf-nav-label">Data Cloud</div>
+                <div class="sf-sidenav-label">Data Cloud</div>
             </a>
 
-            <a href="#" class="sf-nav-item">
-                <div class="sf-nav-icon-wrapper">
-                    <svg class="sf-nav-icon" viewBox="0 0 24 24">
+            <a href="#" class="sf-sidenav-item">
+                <div class="sf-sidenav-icon-wrapper">
+                    <svg class="sf-sidenav-icon" viewBox="0 0 24 24">
                         <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
                         <circle cx="9" cy="7" r="4"/>
                         <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
                     </svg>
                 </div>
-                <div class="sf-nav-label">Contacts</div>
+                <div class="sf-sidenav-label">Contacts</div>
             </a>
 
-            <a href="#" class="sf-nav-item">
-                <div class="sf-nav-icon-wrapper">
-                    <svg class="sf-nav-icon" viewBox="0 0 24 24">
+            <a href="#" class="sf-sidenav-item">
+                <div class="sf-sidenav-icon-wrapper">
+                    <svg class="sf-sidenav-icon" viewBox="0 0 24 24">
                         <circle cx="12" cy="12" r="1"/>
                         <circle cx="12" cy="5" r="1"/>
                         <circle cx="12" cy="19" r="1"/>
                     </svg>
                 </div>
-                <div class="sf-nav-label">More</div>
+                <div class="sf-sidenav-label">More</div>
             </a>
         </nav>
 
