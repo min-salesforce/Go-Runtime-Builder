@@ -680,6 +680,27 @@
             color: #080707;
         }
 
+        .step-title.editable.editing {
+            border-radius: 4px;
+            padding: 4px 8px;
+            margin: -4px -8px;
+            background: #f7f6f6;
+            border: 2px solid #1589ee;
+            min-height: auto;
+        }
+
+        .step-title.editable.editing input,
+        .step-title.editable.editing textarea {
+            border: none;
+            background: transparent;
+            font-size: 13px;
+            color: #080707;
+            font-family: inherit;
+            width: 100%;
+            resize: vertical;
+            outline: none;
+        }
+
         .step-action {
             color: #1589ee;
             text-decoration: none;
@@ -1358,19 +1379,19 @@
                         
                         <div class="step-item">
                             <div class="step-icon">○</div>
-                            <div class="step-title">Manage User Access<br><small>2 out of 10 assigned</small></div>
+                            <div class="step-title editable" data-field="setup-step-1-title">Manage User Access<br><small>2 out of 10 assigned</small></div>
                             <a href="#" class="step-action">Manage</a>
                         </div>
                         
                         <div class="step-item">
                             <div class="step-icon">○</div>
-                            <div class="step-title">Add Components, Fields, and Actions to Lightning Record Pages<br><small>Component names not found in Accounts</small></div>
+                            <div class="step-title editable" data-field="setup-step-2-title">Add Components, Fields, and Actions to Lightning Record Pages<br><small>Component names not found in Accounts</small></div>
                             <a href="#" class="step-action">Manage</a>
                         </div>
                         
                         <div class="step-item">
                             <div class="step-icon">○</div>
-                            <div class="step-title">Create Forecast Types<br><small>0 active types</small></div>
+                            <div class="step-title editable" data-field="setup-step-3-title">Create Forecast Types<br><small>0 active types</small></div>
                             <a href="#" class="step-action">Create</a>
                         </div>
                         </div>
@@ -1392,19 +1413,19 @@
                     <div class="section-content">
                         <div class="step-item">
                             <div class="step-icon">☐</div>
-                            <div class="step-title">Review Email-to-Case Settings</div>
+                            <div class="step-title editable" data-field="customize-step-1-title">Review Email-to-Case Settings</div>
                             <a href="#" class="step-action">Go to Setup ↗</a>
                         </div>
                         
                         <div class="step-item">
                             <div class="step-icon">○</div>
-                            <div class="step-title">Define Over Email Rate Limit Action <span style="color: #706e6b;">Optional</span></div>
+                            <div class="step-title editable" data-field="customize-step-2-title">Define Over Email Rate Limit Action <span style="color: #706e6b;">Optional</span></div>
                             <a href="#" class="step-action">Go to Setup ↗</a>
                         </div>
                         
                         <div class="step-item">
                             <div class="step-icon">○</div>
-                            <div class="step-title">Define Unauthorized Sender Action <span style="color: #706e6b;">Optional</span></div>
+                            <div class="step-title editable" data-field="customize-step-3-title">Define Unauthorized Sender Action <span style="color: #706e6b;">Optional</span></div>
                             <a href="#" class="step-action">Go to Setup ↗</a>
                         </div>
                         </div>
@@ -1428,25 +1449,25 @@
                         
                         <div class="step-item">
                             <div class="step-icon">○</div>
-                            <div class="step-title">Default Activity Sharing for New Users</div>
+                            <div class="step-title editable" data-field="optional-step-1-title">Default Activity Sharing for New Users</div>
                             <a href="#" class="step-action">Manage</a>
                         </div>
                         
                         <div class="step-item">
                             <div class="step-icon">○</div>
-                            <div class="step-title">Enforce Default Activity Sharing for New Users</div>
+                            <div class="step-title editable" data-field="optional-step-2-title">Enforce Default Activity Sharing for New Users</div>
                             <div class="toggle-switch"></div>
                         </div>
                         
                         <div class="step-item">
                             <div class="step-icon">○</div>
-                            <div class="step-title">Customize Your Agent with Topics and Actions</div>
+                            <div class="step-title editable" data-field="optional-step-3-title">Customize Your Agent with Topics and Actions</div>
                             <a href="#" class="step-action">Go to Setup ↗</a>
                         </div>
                         
                         <div class="step-item">
                             <div class="step-icon">○</div>
-                            <div class="step-title">Select the Insights You Want to Show</div>
+                            <div class="step-title editable" data-field="optional-step-4-title">Select the Insights You Want to Show</div>
                             <a href="#" class="step-action">Go to Setup ↗</a>
                         </div>
                         </div>
