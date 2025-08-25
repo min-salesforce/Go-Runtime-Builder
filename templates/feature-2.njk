@@ -2098,7 +2098,7 @@
                     }
                 }
                 
-                // Remove all edit mode controls and functionality
+                // Remove edit mode controls but keep interactive functionality
                 const elementsToRemove = [
                     '.edit-controls',
                     '.screenshot-edit-overlay',
@@ -2106,8 +2106,7 @@
                     '.add-section-btn',
                     '.delete-section-btn',
                     '.drag-handle',
-                    '#edit-mode-indicator',
-                    'script'
+                    '#edit-mode-indicator'
                 ];
                 
                 elementsToRemove.forEach(selector => {
@@ -2127,6 +2126,80 @@
                 if (htmlDoc.body && htmlDoc.body.classList) {
                     htmlDoc.body.classList.remove('edit-mode');
                 }
+                
+                // Clean up script content to remove edit functionality but keep interactive features
+                const scriptTags = htmlDoc.querySelectorAll('script');
+                scriptTags.forEach(script => {
+                    if (script.textContent) {
+                        let cleanScript = script.textContent;
+                        
+                        // Remove edit-mode related variables and functions while preserving interactive features
+                        const editFunctionsToRemove = [
+                            /let editMode = false;?[\s\S]*?(?=function|\n\n|$)/g,
+                            /let editData = \{[\s\S]*?\};?/g,
+                            /let sectionCounter = [\s\S]*?;/g,
+                            /function toggleEditMode\(\)[\s\S]*?(?=function|\n\n|$)/g,
+                            /function makeElementEditable[\s\S]*?(?=function|\n\n|$)/g,
+                            /function makeElementReadOnly[\s\S]*?(?=function|\n\n|$)/g,
+                            /function initializeEditData[\s\S]*?(?=function|\n\n|$)/g,
+                            /function saveToLocalStorage[\s\S]*?(?=function|\n\n|$)/g,
+                            /function loadFromLocalStorage[\s\S]*?(?=function|\n\n|$)/g,
+                            /function getCustomSections[\s\S]*?(?=function|\n\n|$)/g,
+                            /function addSection[\s\S]*?(?=function|\n\n|$)/g,
+                            /function deleteSection[\s\S]*?(?=function|\n\n|$)/g,
+                            /function setupDragAndDrop[\s\S]*?(?=function|\n\n|$)/g,
+                            /function handleScreenshotUpload[\s\S]*?(?=function|\n\n|$)/g,
+                            /function updateScreenshotPreview[\s\S]*?(?=function|\n\n|$)/g,
+                            /function downloadHTML[\s\S]*?(?=function|\n\n|$)/g,
+                            /function showSaveIndicator[\s\S]*?(?=function|\n\n|$)/g,
+                            /function autoResize[\s\S]*?(?=function|\n\n|$)/g,
+                            /\/\/ Initialize the page[\s\S]*?(?=\/\/ Screenshot upload handling|function toggleSection|$)/g,
+                            /\/\/ Screenshot upload handling[\s\S]*?(?=function toggleSection|document\.addEventListener|$)/g,
+                            /document\.addEventListener\('DOMContentLoaded'[\s\S]*?\}\);?\s*/g
+                        ];
+                        
+                        editFunctionsToRemove.forEach(regex => {
+                            cleanScript = cleanScript.replace(regex, '');
+                        });
+                        
+                        // Clean up any remaining edit-related event listeners and variables
+                        cleanScript = cleanScript.replace(/document\.getElementById\('edit-toggle'\)[\s\S]*?;/g, '');
+                        cleanScript = cleanScript.replace(/document\.addEventListener\('keydown'[\s\S]*?\}\);/g, '');
+                        
+                        // Remove any leftover edit-related comments and empty sections
+                        cleanScript = cleanScript.replace(/\/\/ Toggle edit mode[\s\S]*?(?=function|$)/g, '');
+                        cleanScript = cleanScript.replace(/\/\/ Section management functions[\s\S]*?(?=function|$)/g, '');
+                        cleanScript = cleanScript.replace(/\/\/ Edit mode indicator[\s\S]*?(?=function|$)/g, '');
+                        
+                        // Clean up multiple consecutive newlines
+                        cleanScript = cleanScript.replace(/\n\s*\n\s*\n+/g, '\n\n');
+                        cleanScript = cleanScript.replace(/^\s*\n+/g, ''); // Remove leading newlines
+                        cleanScript = cleanScript.trim();
+                        
+                        // Always keep script if it has the toggleSection function or other meaningful content
+                        if (cleanScript && (cleanScript.includes('toggleSection') || cleanScript.length > 20)) {
+                            // Wrap remaining functionality in DOMContentLoaded if needed
+                            if (cleanScript.includes('toggleSection') && !cleanScript.includes('DOMContentLoaded')) {
+                                cleanScript = `        // Interactive functionality for accordions and UI elements\n        document.addEventListener('DOMContentLoaded', function() {\n            // Accordion functionality is handled by inline onclick handlers\n            // No additional initialization required\n        });\n\n        ${cleanScript}`;
+                            }
+                            script.textContent = cleanScript;
+                        } else {
+                            // Remove empty or minimal scripts
+                            script.remove();
+                        }
+                    }
+                });
+                
+                // Remove edit-mode specific onclick attributes
+                const elementsWithEditOnclick = htmlDoc.querySelectorAll('[onclick*="deleteSection"], [onclick*="addSection"]');
+                elementsWithEditOnclick.forEach(el => {
+                    if (el.getAttribute('onclick')) {
+                        if (el.getAttribute('onclick').includes('deleteSection') || 
+                            el.getAttribute('onclick').includes('addSection')) {
+                            el.removeAttribute('onclick');
+                        }
+                    }
+                });
                 
                 // Create final HTML content
                 const htmlContent = '<!DOCTYPE html>' + htmlDoc.outerHTML;
