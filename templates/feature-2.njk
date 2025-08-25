@@ -2052,71 +2052,99 @@
 
         // Download HTML functionality
         function downloadHTML() {
-            // Create a clean copy of the page
-            const htmlDoc = document.documentElement.cloneNode(true);
-            
-            // Apply current edit data to the clean copy
-            const editableElements = htmlDoc.querySelectorAll('.editable');
-            editableElements.forEach(element => {
-                const field = element.getAttribute('data-field');
-                if (editData[field]) {
-                    element.textContent = editData[field];
+            try {
+                // Create a clean copy of the page
+                const htmlDoc = document.documentElement.cloneNode(true);
+                
+                if (!htmlDoc) {
+                    console.error('Failed to clone document');
+                    return;
                 }
-                // Remove editing classes and data attributes
-                element.classList.remove('editable', 'editing');
-                element.removeAttribute('data-field');
-            });
+                
+                // Apply current edit data to the clean copy
+                const editableElements = htmlDoc.querySelectorAll('.editable');
+                editableElements.forEach(element => {
+                    if (element && element.getAttribute) {
+                        const field = element.getAttribute('data-field');
+                        if (editData[field]) {
+                            element.textContent = editData[field];
+                        }
+                        // Remove editing classes and data attributes
+                        if (element.classList) {
+                            element.classList.remove('editable', 'editing');
+                        }
+                        if (element.removeAttribute) {
+                            element.removeAttribute('data-field');
+                        }
+                    }
+                });
 
-            // Update screenshot if present
-            if (editData.screenshotDataUrl) {
-                const screenshotElement = htmlDoc.querySelector('#screenshot-preview');
-                if (screenshotElement) {
-                    if (screenshotElement.classList.contains('preview-placeholder')) {
-                        // Replace placeholder with img
-                        const img = htmlDoc.createElement('img');
-                        img.src = editData.screenshotDataUrl;
-                        img.alt = 'Feature Preview';
-                        img.id = 'screenshot-preview';
-                        screenshotElement.parentNode.replaceChild(img, screenshotElement);
-                    } else {
-                        screenshotElement.src = editData.screenshotDataUrl;
+                // Update screenshot if present
+                if (editData.screenshotDataUrl) {
+                    const screenshotElement = htmlDoc.querySelector('#screenshot-preview');
+                    if (screenshotElement && screenshotElement.classList) {
+                        if (screenshotElement.classList.contains('preview-placeholder')) {
+                            // Replace placeholder with img
+                            const img = htmlDoc.createElement('img');
+                            img.src = editData.screenshotDataUrl;
+                            img.alt = 'Feature Preview';
+                            img.id = 'screenshot-preview';
+                            if (screenshotElement.parentNode) {
+                                screenshotElement.parentNode.replaceChild(img, screenshotElement);
+                            }
+                        } else {
+                            screenshotElement.src = editData.screenshotDataUrl;
+                        }
                     }
                 }
+                
+                // Remove all edit mode controls and functionality
+                const elementsToRemove = [
+                    '.edit-controls',
+                    '.screenshot-edit-overlay',
+                    '#screenshot-upload',
+                    '.add-section-btn',
+                    '.delete-section-btn',
+                    '.drag-handle',
+                    '#edit-mode-indicator',
+                    'script'
+                ];
+                
+                elementsToRemove.forEach(selector => {
+                    try {
+                        const elements = htmlDoc.querySelectorAll(selector);
+                        elements.forEach(el => {
+                            if (el && el.remove) {
+                                el.remove();
+                            }
+                        });
+                    } catch (e) {
+                        console.warn('Could not remove elements for selector:', selector, e);
+                    }
+                });
+                
+                // Remove edit mode classes
+                if (htmlDoc.body && htmlDoc.body.classList) {
+                    htmlDoc.body.classList.remove('edit-mode');
+                }
+                
+                // Create final HTML content
+                const htmlContent = '<!DOCTYPE html>' + htmlDoc.outerHTML;
+            
+                // Create download
+                const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = (editData.title || 'feature-page') + '.html';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            } catch (error) {
+                console.error('Download failed:', error);
+                alert('Download failed. Please try again.');
             }
-            
-            // Remove all edit mode controls and functionality
-            const elementsToRemove = [
-                '.edit-controls',
-                '.screenshot-edit-overlay',
-                '#screenshot-upload',
-                '.add-section-btn',
-                '.delete-section-btn',
-                '.drag-handle',
-                '#edit-mode-indicator',
-                'script'
-            ];
-            
-            elementsToRemove.forEach(selector => {
-                const elements = htmlDoc.querySelectorAll(selector);
-                elements.forEach(el => el.remove());
-            });
-            
-            // Remove edit mode classes
-            htmlDoc.body.classList.remove('edit-mode');
-            
-            // Create final HTML content
-            const htmlContent = '<!DOCTYPE html>' + htmlDoc.outerHTML;
-            
-            // Create download
-            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = (editData.title || 'feature-page') + '.html';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
         }
 
         document.addEventListener('DOMContentLoaded', function() {
