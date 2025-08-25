@@ -449,6 +449,40 @@
         /* Page Header */
         .page-header {
             margin-bottom: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 24px;
+        }
+
+        .page-header-content {
+            flex: 1;
+        }
+
+        .page-header-image {
+            flex-shrink: 0;
+            width: 200px;
+        }
+
+        .page-header-image img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-header-image .preview-placeholder {
+            width: 100%;
+            height: 120px;
+            background: #f7f6f6;
+            border: 2px dashed #c9c7c5;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #706e6b;
+            font-size: 14px;
         }
 
         /* Sections Container */
@@ -1201,16 +1235,27 @@
 
                     <!-- Page Header -->
                     <div class="page-header">
-                        <div class="feature-badge">
-                            <div class="feature-badge-icon">♡</div>
-                            Service
+                        <div class="page-header-content">
+                            <div class="feature-badge">
+                                <div class="feature-badge-icon">♡</div>
+                                Service
+                            </div>
+                            <h1 class="page-title editable" data-field="title">{{ metadata.name | default("Email-to-Case") }}</h1>
+                            <p class="page-subtitle editable" data-field="description">{{ metadata.description | default("Provide seamless support to customers across their favorite communication channels.") }}</p>
+                            
+                            <div class="progress-status">
+                                <span class="progress-text">5 of 5 Steps Completed</span>
+                                <a href="#" class="refresh-btn">🔄 Refresh</a>
+                            </div>
                         </div>
-                        <h1 class="page-title editable" data-field="title">{{ metadata.name | default("Email-to-Case") }}</h1>
-                        <p class="page-subtitle editable" data-field="description">{{ metadata.description | default("Provide seamless support to customers across their favorite communication channels.") }}</p>
-                        
-                        <div class="progress-status">
-                            <span class="progress-text">5 of 5 Steps Completed</span>
-                            <a href="#" class="refresh-btn">🔄 Refresh</a>
+
+                        <!-- Screenshot/Preview Image -->
+                        <div class="page-header-image">
+                            {% if assets.screenshotDataUrl %}
+                            <img src="{{ assets.screenshotDataUrl }}" alt="Feature Preview">
+                            {% else %}
+                            <div class="preview-placeholder">Feature Preview</div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -1441,11 +1486,7 @@
                     <h3 class="sidebar-title">Get to Know Your {{ metadata.name | default("Feature Name") }}</h3>
                     
                     <div class="feature-preview">
-                        {% if assets.screenshotDataUrl %}
-                        <img src="{{ assets.screenshotDataUrl }}" alt="Feature Preview" style="width: 100%; height: 120px; object-fit: cover; border-radius: 4px;">
-                        {% else %}
                         <div class="preview-image">Feature Preview</div>
-                        {% endif %}
                         <a href="#" class="see-how-works">See How It Works 📺</a>
                     </div>
                     
