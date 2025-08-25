@@ -223,6 +223,19 @@
             font-weight: 600;
         }
 
+        .sf-nav-title {
+            color: #000;
+            font-feature-settings: 'liga' off, 'clig' off;
+            font-family: "SF Pro Display";
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 27px; /* 150% */
+            letter-spacing: 0.302px;
+            margin-right: 24px;
+            flex-shrink: 0;
+        }
+
         /* Main Layout */
         .page-layout {
             position: fixed;
@@ -1181,7 +1194,8 @@
     <!-- Tab Bar -->
     <div class="sf-tab-bar">
         <nav class="sf-nav">
-            <a href="#" class="sf-nav-item active">Setup</a>
+            <div class="sf-nav-title">Setup</div>
+            <a href="#" class="sf-nav-item active">Objects & Fields</a>
             <a href="#" class="sf-nav-item">
                 Home <span class="sf-dropdown-arrow">▼</span>
             </a>
