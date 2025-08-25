@@ -416,6 +416,16 @@
             display: none;
         }
 
+        /* Unified Header Section */
+        .unified-header {
+            background: #fff;
+            border: 1px solid #c9c7c5;
+            border-radius: 8px;
+            padding: 20px 24px 24px 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
         /* Breadcrumbs */
         .breadcrumbs {
             display: flex;
@@ -430,26 +440,42 @@
             text-decoration: none;
         }
 
+        .breadcrumbs a:hover {
+            text-decoration: underline;
+        }
+
         .breadcrumbs span {
             color: #706e6b;
         }
 
         /* Page Header */
         .page-header {
-            margin-bottom: 24px;
+            margin-bottom: 0;
         }
 
         .feature-badge {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: #1589ee;
-            color: #fff;
-            padding: 4px 8px;
+            background: transparent;
+            color: #1589ee;
+            padding: 0;
             border-radius: 4px;
-            font-size: 11px;
+            font-size: 13px;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
+        }
+
+        .feature-badge-icon {
+            width: 20px;
+            height: 20px;
+            background: #e74c3c;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
         }
 
         .page-title {
@@ -1159,28 +1185,30 @@
         <!-- Main Content -->
         <div class="main-content">
             <div class="content-primary">
-                <!-- Breadcrumbs -->
-                <div class="breadcrumbs">
-                    <a href="#">Salesforce Go</a>
-                    <span>›</span>
-                    <a href="#">Deflect more cases with self-service</a>
-                    <span>›</span>
-                    <span>{{ metadata.name | default("Feature Name") }}</span>
-                </div>
-
-                <!-- Page Header -->
-                <div class="page-header">
-                    <div class="feature-badge">
-                        <span>☁</span>
-                        Foundations
+                <!-- Unified Header Section -->
+                <div class="unified-header">
+                    <!-- Breadcrumbs -->
+                    <div class="breadcrumbs">
+                        <a href="#">Salesforce Go</a>
+                        <span>›</span>
+                        <a href="#">Deliver Personalized Service Across Channels</a>
+                        <span>›</span>
+                        <span>{{ metadata.name | default("Email-to-Case") }}</span>
                     </div>
-                    <h1 class="page-title editable" data-field="title">{{ metadata.name | default("Feature Name") }}</h1>
-                    <p class="page-subtitle editable" data-field="description">{{ metadata.description | default("Build trust by solving issues with self-service features like Agentforce Service Agent and more.") }}</p>
-                    
-                    <div class="progress-status">
-                        <span class="progress-text">3 of 5 Steps Completed</span>
-                        <a href="#" class="refresh-btn">🔄 Refresh</a>
-                        <div class="suggested-badge">💡 Suggested for You</div>
+
+                    <!-- Page Header -->
+                    <div class="page-header">
+                        <div class="feature-badge">
+                            <div class="feature-badge-icon">♡</div>
+                            Service
+                        </div>
+                        <h1 class="page-title editable" data-field="title">{{ metadata.name | default("Email-to-Case") }}</h1>
+                        <p class="page-subtitle editable" data-field="description">{{ metadata.description | default("Provide seamless support to customers across their favorite communication channels.") }}</p>
+                        
+                        <div class="progress-status">
+                            <span class="progress-text">5 of 5 Steps Completed</span>
+                            <a href="#" class="refresh-btn">🔄 Refresh</a>
+                        </div>
                     </div>
                 </div>
 
