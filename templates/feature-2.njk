@@ -391,6 +391,13 @@
         .setup-nav-section .setup-nav-item {
             padding-left: 24px;
             font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .setup-nav-chevron {
+            flex-shrink: 0;
         }
 
         /* Main Content */
@@ -1301,19 +1308,64 @@
                 
                 <li class="setup-nav-section">
                     <div class="setup-nav-section-title">Administration</div>
-                    <a href="#" class="setup-nav-item">Users</a>
-                    <a href="#" class="setup-nav-item">Data</a>
-                    <a href="#" class="setup-nav-item">Email</a>
+                    <a href="#" class="setup-nav-item">
+                        <svg class="setup-nav-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5.50793 1.35367L11.8772 7.66136C12.0618 7.84597 12.0618 8.15367 11.8772 8.33828L5.50793 14.646C5.32332 14.8306 5.01562 14.8306 4.83101 14.646L4.15409 13.969C3.96947 13.7844 3.96947 13.4767 4.15409 13.2921L9.16947 8.33828C9.35409 8.15367 9.35409 7.84597 9.16947 7.66136L4.18486 2.70751C4.00024 2.5229 4.00024 2.2152 4.18486 2.03059L4.86178 1.35367C5.04639 1.19982 5.32332 1.19982 5.50793 1.35367V1.35367Z" fill="#747474"/>
+                        </svg>
+                        Users
+                    </a>
+                    <a href="#" class="setup-nav-item">
+                        <svg class="setup-nav-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5.50793 1.35367L11.8772 7.66136C12.0618 7.84597 12.0618 8.15367 11.8772 8.33828L5.50793 14.646C5.32332 14.8306 5.01562 14.8306 4.83101 14.646L4.15409 13.969C3.96947 13.7844 3.96947 13.4767 4.15409 13.2921L9.16947 8.33828C9.35409 8.15367 9.35409 7.84597 9.16947 7.66136L4.18486 2.70751C4.00024 2.5229 4.00024 2.2152 4.18486 2.03059L4.86178 1.35367C5.04639 1.19982 5.32332 1.19982 5.50793 1.35367V1.35367Z" fill="#747474"/>
+                        </svg>
+                        Data
+                    </a>
+                    <a href="#" class="setup-nav-item">
+                        <svg class="setup-nav-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5.50793 1.35367L11.8772 7.66136C12.0618 7.84597 12.0618 8.15367 11.8772 8.33828L5.50793 14.646C5.32332 14.8306 5.01562 14.8306 4.83101 14.646L4.15409 13.969C3.96947 13.7844 3.96947 13.4767 4.15409 13.2921L9.16947 8.33828C9.35409 8.15367 9.35409 7.84597 9.16947 7.66136L4.18486 2.70751C4.00024 2.5229 4.00024 2.2152 4.18486 2.03059L4.86178 1.35367C5.04639 1.19982 5.32332 1.19982 5.50793 1.35367V1.35367Z" fill="#747474"/>
+                        </svg>
+                        Email
+                    </a>
                 </li>
                 
                 <li class="setup-nav-section">
                     <div class="setup-nav-section-title">Platform Tools</div>
-                    <a href="#" class="setup-nav-item">Apps</a>
-                    <a href="#" class="setup-nav-item">Feature Settings</a>
-                    <a href="#" class="setup-nav-item">Slack</a>
-                    <a href="#" class="setup-nav-item">Heroku</a>
-                    <a href="#" class="setup-nav-item">MuleSoft</a>
-                    <a href="#" class="setup-nav-item">Einstein</a>
+                    <a href="#" class="setup-nav-item">
+                        <svg class="setup-nav-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5.50793 1.35367L11.8772 7.66136C12.0618 7.84597 12.0618 8.15367 11.8772 8.33828L5.50793 14.646C5.32332 14.8306 5.01562 14.8306 4.83101 14.646L4.15409 13.969C3.96947 13.7844 3.96947 13.4767 4.15409 13.2921L9.16947 8.33828C9.35409 8.15367 9.35409 7.84597 9.16947 7.66136L4.18486 2.70751C4.00024 2.5229 4.00024 2.2152 4.18486 2.03059L4.86178 1.35367C5.04639 1.19982 5.32332 1.19982 5.50793 1.35367V1.35367Z" fill="#747474"/>
+                        </svg>
+                        Apps
+                    </a>
+                    <a href="#" class="setup-nav-item">
+                        <svg class="setup-nav-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5.50793 1.35367L11.8772 7.66136C12.0618 7.84597 12.0618 8.15367 11.8772 8.33828L5.50793 14.646C5.32332 14.8306 5.01562 14.8306 4.83101 14.646L4.15409 13.969C3.96947 13.7844 3.96947 13.4767 4.15409 13.2921L9.16947 8.33828C9.35409 8.15367 9.35409 7.84597 9.16947 7.66136L4.18486 2.70751C4.00024 2.5229 4.00024 2.2152 4.18486 2.03059L4.86178 1.35367C5.04639 1.19982 5.32332 1.19982 5.50793 1.35367V1.35367Z" fill="#747474"/>
+                        </svg>
+                        Feature Settings
+                    </a>
+                    <a href="#" class="setup-nav-item">
+                        <svg class="setup-nav-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5.50793 1.35367L11.8772 7.66136C12.0618 7.84597 12.0618 8.15367 11.8772 8.33828L5.50793 14.646C5.32332 14.8306 5.01562 14.8306 4.83101 14.646L4.15409 13.969C3.96947 13.7844 3.96947 13.4767 4.15409 13.2921L9.16947 8.33828C9.35409 8.15367 9.35409 7.84597 9.16947 7.66136L4.18486 2.70751C4.00024 2.5229 4.00024 2.2152 4.18486 2.03059L4.86178 1.35367C5.04639 1.19982 5.32332 1.19982 5.50793 1.35367V1.35367Z" fill="#747474"/>
+                        </svg>
+                        Slack
+                    </a>
+                    <a href="#" class="setup-nav-item">
+                        <svg class="setup-nav-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5.50793 1.35367L11.8772 7.66136C12.0618 7.84597 12.0618 8.15367 11.8772 8.33828L5.50793 14.646C5.32332 14.8306 5.01562 14.8306 4.83101 14.646L4.15409 13.969C3.96947 13.7844 3.96947 13.4767 4.15409 13.2921L9.16947 8.33828C9.35409 8.15367 9.35409 7.84597 9.16947 7.66136L4.18486 2.70751C4.00024 2.5229 4.00024 2.2152 4.18486 2.03059L4.86178 1.35367C5.04639 1.19982 5.32332 1.19982 5.50793 1.35367V1.35367Z" fill="#747474"/>
+                        </svg>
+                        Heroku
+                    </a>
+                    <a href="#" class="setup-nav-item">
+                        <svg class="setup-nav-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5.50793 1.35367L11.8772 7.66136C12.0618 7.84597 12.0618 8.15367 11.8772 8.33828L5.50793 14.646C5.32332 14.8306 5.01562 14.8306 4.83101 14.646L4.15409 13.969C3.96947 13.7844 3.96947 13.4767 4.15409 13.2921L9.16947 8.33828C9.35409 8.15367 9.35409 7.84597 9.16947 7.66136L4.18486 2.70751C4.00024 2.5229 4.00024 2.2152 4.18486 2.03059L4.86178 1.35367C5.04639 1.19982 5.32332 1.19982 5.50793 1.35367V1.35367Z" fill="#747474"/>
+                        </svg>
+                        MuleSoft
+                    </a>
+                    <a href="#" class="setup-nav-item">
+                        <svg class="setup-nav-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5.50793 1.35367L11.8772 7.66136C12.0618 7.84597 12.0618 8.15367 11.8772 8.33828L5.50793 14.646C5.32332 14.8306 5.01562 14.8306 4.83101 14.646L4.15409 13.969C3.96947 13.7844 3.96947 13.4767 4.15409 13.2921L9.16947 8.33828C9.35409 8.15367 9.35409 7.84597 9.16947 7.66136L4.18486 2.70751C4.00024 2.5229 4.00024 2.2152 4.18486 2.03059L4.86178 1.35367C5.04639 1.19982 5.32332 1.19982 5.50793 1.35367V1.35367Z" fill="#747474"/>
+                        </svg>
+                        Einstein
+                    </a>
                 </li>
             </ul>
         </nav>
