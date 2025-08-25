@@ -298,6 +298,93 @@
             word-wrap: break-word;
         }
 
+        /* Setup Page Navigation */
+        .setup-page-nav {
+            width: 240px;
+            background: #fff;
+            border-right: 1px solid #c9c7c5;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .setup-search {
+            padding: 16px 16px 12px;
+            border-bottom: 1px solid #f3f2f2;
+        }
+
+        .setup-search-input {
+            width: 100%;
+            padding: 8px 12px 8px 36px;
+            border: 1px solid #c9c7c5;
+            border-radius: 4px;
+            font-size: 13px;
+            background: #fff;
+            position: relative;
+        }
+
+        .setup-search-input::placeholder {
+            color: #706e6b;
+        }
+
+        .setup-search-wrapper {
+            position: relative;
+        }
+
+        .setup-search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #706e6b;
+            font-size: 14px;
+        }
+
+        .setup-nav-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .setup-nav-item {
+            display: block;
+            padding: 10px 16px;
+            color: #080707;
+            text-decoration: none;
+            font-size: 13px;
+            border-left: 3px solid transparent;
+            transition: background 0.15s ease;
+        }
+
+        .setup-nav-item:hover {
+            background: #f3f2f2;
+        }
+
+        .setup-nav-item.active {
+            background: #e5f3ff;
+            border-left-color: #1589ee;
+            font-weight: 600;
+            color: #1589ee;
+        }
+
+        .setup-nav-section {
+            margin-top: 20px;
+        }
+
+        .setup-nav-section-title {
+            padding: 8px 16px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #706e6b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: #f3f2f2;
+        }
+
+        .setup-nav-section .setup-nav-item {
+            padding-left: 24px;
+            font-size: 13px;
+        }
+
         /* Main Content */
         .main-content {
             flex: 1;
@@ -1010,6 +1097,38 @@
                 </div>
                 <div class="sf-sidenav-label">More</div>
             </a>
+        </nav>
+
+        <!-- Setup Page Navigation -->
+        <nav class="setup-page-nav">
+            <div class="setup-search">
+                <div class="setup-search-wrapper">
+                    <div class="setup-search-icon">🔍</div>
+                    <input type="text" class="setup-search-input" placeholder="Quick Find">
+                </div>
+            </div>
+            
+            <ul class="setup-nav-list">
+                <li><a href="#" class="setup-nav-item">Setup Home</a></li>
+                <li><a href="#" class="setup-nav-item active">Salesforce Go</a></li>
+                
+                <li class="setup-nav-section">
+                    <div class="setup-nav-section-title">Administration</div>
+                    <a href="#" class="setup-nav-item">Users</a>
+                    <a href="#" class="setup-nav-item">Data</a>
+                    <a href="#" class="setup-nav-item">Email</a>
+                </li>
+                
+                <li class="setup-nav-section">
+                    <div class="setup-nav-section-title">Platform Tools</div>
+                    <a href="#" class="setup-nav-item">Apps</a>
+                    <a href="#" class="setup-nav-item">Feature Settings</a>
+                    <a href="#" class="setup-nav-item">Slack</a>
+                    <a href="#" class="setup-nav-item">Heroku</a>
+                    <a href="#" class="setup-nav-item">MuleSoft</a>
+                    <a href="#" class="setup-nav-item">Einstein</a>
+                </li>
+            </ul>
         </nav>
 
         <!-- Main Content -->
