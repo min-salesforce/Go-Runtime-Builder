@@ -342,8 +342,9 @@
             left: 12px;
             top: 50%;
             transform: translateY(-50%);
-            color: #706e6b;
-            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .setup-nav-list {
@@ -1285,8 +1286,12 @@
         <nav class="setup-page-nav">
             <div class="setup-search">
                 <div class="setup-search-wrapper">
-                    <div class="setup-search-icon">🔍</div>
-                    <input type="text" class="setup-search-input" placeholder="Quick Find">
+                    <div class="setup-search-icon">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M19.0759 17.4226L13.9221 12.3072C14.9606 10.8456 15.499 8.9995 15.2298 7.03796C14.7682 3.73027 12.0759 1.11488 8.72978 0.807188C4.19132 0.34565 0.345168 4.1918 0.806706 8.76873C1.1144 12.0764 3.72978 14.8072 7.03748 15.2687C8.99901 15.538 10.8452 14.9995 12.3067 13.961L17.4221 19.0764C17.6529 19.3072 17.999 19.3072 18.2298 19.0764L19.0375 18.2687C19.2682 18.038 19.2682 17.6533 19.0759 17.4226V17.4226ZM3.07594 8.03797C3.07594 5.3072 5.30671 3.07643 8.03748 3.07643C10.7682 3.07643 12.999 5.3072 12.999 8.03797C12.999 10.7687 10.7682 12.9995 8.03748 12.9995C5.30671 12.9995 3.07594 10.8072 3.07594 8.03797V8.03797Z" fill="#AAB6C5"/>
+                        </svg>
+                    </div>
+                    <input type="text" class="setup-search-input">
                 </div>
             </div>
             
