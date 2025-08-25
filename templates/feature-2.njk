@@ -757,22 +757,32 @@
             margin-bottom: 8px;
         }
 
-        /* Edit Mode Styles */
+        /* Floating Edit Mode Toggle */
         .edit-toggle-btn {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9999;
             background: #f99120;
             color: #fff;
             border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-size: 12px;
+            padding: 12px 16px;
+            border-radius: 50px;
+            font-size: 13px;
             font-weight: 600;
             cursor: pointer;
-            margin-left: 12px;
-            transition: background 0.2s;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
         }
 
         .edit-toggle-btn:hover {
             background: #e6820e;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
         }
 
         .edit-toggle-btn.editing {
@@ -781,6 +791,8 @@
 
         .edit-toggle-btn.editing:hover {
             background: #3eb370;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(75, 202, 129, 0.4);
         }
 
         /* Add Section Button */
@@ -1169,7 +1181,6 @@
                         <span class="progress-text">3 of 5 Steps Completed</span>
                         <a href="#" class="refresh-btn">🔄 Refresh</a>
                         <div class="suggested-badge">💡 Suggested for You</div>
-                        <button id="edit-toggle" class="edit-toggle-btn">✏️ Edit Mode</button>
                     </div>
                 </div>
 
@@ -1849,5 +1860,10 @@
             });
         });
     </script>
+
+    <!-- Floating Edit Mode Toggle (Development Tool) -->
+    <button id="edit-toggle" class="edit-toggle-btn">
+        ✏️ Edit Mode
+    </button>
 </body>
 </html>
