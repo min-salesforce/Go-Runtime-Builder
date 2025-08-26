@@ -22,7 +22,8 @@
         "description": { "type": "string" },
         "jtbd": { "type": "string" },
         "cloud": { "type": "string" },
-        "version": { "type": "string" }
+        "version": { "type": "string" },
+        "featureBadge": { "type": "string" }
       },
       "additionalProperties": false
     },
