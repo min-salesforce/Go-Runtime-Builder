@@ -123,6 +123,32 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="form-label" for="featureBadge">Feature Badge *</label>
+                    <select id="featureBadge" name="featureBadge" class="form-control" required>
+                        <option value="">Choose feature badge</option>
+                        <option value="sales">Sales</option>
+                        <option value="service">Service</option>
+                        <option value="industries">Industries</option>
+                        <option value="field-service">Field Service</option>
+                        <option value="foundations">Foundations</option>
+                        <option value="financial-services">Financial Services</option>
+                        <option value="marketing">Marketing</option>
+                        <option value="itsm">ITSM</option>
+                        <option value="public-sector">Public Sector</option>
+                        <option value="revenue-cloud">Revenue Cloud</option>
+                        <option value="commerce">Commerce</option>
+                        <option value="data">Data</option>
+                        <option value="education">Education</option>
+                        <option value="automotive">Automotive</option>
+                        <option value="nonprofit">Nonprofit</option>
+                        <option value="manufacturing">Manufacturing</option>
+                        <option value="healthcare">Healthcare</option>
+                        <option value="sentos">SentOS</option>
+                    </select>
+                    <small style="color: #666; font-size: 0.875rem;">Select the Salesforce product area for this feature</small>
+                </div>
+
+                <div class="form-group">
                     <label class="form-label" for="screenshot">Screenshot (Optional)</label>
                     <input type="file" id="screenshot" name="screenshot" class="form-control" accept="image/*">
                     <small style="color: #666; font-size: 0.875rem;">Upload a screenshot to display in the header</small>
@@ -147,7 +173,8 @@
                 setupType: formData.get('pageType'),
                 metadata: {
                     name: formData.get('name'),
-                    description: formData.get('description') || ''
+                    description: formData.get('description') || '',
+                    featureBadge: formData.get('featureBadge')
                 },
                 assets: {
                     resources: {}
