@@ -648,14 +648,25 @@
 
         .section-toggle {
             margin-right: 12px;
-            font-size: 16px;
-            color: #706e6b;
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            transition: transform 0.2s ease;
+        }
+        
+        .section-toggle svg {
+            width: 100%;
+            height: 100%;
         }
 
         .section-title {
-            font-size: 16px;
+            color: var(--Text-Default, #181818);
+            font-feature-settings: 'liga' off, 'clig' off;
+            font-family: "SF Pro Display";
+            font-size: 18px;
+            font-style: normal;
             font-weight: 600;
-            color: #080707;
+            line-height: 32px; /* 177.778% */
         }
 
         .turn-on-badge {
@@ -1532,7 +1543,9 @@
                     <!-- Turn On Section -->
                     <div class="config-section" data-section-id="turn-on">
                         <div class="section-header" onclick="toggleSection(this)">
-                            <span class="section-toggle">▼</span>
+                            <span class="section-toggle"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M14.6461 5.47668L8.33841 11.8459C8.15379 12.0305 7.8461 12.0305 7.66149 11.8459L1.35379 5.47668C1.16918 5.29207 1.16918 4.98438 1.35379 4.79976L2.03072 4.12284C2.21533 3.93822 2.52302 3.93822 2.70764 4.12284L7.66149 9.13822C7.8461 9.32284 8.15379 9.32284 8.33841 9.13822L13.2923 4.15361C13.4769 3.96899 13.7846 3.96899 13.9692 4.15361L14.6461 4.83053C14.7999 5.01514 14.7999 5.29207 14.6461 5.47668V5.47668Z" fill="#747474"/>
+</svg></span>
                             <h2 class="section-title editable" data-field="section-turn-on-title">Turn On {{ metadata.name | default("Feature Name") }}</h2>
                             <div class="turn-on-badge">Turn On</div>
                             <button class="delete-section-btn" onclick="deleteSection(this)" title="Delete Section">✖</button>
@@ -1572,7 +1585,9 @@
                     <!-- Set Up the Basics -->
                     <div class="config-section" data-section-id="basics">
                         <div class="section-header" onclick="toggleSection(this)">
-                            <span class="section-toggle">▼</span>
+                            <span class="section-toggle"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M14.6461 5.47668L8.33841 11.8459C8.15379 12.0305 7.8461 12.0305 7.66149 11.8459L1.35379 5.47668C1.16918 5.29207 1.16918 4.98438 1.35379 4.79976L2.03072 4.12284C2.21533 3.93822 2.52302 3.93822 2.70764 4.12284L7.66149 9.13822C7.8461 9.32284 8.15379 9.32284 8.33841 9.13822L13.2923 4.15361C13.4769 3.96899 13.7846 3.96899 13.9692 4.15361L14.6461 4.83053C14.7999 5.01514 14.7999 5.29207 14.6461 5.47668V5.47668Z" fill="#747474"/>
+</svg></span>
                             <h2 class="section-title editable" data-field="section-basics-title">Set Up the Basics</h2>
                             <button class="delete-section-btn" onclick="deleteSection(this)" title="Delete Section">✖</button>
                             <button class="drag-handle" draggable="true" title="Drag to reorder">≡</button>
@@ -1608,7 +1623,9 @@
                     <!-- Review Email-to-Case Settings -->
                     <div class="config-section" data-section-id="email-case">
                         <div class="section-header" onclick="toggleSection(this)">
-                            <span class="section-toggle">▼</span>
+                            <span class="section-toggle"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M14.6461 5.47668L8.33841 11.8459C8.15379 12.0305 7.8461 12.0305 7.66149 11.8459L1.35379 5.47668C1.16918 5.29207 1.16918 4.98438 1.35379 4.79976L2.03072 4.12284C2.21533 3.93822 2.52302 3.93822 2.70764 4.12284L7.66149 9.13822C7.8461 9.32284 8.15379 9.32284 8.33841 9.13822L13.2923 4.15361C13.4769 3.96899 13.7846 3.96899 13.9692 4.15361L14.6461 4.83053C14.7999 5.01514 14.7999 5.29207 14.6461 5.47668V5.47668Z" fill="#747474"/>
+</svg></span>
                             <h2 class="section-title editable" data-field="section-email-case-title">Review Email-to-Case Settings</h2>
                             <button class="delete-section-btn" onclick="deleteSection(this)" title="Delete Section">✖</button>
                             <button class="drag-handle" draggable="true" title="Drag to reorder">≡</button>
@@ -1642,7 +1659,9 @@
                     <!-- Unlock Advanced Functionality -->
                     <div class="config-section" data-section-id="advanced">
                         <div class="section-header" onclick="toggleSection(this)">
-                            <span class="section-toggle">▼</span>
+                            <span class="section-toggle"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M14.6461 5.47668L8.33841 11.8459C8.15379 12.0305 7.8461 12.0305 7.66149 11.8459L1.35379 5.47668C1.16918 5.29207 1.16918 4.98438 1.35379 4.79976L2.03072 4.12284C2.21533 3.93822 2.52302 3.93822 2.70764 4.12284L7.66149 9.13822C7.8461 9.32284 8.15379 9.32284 8.33841 9.13822L13.2923 4.15361C13.4769 3.96899 13.7846 3.96899 13.9692 4.15361L14.6461 4.83053C14.7999 5.01514 14.7999 5.29207 14.6461 5.47668V5.47668Z" fill="#747474"/>
+</svg></span>
                             <h2 class="section-title editable" data-field="section-advanced-title">Unlock Advanced Functionality</h2>
                             <button class="delete-section-btn" onclick="deleteSection(this)" title="Delete Section">✖</button>
                             <button class="drag-handle" draggable="true" title="Drag to reorder">≡</button>
@@ -1828,7 +1847,9 @@
                 <!-- New Section -->
                 <div class="config-section" data-section-id="${newSectionId}">
                     <div class="section-header" onclick="toggleSection(this)">
-                        <span class="section-toggle">▼</span>
+                        <span class="section-toggle"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M14.6461 5.47668L8.33841 11.8459C8.15379 12.0305 7.8461 12.0305 7.66149 11.8459L1.35379 5.47668C1.16918 5.29207 1.16918 4.98438 1.35379 4.79976L2.03072 4.12284C2.21533 3.93822 2.52302 3.93822 2.70764 4.12284L7.66149 9.13822C7.8461 9.32284 8.15379 9.32284 8.33841 9.13822L13.2923 4.15361C13.4769 3.96899 13.7846 3.96899 13.9692 4.15361L14.6461 4.83053C14.7999 5.01514 14.7999 5.29207 14.6461 5.47668V5.47668Z" fill="#747474"/>
+</svg></span>
                         <h2 class="section-title editable editing" data-field="section-${newSectionId}-title">New Section Title</h2>
                         <button class="delete-section-btn editing" onclick="deleteSection(this)" title="Delete Section">✖</button>
                         <button class="drag-handle editing" draggable="true" title="Drag to reorder">≡</button>
