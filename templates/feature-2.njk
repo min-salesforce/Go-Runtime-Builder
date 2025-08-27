@@ -591,6 +591,7 @@
         }
 
         .page-title {
+            font-family: "SF Pro", "Salesforce Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
             font-size: 24px;
             font-weight: 600;
             color: #080707;
@@ -598,6 +599,7 @@
         }
 
         .page-subtitle {
+            font-family: "SF Pro", "Salesforce Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
             color: #706e6b;
             font-size: 14px;
             margin-bottom: 16px;
@@ -640,7 +642,7 @@
 
         .section-header {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             padding: 16px 20px;
             cursor: pointer;
             border-bottom: 1px solid #f3f2f2;
@@ -648,6 +650,7 @@
 
         .section-toggle {
             margin-right: 12px;
+            margin-top: 8px;
             width: 16px;
             height: 16px;
             display: inline-block;
@@ -659,24 +662,74 @@
             height: 100%;
         }
 
+        .config-section.collapsed .section-toggle {
+            transform: rotate(-90deg);
+        }
+
         .section-title {
             color: var(--Text-Default, #181818);
             font-feature-settings: 'liga' off, 'clig' off;
-            font-family: "SF Pro Display";
+            font-family: "SF Pro", "Salesforce Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
             font-size: 18px;
             font-style: normal;
             font-weight: 600;
             line-height: 32px; /* 177.778% */
         }
 
-        .turn-on-badge {
+        .turn-on-toggle {
             margin-left: auto;
-            background: #1589ee;
-            color: #fff;
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 600;
+            margin-top: 2px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .turn-on-toggle:hover {
+            opacity: 0.8;
+        }
+
+        /* Toggle animations */
+        .toggle-track {
+            transition: fill 0.3s ease;
+        }
+
+        .toggle-circle {
+            transition: cx 0.3s ease;
+        }
+
+        .toggle-checkmark {
+            transition: opacity 0.2s ease;
+        }
+
+        .toggle-label-off {
+            transition: opacity 0.2s ease;
+        }
+
+        .toggle-label-on {
+            transition: opacity 0.2s ease;
+        }
+
+        /* On state styles */
+        .turn-on-toggle.on .toggle-track {
+            fill: #0176D3;
+        }
+
+        .turn-on-toggle.on .toggle-circle {
+            cx: 36;
+        }
+
+        .turn-on-toggle.on .toggle-checkmark {
+            opacity: 1;
+        }
+
+        .turn-on-toggle.on .toggle-label-off {
+            opacity: 0;
+        }
+
+        .turn-on-toggle.on .toggle-label-on {
+            opacity: 1;
         }
 
         .section-content {
@@ -689,16 +742,36 @@
             margin-bottom: 16px;
         }
 
+        .section-title-area {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .section-title-area .section-title {
+            margin-bottom: 4px;
+        }
+
+        .section-title-area .section-description {
+            margin: 4px 0;
+        }
+
         .section-links {
             display: flex;
             gap: 16px;
-            margin-bottom: 16px;
             font-size: 12px;
         }
 
         .section-links a {
-            color: #1589ee;
+            color: #0B5CAB;
             text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .section-links a svg {
+            flex-shrink: 0;
         }
 
         /* Step Items */
@@ -714,16 +787,77 @@
         }
 
         .step-icon {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            border: 2px solid #dddbda;
+            width: 22px;
+            height: 22px;
             margin-right: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 10px;
-            color: #706e6b;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .step-icon svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        /* Step icon states */
+        .step-icon .step-state {
+            position: absolute;
+            transition: opacity 0.3s ease;
+        }
+
+        .step-icon.default .step-default { opacity: 1; }
+        .step-icon.default .step-active { opacity: 0; }
+        .step-icon.default .step-complete { opacity: 0; }
+        .step-icon.default .step-error { opacity: 0; }
+
+        .step-icon.active .step-default { opacity: 0; }
+        .step-icon.active .step-active { opacity: 1; }
+        .step-icon.active .step-complete { opacity: 0; }
+        .step-icon.active .step-error { opacity: 0; }
+
+        .step-icon.complete .step-default { opacity: 0; }
+        .step-icon.complete .step-active { opacity: 0; }
+        .step-icon.complete .step-complete { opacity: 1; }
+        .step-icon.complete .step-error { opacity: 0; }
+
+        .step-icon.error .step-default { opacity: 0; }
+        .step-icon.error .step-active { opacity: 0; }
+        .step-icon.error .step-complete { opacity: 0; }
+        .step-icon.error .step-error { opacity: 1; }
+
+        /* Add/Remove step buttons */
+        .add-step-btn, .remove-step-btn {
+            display: none;
+            background: #0176D3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 11px;
+            cursor: pointer;
+            margin-left: 8px;
+            transition: background 0.2s;
+        }
+
+        .add-step-btn:hover, .remove-step-btn:hover {
+            background: #014486;
+        }
+
+        .remove-step-btn {
+            background: #d83b01;
+            margin-left: auto;
+            padding: 2px 6px;
+        }
+
+        .remove-step-btn:hover {
+            background: #b32b00;
+        }
+
+        .add-step-btn.editing, .remove-step-btn.editing {
+            display: inline-block;
         }
 
         .step-title {
@@ -1017,8 +1151,7 @@
             display: none;
             position: absolute;
             right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
+            top: 24px;
             background: #706e6b;
             color: white;
             border: none;
@@ -1064,8 +1197,7 @@
             display: none;
             position: absolute;
             right: 44px;
-            top: 50%;
-            transform: translateY(-50%);
+            top: 24px;
             background: #d83b01;
             color: white;
             border: none;
@@ -1546,34 +1678,142 @@
                             <span class="section-toggle"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M14.6461 5.47668L8.33841 11.8459C8.15379 12.0305 7.8461 12.0305 7.66149 11.8459L1.35379 5.47668C1.16918 5.29207 1.16918 4.98438 1.35379 4.79976L2.03072 4.12284C2.21533 3.93822 2.52302 3.93822 2.70764 4.12284L7.66149 9.13822C7.8461 9.32284 8.15379 9.32284 8.33841 9.13822L13.2923 4.15361C13.4769 3.96899 13.7846 3.96899 13.9692 4.15361L14.6461 4.83053C14.7999 5.01514 14.7999 5.29207 14.6461 5.47668V5.47668Z" fill="#747474"/>
 </svg></span>
-                            <h2 class="section-title editable" data-field="section-turn-on-title">Turn On {{ metadata.name | default("Feature Name") }}</h2>
-                            <div class="turn-on-badge">Turn On</div>
+                            <div class="section-title-area">
+                                <h2 class="section-title editable" data-field="section-turn-on-title">Turn On {{ metadata.name | default("Feature Name") }}</h2>
+                                <p class="section-description editable" data-field="section-turn-on-description">Description as needed to help user understand the list of steps below.</p>
+                                <div class="section-links" onclick="event.stopPropagation()">
+                                    <a href="#" onclick="event.stopPropagation()">
+                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M11.4001 2.81578C11.3539 2.67731 11.1923 2.65424 11.0769 2.74655L9.20674 4.61579C9.06821 4.75425 8.83733 4.75425 8.6988 4.61579L7.38278 3.3004C7.24425 3.16193 7.24425 2.93116 7.38278 2.7927L9.276 0.923456C9.36835 0.831148 9.32218 0.669608 9.20674 0.600377C8.8835 0.508068 8.53718 0.461914 8.21395 0.461914C6.25147 0.461914 4.68148 2.14654 4.91236 4.15425C4.95854 4.47733 5.0278 4.75425 5.14324 5.03118L0.825777 9.32352C0.31784 9.83121 0.31784 10.662 0.825777 11.1466C1.07975 11.4005 1.42607 11.5389 1.7493 11.5389C2.07253 11.5389 2.41885 11.4005 2.67282 11.1466L6.9672 6.85427C7.24425 6.96965 7.5444 7.03889 7.84454 7.08504C9.8532 7.31581 11.5386 5.74657 11.5386 3.78502C11.5386 3.43886 11.4925 3.11578 11.4001 2.81578Z" fill="#0B5CAB"/>
+                                        </svg>
+                                        Preview Default Settings
+                                    </a>
+                                    <a href="#" onclick="event.stopPropagation()">
+                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M10.2463 0.460938H4.33859C3.73858 0.460938 3.23089 0.968625 3.23089 1.56862V1.75323C3.23089 1.86862 3.30012 1.93785 3.4155 1.93785H8.76939C9.3694 1.93785 9.87709 2.44553 9.87709 3.04553V8.76855C9.87709 8.88394 9.94632 8.95317 10.0617 8.95317H10.2463C10.8463 8.95317 11.354 8.44548 11.354 7.84549V1.56862C11.354 0.968625 10.8463 0.460938 10.2463 0.460938ZM7.66192 3.04598H1.75419C1.15418 3.04598 0.646484 3.55367 0.646484 4.15366V10.4305C0.646484 11.0305 1.15418 11.5382 1.75419 11.5382H7.66192C8.26193 11.5382 8.76962 11.0305 8.76962 10.4305V4.15366C8.76962 3.55367 8.26193 3.04598 7.66192 3.04598ZM3.23099 9.69164C3.23099 9.89933 3.06945 10.0609 2.86175 10.0609H2.49252C2.28483 10.0609 2.12329 9.89933 2.12329 9.69164V9.32241C2.12329 9.11472 2.28483 8.95318 2.49252 8.95318H2.86175C3.06945 8.95318 3.23099 9.11472 3.23099 9.32241V9.69164ZM3.23099 7.47601C3.23099 7.6837 3.06945 7.84524 2.86175 7.84524H2.49252C2.28483 7.84524 2.12329 7.6837 2.12329 7.47601V7.10678C2.12329 6.89909 2.28483 6.73756 2.49252 6.73756H2.86175C3.06945 6.73756 3.23099 6.89909 3.23099 7.10678V7.47601ZM3.23099 5.26038C3.23099 5.46807 3.06945 5.62961 2.86175 5.62961H2.49252C2.28483 5.62961 2.12329 5.46807 2.12329 5.26038V4.89115C2.12329 4.68346 2.28483 4.52193 2.49252 4.52193H2.86175C3.06945 4.52193 3.23099 4.68346 3.23099 4.89115V5.26038ZM7.29277 9.69164C7.29277 9.89933 7.13123 10.0609 6.92354 10.0609H4.36198C4.15429 10.0609 3.99275 9.89933 3.99275 9.69164V9.32241C3.99275 9.11472 4.15429 8.95318 4.36198 8.95318H6.92354C7.13123 8.95318 7.29277 9.11472 7.29277 9.32241V9.69164ZM7.29277 7.47601C7.29277 7.6837 7.13123 7.84524 6.92354 7.84524H4.36198C4.15429 7.84524 3.99275 7.6837 3.99275 7.47601V7.10678C3.99275 6.89909 4.15429 6.73756 4.36198 6.73756H6.92354C7.13123 6.73756 7.29277 6.89909 7.29277 7.10678V7.47601ZM7.29277 5.26038C7.29277 5.46807 7.13123 5.62961 6.92354 5.62961H4.36198C4.15429 5.62961 3.99275 5.46807 3.99275 5.26038V4.89115C3.99275 4.68346 4.15429 4.52193 4.36198 4.52193H6.92354C7.13123 4.52193 7.29277 4.68346 7.29277 4.89115V5.26038Z" fill="#0B5CAB"/>
+                                        </svg>
+                                        See Considerations
+                                    </a>
+                                    <a href="#" onclick="event.stopPropagation()">
+                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M6.02293 4.40797C5.12293 4.40797 4.40754 5.12335 4.40754 6.02336C4.40754 6.92336 5.12293 7.63874 6.02293 7.63874C6.92293 7.63874 7.63831 6.92336 7.63831 6.02336C7.63831 5.12335 6.92293 4.40797 6.02293 4.40797ZM10.869 7.47668L10.0152 6.7613C10.0613 6.50745 10.0844 6.23053 10.0844 5.97668C10.0844 5.72284 10.0613 5.44591 10.0152 5.19207L10.869 4.47668C11.1459 4.24591 11.2383 3.83053 11.0536 3.50745L10.6844 2.8613C10.5459 2.63053 10.2921 2.49207 10.0152 2.49207C9.92287 2.49207 9.83056 2.51514 9.76133 2.53822L8.69979 2.93053C8.28441 2.5613 7.82287 2.30745 7.33826 2.14591L7.15364 1.0613C7.08441 0.692067 6.76133 0.484375 6.3921 0.484375H5.65364C5.28441 0.484375 4.96133 0.692067 4.8921 1.0613L4.70749 2.12284C4.19979 2.28438 3.73826 2.5613 3.32287 2.90745L2.26133 2.51514C2.16902 2.49207 2.09979 2.46899 2.00749 2.46899C1.73056 2.46899 1.47672 2.60745 1.33826 2.83822L0.969025 3.48438C0.78441 3.80745 0.85364 4.22284 1.15364 4.45361L2.00749 5.16899C1.96133 5.42284 1.93826 5.69976 1.93826 5.95361C1.93826 6.23053 1.96133 6.48438 2.00749 6.73822L1.15364 7.45361C0.876717 7.68438 0.78441 8.09976 0.969025 8.42284L1.33826 9.06899C1.47672 9.29976 1.73056 9.43822 2.00749 9.43822C2.09979 9.43822 2.1921 9.41515 2.26133 9.39207L3.32287 8.99976C3.73826 9.36899 4.19979 9.62284 4.68441 9.78438L4.86902 10.8921C4.93826 11.2613 5.23826 11.5151 5.63056 11.5151H6.36902C6.73826 11.5151 7.06133 11.2382 7.13056 10.869L7.31518 9.7613C7.84595 9.57668 8.33056 9.29976 8.74595 8.90745L9.73826 9.29976C9.83056 9.32284 9.92287 9.34592 10.0152 9.34592C10.2921 9.34592 10.5459 9.20745 10.6844 8.97668L11.0306 8.37668C11.2383 8.12284 11.1459 7.70745 10.869 7.47668ZM6.02302 8.56131C4.61532 8.56131 3.48455 7.43054 3.48455 6.02285C3.48455 4.61516 4.61532 3.48439 6.02302 3.48439C7.43071 3.48439 8.56148 4.61516 8.56148 6.02285C8.56148 7.43054 7.43071 8.56131 6.02302 8.56131Z" fill="#0B5CAB"/>
+                                        </svg>
+                                        Setup Help
+                                    </a>
+                                </div>
+                            </div>
+                            <button class="turn-on-toggle" onclick="toggleFeatureState(this)">
+                                <svg width="48" height="42" viewBox="0 0 48 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Toggle track background -->
+                                    <rect class="toggle-track" width="48" height="24" rx="12" fill="#AEAEAE"/>
+                                    
+                                    <!-- Toggle circle -->
+                                    <circle class="toggle-circle" cx="12" cy="12" r="10" fill="white"/>
+                                    
+                                    <!-- Checkmark (hidden by default) -->
+                                    <path class="toggle-checkmark" fill-rule="evenodd" clip-rule="evenodd" d="M12.4076 15.8077L8.59994 11.9769C8.46148 11.8385 8.46148 11.6077 8.59994 11.4692L9.10763 10.9615C9.24609 10.8231 9.47686 10.8231 9.61532 10.9615L12.4769 13.8462C12.5692 13.9385 12.7307 13.9385 12.823 13.8462L18.4307 8.19232C18.5692 8.05386 18.7999 8.05386 18.9384 8.19232L19.4461 8.70001C19.5846 8.83847 19.5846 9.06924 19.4461 9.2077L12.9153 15.8077C12.7769 15.9692 12.5461 15.9692 12.4076 15.8077Z" fill="white" opacity="0"/>
+                                    
+                                    <!-- Off label -->
+                                    <text class="toggle-label-off" x="24" y="38" text-anchor="middle" fill="#444444" font-family="SF Pro, Salesforce Sans, -apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="11" font-weight="400">Off</text>
+                                    
+                                    <!-- On label (hidden by default) -->
+                                    <text class="toggle-label-on" x="24" y="38" text-anchor="middle" fill="#444444" font-family="SF Pro, Salesforce Sans, -apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="11" font-weight="400" opacity="0">On</text>
+                                </svg>
+                            </button>
                             <button class="delete-section-btn" onclick="deleteSection(this)" title="Delete Section">✖</button>
                             <button class="drag-handle" draggable="true" title="Drag to reorder">≡</button>
                         </div>
                     <div class="section-content">
-                        <div class="section-links">
-                            <a href="#">📋 Preview Default Settings</a>
-                            <a href="#">🔍 See Considerations</a>
-                            <a href="#">❓ Setup Help</a>
-                        </div>
-                        <p class="section-description editable" data-field="section-turn-on-description">Description as needed to help user understand the list of steps below.</p>
-                        
                         <div class="step-item">
-                            <div class="step-icon">○</div>
+                            <div class="step-icon default">
+                                <!-- Default state -->
+                                <svg class="step-state step-default" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" fill="white"/>
+                                    <path d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z" fill="#C9C9C9"/>
+                                </svg>
+                                <!-- Active state -->
+                                <svg class="step-state step-active" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" fill="#0176D3"/>
+                                    <path d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z" fill="white"/>
+                                </svg>
+                                <!-- Complete state -->
+                                <svg class="step-state step-complete" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path d="M11 17C14.3137 17 17 14.3137 17 11C17 7.68629 14.3137 5 11 5C7.68629 5 5 7.68629 5 11C5 14.3137 7.68629 17 11 17Z" fill="#2E844A"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.93826 13.5387L7.3998 10.9849C7.30749 10.8926 7.30749 10.7387 7.3998 10.6464L7.73826 10.308C7.83057 10.2157 7.98441 10.2157 8.07672 10.308L9.98441 12.231C10.046 12.2926 10.1536 12.2926 10.2152 12.231L13.9536 8.46181C14.046 8.3695 14.1998 8.3695 14.2921 8.46181L14.6306 8.80027C14.7229 8.89258 14.7229 9.04642 14.6306 9.13873L10.2767 13.5387C10.1844 13.6464 10.0306 13.6464 9.93826 13.5387V13.5387Z" fill="white"/>
+                                </svg>
+                                <!-- Error state -->
+                                <svg class="step-state step-error" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M10.9999 3.61523C6.93831 3.61523 3.61523 6.93831 3.61523 10.9999C3.61523 15.0614 6.93831 18.3845 10.9999 18.3845C15.0614 18.3845 18.3845 15.0614 18.3845 10.9999C18.3845 6.93831 15.0614 3.61523 10.9999 3.61523ZM5.46141 10.9998C5.46141 7.95367 7.95372 5.46136 10.9999 5.46136C12.1999 5.46136 13.3076 5.83059 14.1999 6.47675L6.4768 14.1998C5.83064 13.3075 5.46141 12.1998 5.46141 10.9998V10.9998ZM10.9997 16.5383C9.79973 16.5383 8.69204 16.1691 7.79973 15.523L15.5228 7.79988C16.169 8.69219 16.5382 9.79988 16.5382 10.9999C16.5382 14.046 14.0459 16.5383 10.9997 16.5383Z" fill="#BA0517"/>
+                                </svg>
+                            </div>
                             <div class="step-title editable" data-field="step-1-title">Step Title</div>
                             <a href="#" class="step-action">Review ↗</a>
+                            <button class="remove-step-btn" onclick="removeStep(this)" title="Remove Step">✖</button>
                         </div>
                         
                         <div class="step-item">
-                            <div class="step-icon">○</div>
+                            <div class="step-icon default">
+                                <!-- Default state -->
+                                <svg class="step-state step-default" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" fill="white"/>
+                                    <path d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z" fill="#C9C9C9"/>
+                                </svg>
+                                <!-- Active state -->
+                                <svg class="step-state step-active" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" fill="#0176D3"/>
+                                    <path d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z" fill="white"/>
+                                </svg>
+                                <!-- Complete state -->
+                                <svg class="step-state step-complete" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path d="M11 17C14.3137 17 17 14.3137 17 11C17 7.68629 14.3137 5 11 5C7.68629 5 5 7.68629 5 11C5 14.3137 7.68629 17 11 17Z" fill="#2E844A"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.93826 13.5387L7.3998 10.9849C7.30749 10.8926 7.30749 10.7387 7.3998 10.6464L7.73826 10.308C7.83057 10.2157 7.98441 10.2157 8.07672 10.308L9.98441 12.231C10.046 12.2926 10.1536 12.2926 10.2152 12.231L13.9536 8.46181C14.046 8.3695 14.1998 8.3695 14.2921 8.46181L14.6306 8.80027C14.7229 8.89258 14.7229 9.04642 14.6306 9.13873L10.2767 13.5387C10.1844 13.6464 10.0306 13.6464 9.93826 13.5387V13.5387Z" fill="white"/>
+                                </svg>
+                                <!-- Error state -->
+                                <svg class="step-state step-error" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M10.9999 3.61523C6.93831 3.61523 3.61523 6.93831 3.61523 10.9999C3.61523 15.0614 6.93831 18.3845 10.9999 18.3845C15.0614 18.3845 18.3845 15.0614 18.3845 10.9999C18.3845 6.93831 15.0614 3.61523 10.9999 3.61523ZM5.46141 10.9998C5.46141 7.95367 7.95372 5.46136 10.9999 5.46136C12.1999 5.46136 13.3076 5.83059 14.1999 6.47675L6.4768 14.1998C5.83064 13.3075 5.46141 12.1998 5.46141 10.9998V10.9998ZM10.9997 16.5383C9.79973 16.5383 8.69204 16.1691 7.79973 15.523L15.5228 7.79988C16.169 8.69219 16.5382 9.79988 16.5382 10.9999C16.5382 14.046 14.0459 16.5383 10.9997 16.5383Z" fill="#BA0517"/>
+                                </svg>
+                            </div>
                             <div class="step-title editable" data-field="step-2-title">Step Title</div>
+                            <button class="remove-step-btn" onclick="removeStep(this)" title="Remove Step">✖</button>
                         </div>
                         
                         <div class="step-item">
-                            <div class="step-icon">○</div>
+                            <div class="step-icon default">
+                                <!-- Default state -->
+                                <svg class="step-state step-default" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" fill="white"/>
+                                    <path d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z" fill="#C9C9C9"/>
+                                </svg>
+                                <!-- Active state -->
+                                <svg class="step-state step-active" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" fill="#0176D3"/>
+                                    <path d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z" fill="white"/>
+                                </svg>
+                                <!-- Complete state -->
+                                <svg class="step-state step-complete" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path d="M11 17C14.3137 17 17 14.3137 17 11C17 7.68629 14.3137 5 11 5C7.68629 5 5 7.68629 5 11C5 14.3137 7.68629 17 11 17Z" fill="#2E844A"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.93826 13.5387L7.3998 10.9849C7.30749 10.8926 7.30749 10.7387 7.3998 10.6464L7.73826 10.308C7.83057 10.2157 7.98441 10.2157 8.07672 10.308L9.98441 12.231C10.046 12.2926 10.1536 12.2926 10.2152 12.231L13.9536 8.46181C14.046 8.3695 14.1998 8.3695 14.2921 8.46181L14.6306 8.80027C14.7229 8.89258 14.7229 9.04642 14.6306 9.13873L10.2767 13.5387C10.1844 13.6464 10.0306 13.6464 9.93826 13.5387V13.5387Z" fill="white"/>
+                                </svg>
+                                <!-- Error state -->
+                                <svg class="step-state step-error" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M10.9999 3.61523C6.93831 3.61523 3.61523 6.93831 3.61523 10.9999C3.61523 15.0614 6.93831 18.3845 10.9999 18.3845C15.0614 18.3845 18.3845 15.0614 18.3845 10.9999C18.3845 6.93831 15.0614 3.61523 10.9999 3.61523ZM5.46141 10.9998C5.46141 7.95367 7.95372 5.46136 10.9999 5.46136C12.1999 5.46136 13.3076 5.83059 14.1999 6.47675L6.4768 14.1998C5.83064 13.3075 5.46141 12.1998 5.46141 10.9998V10.9998ZM10.9997 16.5383C9.79973 16.5383 8.69204 16.1691 7.79973 15.523L15.5228 7.79988C16.169 8.69219 16.5382 9.79988 16.5382 10.9999C16.5382 14.046 14.0459 16.5383 10.9997 16.5383Z" fill="#BA0517"/>
+                                </svg>
+                            </div>
                             <div class="step-title editable" data-field="step-3-title">Step Title</div>
+                            <button class="remove-step-btn" onclick="removeStep(this)" title="Remove Step">✖</button>
                         </div>
+                        
+                        <!-- Add Step Button -->
+                        <button class="add-step-btn" onclick="addStep(this.closest('.config-section'))" title="Add Step">+ Add Step</button>
                         </div>
                     </div>
 
@@ -1588,27 +1828,97 @@
                             <span class="section-toggle"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M14.6461 5.47668L8.33841 11.8459C8.15379 12.0305 7.8461 12.0305 7.66149 11.8459L1.35379 5.47668C1.16918 5.29207 1.16918 4.98438 1.35379 4.79976L2.03072 4.12284C2.21533 3.93822 2.52302 3.93822 2.70764 4.12284L7.66149 9.13822C7.8461 9.32284 8.15379 9.32284 8.33841 9.13822L13.2923 4.15361C13.4769 3.96899 13.7846 3.96899 13.9692 4.15361L14.6461 4.83053C14.7999 5.01514 14.7999 5.29207 14.6461 5.47668V5.47668Z" fill="#747474"/>
 </svg></span>
-                            <h2 class="section-title editable" data-field="section-basics-title">Set Up the Basics</h2>
+                            <div class="section-title-area">
+                                <h2 class="section-title editable" data-field="section-basics-title">Set Up the Basics</h2>
+                                <p class="section-description">Complete the required steps to get a basic version of this feature.</p>
+                            </div>
                             <button class="delete-section-btn" onclick="deleteSection(this)" title="Delete Section">✖</button>
                             <button class="drag-handle" draggable="true" title="Drag to reorder">≡</button>
                         </div>
                     <div class="section-content">
-                        <p class="section-description">Complete the required steps to get a basic version of this feature.</p>
-                        
                         <div class="step-item">
-                            <div class="step-icon">○</div>
+                            <div class="step-icon default">
+                                <!-- Default state -->
+                                <svg class="step-state step-default" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" fill="white"/>
+                                    <path d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z" fill="#C9C9C9"/>
+                                </svg>
+                                <!-- Active state -->
+                                <svg class="step-state step-active" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" fill="#0176D3"/>
+                                    <path d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z" fill="white"/>
+                                </svg>
+                                <!-- Complete state -->
+                                <svg class="step-state step-complete" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path d="M11 17C14.3137 17 17 14.3137 17 11C17 7.68629 14.3137 5 11 5C7.68629 5 5 7.68629 5 11C5 14.3137 7.68629 17 11 17Z" fill="#2E844A"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.93826 13.5387L7.3998 10.9849C7.30749 10.8926 7.30749 10.7387 7.3998 10.6464L7.73826 10.308C7.83057 10.2157 7.98441 10.2157 8.07672 10.308L9.98441 12.231C10.046 12.2926 10.1536 12.2926 10.2152 12.231L13.9536 8.46181C14.046 8.3695 14.1998 8.3695 14.2921 8.46181L14.6306 8.80027C14.7229 8.89258 14.7229 9.04642 14.6306 9.13873L10.2767 13.5387C10.1844 13.6464 10.0306 13.6464 9.93826 13.5387V13.5387Z" fill="white"/>
+                                </svg>
+                                <!-- Error state -->
+                                <svg class="step-state step-error" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M10.9999 3.61523C6.93831 3.61523 3.61523 6.93831 3.61523 10.9999C3.61523 15.0614 6.93831 18.3845 10.9999 18.3845C15.0614 18.3845 18.3845 15.0614 18.3845 10.9999C18.3845 6.93831 15.0614 3.61523 10.9999 3.61523ZM5.46141 10.9998C5.46141 7.95367 7.95372 5.46136 10.9999 5.46136C12.1999 5.46136 13.3076 5.83059 14.1999 6.47675L6.4768 14.1998C5.83064 13.3075 5.46141 12.1998 5.46141 10.9998V10.9998ZM10.9997 16.5383C9.79973 16.5383 8.69204 16.1691 7.79973 15.523L15.5228 7.79988C16.169 8.69219 16.5382 9.79988 16.5382 10.9999C16.5382 14.046 14.0459 16.5383 10.9997 16.5383Z" fill="#BA0517"/>
+                                </svg>
+                            </div>
                             <div class="step-title editable" data-field="setup-step-1-title">Manage User Access<br><small>2 out of 10 assigned</small></div>
                             <a href="#" class="step-action">Manage</a>
                         </div>
                         
                         <div class="step-item">
-                            <div class="step-icon">○</div>
+                            <div class="step-icon default">
+                                <!-- Default state -->
+                                <svg class="step-state step-default" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" fill="white"/>
+                                    <path d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z" fill="#C9C9C9"/>
+                                </svg>
+                                <!-- Active state -->
+                                <svg class="step-state step-active" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" fill="#0176D3"/>
+                                    <path d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z" fill="white"/>
+                                </svg>
+                                <!-- Complete state -->
+                                <svg class="step-state step-complete" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path d="M11 17C14.3137 17 17 14.3137 17 11C17 7.68629 14.3137 5 11 5C7.68629 5 5 7.68629 5 11C5 14.3137 7.68629 17 11 17Z" fill="#2E844A"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.93826 13.5387L7.3998 10.9849C7.30749 10.8926 7.30749 10.7387 7.3998 10.6464L7.73826 10.308C7.83057 10.2157 7.98441 10.2157 8.07672 10.308L9.98441 12.231C10.046 12.2926 10.1536 12.2926 10.2152 12.231L13.9536 8.46181C14.046 8.3695 14.1998 8.3695 14.2921 8.46181L14.6306 8.80027C14.7229 8.89258 14.7229 9.04642 14.6306 9.13873L10.2767 13.5387C10.1844 13.6464 10.0306 13.6464 9.93826 13.5387V13.5387Z" fill="white"/>
+                                </svg>
+                                <!-- Error state -->
+                                <svg class="step-state step-error" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M10.9999 3.61523C6.93831 3.61523 3.61523 6.93831 3.61523 10.9999C3.61523 15.0614 6.93831 18.3845 10.9999 18.3845C15.0614 18.3845 18.3845 15.0614 18.3845 10.9999C18.3845 6.93831 15.0614 3.61523 10.9999 3.61523ZM5.46141 10.9998C5.46141 7.95367 7.95372 5.46136 10.9999 5.46136C12.1999 5.46136 13.3076 5.83059 14.1999 6.47675L6.4768 14.1998C5.83064 13.3075 5.46141 12.1998 5.46141 10.9998V10.9998ZM10.9997 16.5383C9.79973 16.5383 8.69204 16.1691 7.79973 15.523L15.5228 7.79988C16.169 8.69219 16.5382 9.79988 16.5382 10.9999C16.5382 14.046 14.0459 16.5383 10.9997 16.5383Z" fill="#BA0517"/>
+                                </svg>
+                            </div>
                             <div class="step-title editable" data-field="setup-step-2-title">Add Components, Fields, and Actions to Lightning Record Pages<br><small>Component names not found in Accounts</small></div>
                             <a href="#" class="step-action">Manage</a>
                         </div>
                         
                         <div class="step-item">
-                            <div class="step-icon">○</div>
+                            <div class="step-icon default">
+                                <!-- Default state -->
+                                <svg class="step-state step-default" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" fill="white"/>
+                                    <path d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z" fill="#C9C9C9"/>
+                                </svg>
+                                <!-- Active state -->
+                                <svg class="step-state step-active" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" fill="#0176D3"/>
+                                    <path d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z" fill="white"/>
+                                </svg>
+                                <!-- Complete state -->
+                                <svg class="step-state step-complete" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path d="M11 17C14.3137 17 17 14.3137 17 11C17 7.68629 14.3137 5 11 5C7.68629 5 5 7.68629 5 11C5 14.3137 7.68629 17 11 17Z" fill="#2E844A"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.93826 13.5387L7.3998 10.9849C7.30749 10.8926 7.30749 10.7387 7.3998 10.6464L7.73826 10.308C7.83057 10.2157 7.98441 10.2157 8.07672 10.308L9.98441 12.231C10.046 12.2926 10.1536 12.2926 10.2152 12.231L13.9536 8.46181C14.046 8.3695 14.1998 8.3695 14.2921 8.46181L14.6306 8.80027C14.7229 8.89258 14.7229 9.04642 14.6306 9.13873L10.2767 13.5387C10.1844 13.6464 10.0306 13.6464 9.93826 13.5387V13.5387Z" fill="white"/>
+                                </svg>
+                                <!-- Error state -->
+                                <svg class="step-state step-error" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M10.9999 3.61523C6.93831 3.61523 3.61523 6.93831 3.61523 10.9999C3.61523 15.0614 6.93831 18.3845 10.9999 18.3845C15.0614 18.3845 18.3845 15.0614 18.3845 10.9999C18.3845 6.93831 15.0614 3.61523 10.9999 3.61523ZM5.46141 10.9998C5.46141 7.95367 7.95372 5.46136 10.9999 5.46136C12.1999 5.46136 13.3076 5.83059 14.1999 6.47675L6.4768 14.1998C5.83064 13.3075 5.46141 12.1998 5.46141 10.9998V10.9998ZM10.9997 16.5383C9.79973 16.5383 8.69204 16.1691 7.79973 15.523L15.5228 7.79988C16.169 8.69219 16.5382 9.79988 16.5382 10.9999C16.5382 14.046 14.0459 16.5383 10.9997 16.5383Z" fill="#BA0517"/>
+                                </svg>
+                            </div>
                             <div class="step-title editable" data-field="setup-step-3-title">Create Forecast Types<br><small>0 active types</small></div>
                             <a href="#" class="step-action">Create</a>
                         </div>
@@ -1626,25 +1936,96 @@
                             <span class="section-toggle"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M14.6461 5.47668L8.33841 11.8459C8.15379 12.0305 7.8461 12.0305 7.66149 11.8459L1.35379 5.47668C1.16918 5.29207 1.16918 4.98438 1.35379 4.79976L2.03072 4.12284C2.21533 3.93822 2.52302 3.93822 2.70764 4.12284L7.66149 9.13822C7.8461 9.32284 8.15379 9.32284 8.33841 9.13822L13.2923 4.15361C13.4769 3.96899 13.7846 3.96899 13.9692 4.15361L14.6461 4.83053C14.7999 5.01514 14.7999 5.29207 14.6461 5.47668V5.47668Z" fill="#747474"/>
 </svg></span>
-                            <h2 class="section-title editable" data-field="section-email-case-title">Review Email-to-Case Settings</h2>
+                            <div class="section-title-area">
+                                <h2 class="section-title editable" data-field="section-email-case-title">Review Email-to-Case Settings</h2>
+                            </div>
                             <button class="delete-section-btn" onclick="deleteSection(this)" title="Delete Section">✖</button>
                             <button class="drag-handle" draggable="true" title="Drag to reorder">≡</button>
                         </div>
                     <div class="section-content">
                         <div class="step-item">
-                            <div class="step-icon">☐</div>
+                            <div class="step-icon default">
+                                <!-- Default state -->
+                                <svg class="step-state step-default" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" fill="white"/>
+                                    <path d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z" fill="#C9C9C9"/>
+                                </svg>
+                                <!-- Active state -->
+                                <svg class="step-state step-active" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" fill="#0176D3"/>
+                                    <path d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z" fill="white"/>
+                                </svg>
+                                <!-- Complete state -->
+                                <svg class="step-state step-complete" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path d="M11 17C14.3137 17 17 14.3137 17 11C17 7.68629 14.3137 5 11 5C7.68629 5 5 7.68629 5 11C5 14.3137 7.68629 17 11 17Z" fill="#2E844A"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.93826 13.5387L7.3998 10.9849C7.30749 10.8926 7.30749 10.7387 7.3998 10.6464L7.73826 10.308C7.83057 10.2157 7.98441 10.2157 8.07672 10.308L9.98441 12.231C10.046 12.2926 10.1536 12.2926 10.2152 12.231L13.9536 8.46181C14.046 8.3695 14.1998 8.3695 14.2921 8.46181L14.6306 8.80027C14.7229 8.89258 14.7229 9.04642 14.6306 9.13873L10.2767 13.5387C10.1844 13.6464 10.0306 13.6464 9.93826 13.5387V13.5387Z" fill="white"/>
+                                </svg>
+                                <!-- Error state -->
+                                <svg class="step-state step-error" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M10.9999 3.61523C6.93831 3.61523 3.61523 6.93831 3.61523 10.9999C3.61523 15.0614 6.93831 18.3845 10.9999 18.3845C15.0614 18.3845 18.3845 15.0614 18.3845 10.9999C18.3845 6.93831 15.0614 3.61523 10.9999 3.61523ZM5.46141 10.9998C5.46141 7.95367 7.95372 5.46136 10.9999 5.46136C12.1999 5.46136 13.3076 5.83059 14.1999 6.47675L6.4768 14.1998C5.83064 13.3075 5.46141 12.1998 5.46141 10.9998V10.9998ZM10.9997 16.5383C9.79973 16.5383 8.69204 16.1691 7.79973 15.523L15.5228 7.79988C16.169 8.69219 16.5382 9.79988 16.5382 10.9999C16.5382 14.046 14.0459 16.5383 10.9997 16.5383Z" fill="#BA0517"/>
+                                </svg>
+                            </div>
                             <div class="step-title editable" data-field="customize-step-1-title">Review Email-to-Case Settings</div>
                             <a href="#" class="step-action">Go to Setup ↗</a>
                         </div>
                         
                         <div class="step-item">
-                            <div class="step-icon">○</div>
+                            <div class="step-icon default">
+                                <!-- Default state -->
+                                <svg class="step-state step-default" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" fill="white"/>
+                                    <path d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z" fill="#C9C9C9"/>
+                                </svg>
+                                <!-- Active state -->
+                                <svg class="step-state step-active" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" fill="#0176D3"/>
+                                    <path d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z" fill="white"/>
+                                </svg>
+                                <!-- Complete state -->
+                                <svg class="step-state step-complete" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path d="M11 17C14.3137 17 17 14.3137 17 11C17 7.68629 14.3137 5 11 5C7.68629 5 5 7.68629 5 11C5 14.3137 7.68629 17 11 17Z" fill="#2E844A"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.93826 13.5387L7.3998 10.9849C7.30749 10.8926 7.30749 10.7387 7.3998 10.6464L7.73826 10.308C7.83057 10.2157 7.98441 10.2157 8.07672 10.308L9.98441 12.231C10.046 12.2926 10.1536 12.2926 10.2152 12.231L13.9536 8.46181C14.046 8.3695 14.1998 8.3695 14.2921 8.46181L14.6306 8.80027C14.7229 8.89258 14.7229 9.04642 14.6306 9.13873L10.2767 13.5387C10.1844 13.6464 10.0306 13.6464 9.93826 13.5387V13.5387Z" fill="white"/>
+                                </svg>
+                                <!-- Error state -->
+                                <svg class="step-state step-error" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M10.9999 3.61523C6.93831 3.61523 3.61523 6.93831 3.61523 10.9999C3.61523 15.0614 6.93831 18.3845 10.9999 18.3845C15.0614 18.3845 18.3845 15.0614 18.3845 10.9999C18.3845 6.93831 15.0614 3.61523 10.9999 3.61523ZM5.46141 10.9998C5.46141 7.95367 7.95372 5.46136 10.9999 5.46136C12.1999 5.46136 13.3076 5.83059 14.1999 6.47675L6.4768 14.1998C5.83064 13.3075 5.46141 12.1998 5.46141 10.9998V10.9998ZM10.9997 16.5383C9.79973 16.5383 8.69204 16.1691 7.79973 15.523L15.5228 7.79988C16.169 8.69219 16.5382 9.79988 16.5382 10.9999C16.5382 14.046 14.0459 16.5383 10.9997 16.5383Z" fill="#BA0517"/>
+                                </svg>
+                            </div>
                             <div class="step-title editable" data-field="customize-step-2-title">Define Over Email Rate Limit Action <span style="color: #706e6b;">Optional</span></div>
                             <a href="#" class="step-action">Go to Setup ↗</a>
                         </div>
                         
                         <div class="step-item">
-                            <div class="step-icon">○</div>
+                            <div class="step-icon default">
+                                <!-- Default state -->
+                                <svg class="step-state step-default" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" fill="white"/>
+                                    <path d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z" fill="#C9C9C9"/>
+                                </svg>
+                                <!-- Active state -->
+                                <svg class="step-state step-active" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" fill="#0176D3"/>
+                                    <path d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z" fill="white"/>
+                                </svg>
+                                <!-- Complete state -->
+                                <svg class="step-state step-complete" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path d="M11 17C14.3137 17 17 14.3137 17 11C17 7.68629 14.3137 5 11 5C7.68629 5 5 7.68629 5 11C5 14.3137 7.68629 17 11 17Z" fill="#2E844A"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.93826 13.5387L7.3998 10.9849C7.30749 10.8926 7.30749 10.7387 7.3998 10.6464L7.73826 10.308C7.83057 10.2157 7.98441 10.2157 8.07672 10.308L9.98441 12.231C10.046 12.2926 10.1536 12.2926 10.2152 12.231L13.9536 8.46181C14.046 8.3695 14.1998 8.3695 14.2921 8.46181L14.6306 8.80027C14.7229 8.89258 14.7229 9.04642 14.6306 9.13873L10.2767 13.5387C10.1844 13.6464 10.0306 13.6464 9.93826 13.5387V13.5387Z" fill="white"/>
+                                </svg>
+                                <!-- Error state -->
+                                <svg class="step-state step-error" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M10.9999 3.61523C6.93831 3.61523 3.61523 6.93831 3.61523 10.9999C3.61523 15.0614 6.93831 18.3845 10.9999 18.3845C15.0614 18.3845 18.3845 15.0614 18.3845 10.9999C18.3845 6.93831 15.0614 3.61523 10.9999 3.61523ZM5.46141 10.9998C5.46141 7.95367 7.95372 5.46136 10.9999 5.46136C12.1999 5.46136 13.3076 5.83059 14.1999 6.47675L6.4768 14.1998C5.83064 13.3075 5.46141 12.1998 5.46141 10.9998V10.9998ZM10.9997 16.5383C9.79973 16.5383 8.69204 16.1691 7.79973 15.523L15.5228 7.79988C16.169 8.69219 16.5382 9.79988 16.5382 10.9999C16.5382 14.046 14.0459 16.5383 10.9997 16.5383Z" fill="#BA0517"/>
+                                </svg>
+                            </div>
                             <div class="step-title editable" data-field="customize-step-3-title">Define Unauthorized Sender Action <span style="color: #706e6b;">Optional</span></div>
                             <a href="#" class="step-action">Go to Setup ↗</a>
                         </div>
@@ -1662,33 +2043,126 @@
                             <span class="section-toggle"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M14.6461 5.47668L8.33841 11.8459C8.15379 12.0305 7.8461 12.0305 7.66149 11.8459L1.35379 5.47668C1.16918 5.29207 1.16918 4.98438 1.35379 4.79976L2.03072 4.12284C2.21533 3.93822 2.52302 3.93822 2.70764 4.12284L7.66149 9.13822C7.8461 9.32284 8.15379 9.32284 8.33841 9.13822L13.2923 4.15361C13.4769 3.96899 13.7846 3.96899 13.9692 4.15361L14.6461 4.83053C14.7999 5.01514 14.7999 5.29207 14.6461 5.47668V5.47668Z" fill="#747474"/>
 </svg></span>
-                            <h2 class="section-title editable" data-field="section-advanced-title">Unlock Advanced Functionality</h2>
+                            <div class="section-title-area">
+                                <h2 class="section-title editable" data-field="section-advanced-title">Unlock Advanced Functionality</h2>
+                                <p class="section-description">Customize or improve your implementation with the following optional steps.</p>
+                            </div>
                             <button class="delete-section-btn" onclick="deleteSection(this)" title="Delete Section">✖</button>
                             <button class="drag-handle" draggable="true" title="Drag to reorder">≡</button>
                         </div>
                     <div class="section-content">
-                        <p class="section-description">Customize or improve your implementation with the following optional steps.</p>
-                        
                         <div class="step-item">
-                            <div class="step-icon">○</div>
+                            <div class="step-icon default">
+                                <!-- Default state -->
+                                <svg class="step-state step-default" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" fill="white"/>
+                                    <path d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z" fill="#C9C9C9"/>
+                                </svg>
+                                <!-- Active state -->
+                                <svg class="step-state step-active" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" fill="#0176D3"/>
+                                    <path d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z" fill="white"/>
+                                </svg>
+                                <!-- Complete state -->
+                                <svg class="step-state step-complete" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path d="M11 17C14.3137 17 17 14.3137 17 11C17 7.68629 14.3137 5 11 5C7.68629 5 5 7.68629 5 11C5 14.3137 7.68629 17 11 17Z" fill="#2E844A"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.93826 13.5387L7.3998 10.9849C7.30749 10.8926 7.30749 10.7387 7.3998 10.6464L7.73826 10.308C7.83057 10.2157 7.98441 10.2157 8.07672 10.308L9.98441 12.231C10.046 12.2926 10.1536 12.2926 10.2152 12.231L13.9536 8.46181C14.046 8.3695 14.1998 8.3695 14.2921 8.46181L14.6306 8.80027C14.7229 8.89258 14.7229 9.04642 14.6306 9.13873L10.2767 13.5387C10.1844 13.6464 10.0306 13.6464 9.93826 13.5387V13.5387Z" fill="white"/>
+                                </svg>
+                                <!-- Error state -->
+                                <svg class="step-state step-error" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M10.9999 3.61523C6.93831 3.61523 3.61523 6.93831 3.61523 10.9999C3.61523 15.0614 6.93831 18.3845 10.9999 18.3845C15.0614 18.3845 18.3845 15.0614 18.3845 10.9999C18.3845 6.93831 15.0614 3.61523 10.9999 3.61523ZM5.46141 10.9998C5.46141 7.95367 7.95372 5.46136 10.9999 5.46136C12.1999 5.46136 13.3076 5.83059 14.1999 6.47675L6.4768 14.1998C5.83064 13.3075 5.46141 12.1998 5.46141 10.9998V10.9998ZM10.9997 16.5383C9.79973 16.5383 8.69204 16.1691 7.79973 15.523L15.5228 7.79988C16.169 8.69219 16.5382 9.79988 16.5382 10.9999C16.5382 14.046 14.0459 16.5383 10.9997 16.5383Z" fill="#BA0517"/>
+                                </svg>
+                            </div>
                             <div class="step-title editable" data-field="optional-step-1-title">Default Activity Sharing for New Users</div>
                             <a href="#" class="step-action">Manage</a>
                         </div>
                         
                         <div class="step-item">
-                            <div class="step-icon">○</div>
+                            <div class="step-icon default">
+                                <!-- Default state -->
+                                <svg class="step-state step-default" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" fill="white"/>
+                                    <path d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z" fill="#C9C9C9"/>
+                                </svg>
+                                <!-- Active state -->
+                                <svg class="step-state step-active" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" fill="#0176D3"/>
+                                    <path d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z" fill="white"/>
+                                </svg>
+                                <!-- Complete state -->
+                                <svg class="step-state step-complete" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path d="M11 17C14.3137 17 17 14.3137 17 11C17 7.68629 14.3137 5 11 5C7.68629 5 5 7.68629 5 11C5 14.3137 7.68629 17 11 17Z" fill="#2E844A"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.93826 13.5387L7.3998 10.9849C7.30749 10.8926 7.30749 10.7387 7.3998 10.6464L7.73826 10.308C7.83057 10.2157 7.98441 10.2157 8.07672 10.308L9.98441 12.231C10.046 12.2926 10.1536 12.2926 10.2152 12.231L13.9536 8.46181C14.046 8.3695 14.1998 8.3695 14.2921 8.46181L14.6306 8.80027C14.7229 8.89258 14.7229 9.04642 14.6306 9.13873L10.2767 13.5387C10.1844 13.6464 10.0306 13.6464 9.93826 13.5387V13.5387Z" fill="white"/>
+                                </svg>
+                                <!-- Error state -->
+                                <svg class="step-state step-error" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M10.9999 3.61523C6.93831 3.61523 3.61523 6.93831 3.61523 10.9999C3.61523 15.0614 6.93831 18.3845 10.9999 18.3845C15.0614 18.3845 18.3845 15.0614 18.3845 10.9999C18.3845 6.93831 15.0614 3.61523 10.9999 3.61523ZM5.46141 10.9998C5.46141 7.95367 7.95372 5.46136 10.9999 5.46136C12.1999 5.46136 13.3076 5.83059 14.1999 6.47675L6.4768 14.1998C5.83064 13.3075 5.46141 12.1998 5.46141 10.9998V10.9998ZM10.9997 16.5383C9.79973 16.5383 8.69204 16.1691 7.79973 15.523L15.5228 7.79988C16.169 8.69219 16.5382 9.79988 16.5382 10.9999C16.5382 14.046 14.0459 16.5383 10.9997 16.5383Z" fill="#BA0517"/>
+                                </svg>
+                            </div>
                             <div class="step-title editable" data-field="optional-step-2-title">Enforce Default Activity Sharing for New Users</div>
                             <div class="toggle-switch"></div>
                         </div>
                         
                         <div class="step-item">
-                            <div class="step-icon">○</div>
+                            <div class="step-icon default">
+                                <!-- Default state -->
+                                <svg class="step-state step-default" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" fill="white"/>
+                                    <path d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z" fill="#C9C9C9"/>
+                                </svg>
+                                <!-- Active state -->
+                                <svg class="step-state step-active" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" fill="#0176D3"/>
+                                    <path d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z" fill="white"/>
+                                </svg>
+                                <!-- Complete state -->
+                                <svg class="step-state step-complete" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path d="M11 17C14.3137 17 17 14.3137 17 11C17 7.68629 14.3137 5 11 5C7.68629 5 5 7.68629 5 11C5 14.3137 7.68629 17 11 17Z" fill="#2E844A"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.93826 13.5387L7.3998 10.9849C7.30749 10.8926 7.30749 10.7387 7.3998 10.6464L7.73826 10.308C7.83057 10.2157 7.98441 10.2157 8.07672 10.308L9.98441 12.231C10.046 12.2926 10.1536 12.2926 10.2152 12.231L13.9536 8.46181C14.046 8.3695 14.1998 8.3695 14.2921 8.46181L14.6306 8.80027C14.7229 8.89258 14.7229 9.04642 14.6306 9.13873L10.2767 13.5387C10.1844 13.6464 10.0306 13.6464 9.93826 13.5387V13.5387Z" fill="white"/>
+                                </svg>
+                                <!-- Error state -->
+                                <svg class="step-state step-error" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M10.9999 3.61523C6.93831 3.61523 3.61523 6.93831 3.61523 10.9999C3.61523 15.0614 6.93831 18.3845 10.9999 18.3845C15.0614 18.3845 18.3845 15.0614 18.3845 10.9999C18.3845 6.93831 15.0614 3.61523 10.9999 3.61523ZM5.46141 10.9998C5.46141 7.95367 7.95372 5.46136 10.9999 5.46136C12.1999 5.46136 13.3076 5.83059 14.1999 6.47675L6.4768 14.1998C5.83064 13.3075 5.46141 12.1998 5.46141 10.9998V10.9998ZM10.9997 16.5383C9.79973 16.5383 8.69204 16.1691 7.79973 15.523L15.5228 7.79988C16.169 8.69219 16.5382 9.79988 16.5382 10.9999C16.5382 14.046 14.0459 16.5383 10.9997 16.5383Z" fill="#BA0517"/>
+                                </svg>
+                            </div>
                             <div class="step-title editable" data-field="optional-step-3-title">Customize Your Agent with Topics and Actions</div>
                             <a href="#" class="step-action">Go to Setup ↗</a>
                         </div>
                         
                         <div class="step-item">
-                            <div class="step-icon">○</div>
+                            <div class="step-icon default">
+                                <!-- Default state -->
+                                <svg class="step-state step-default" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" fill="white"/>
+                                    <path d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z" fill="#C9C9C9"/>
+                                </svg>
+                                <!-- Active state -->
+                                <svg class="step-state step-active" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" fill="#0176D3"/>
+                                    <path d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z" fill="white"/>
+                                </svg>
+                                <!-- Complete state -->
+                                <svg class="step-state step-complete" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path d="M11 17C14.3137 17 17 14.3137 17 11C17 7.68629 14.3137 5 11 5C7.68629 5 5 7.68629 5 11C5 14.3137 7.68629 17 11 17Z" fill="#2E844A"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.93826 13.5387L7.3998 10.9849C7.30749 10.8926 7.30749 10.7387 7.3998 10.6464L7.73826 10.308C7.83057 10.2157 7.98441 10.2157 8.07672 10.308L9.98441 12.231C10.046 12.2926 10.1536 12.2926 10.2152 12.231L13.9536 8.46181C14.046 8.3695 14.1998 8.3695 14.2921 8.46181L14.6306 8.80027C14.7229 8.89258 14.7229 9.04642 14.6306 9.13873L10.2767 13.5387C10.1844 13.6464 10.0306 13.6464 9.93826 13.5387V13.5387Z" fill="white"/>
+                                </svg>
+                                <!-- Error state -->
+                                <svg class="step-state step-error" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M10.9999 3.61523C6.93831 3.61523 3.61523 6.93831 3.61523 10.9999C3.61523 15.0614 6.93831 18.3845 10.9999 18.3845C15.0614 18.3845 18.3845 15.0614 18.3845 10.9999C18.3845 6.93831 15.0614 3.61523 10.9999 3.61523ZM5.46141 10.9998C5.46141 7.95367 7.95372 5.46136 10.9999 5.46136C12.1999 5.46136 13.3076 5.83059 14.1999 6.47675L6.4768 14.1998C5.83064 13.3075 5.46141 12.1998 5.46141 10.9998V10.9998ZM10.9997 16.5383C9.79973 16.5383 8.69204 16.1691 7.79973 15.523L15.5228 7.79988C16.169 8.69219 16.5382 9.79988 16.5382 10.9999C16.5382 14.046 14.0459 16.5383 10.9997 16.5383Z" fill="#BA0517"/>
+                                </svg>
+                            </div>
                             <div class="step-title editable" data-field="optional-step-4-title">Select the Insights You Want to Show</div>
                             <a href="#" class="step-action">Go to Setup ↗</a>
                         </div>
@@ -1703,8 +2177,12 @@
                     <!-- Purchase Options -->
                     <div class="config-section" data-section-id="purchase">
                         <div class="section-header" onclick="toggleSection(this)">
-                            <span class="section-toggle">▶</span>
-                            <h2 class="section-title editable" data-field="section-purchase-title">Purchase Options</h2>
+                            <span class="section-toggle"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M14.6461 5.47668L8.33841 11.8459C8.15379 12.0305 7.8461 12.0305 7.66149 11.8459L1.35379 5.47668C1.16918 5.29207 1.16918 4.98438 1.35379 4.79976L2.03072 4.12284C2.21533 3.93822 2.52302 3.93822 2.70764 4.12284L7.66149 9.13822C7.8461 9.32284 8.15379 9.32284 8.33841 9.13822L13.2923 4.15361C13.4769 3.96899 13.7846 3.96899 13.9692 4.15361L14.6461 4.83053C14.7999 5.01514 14.7999 5.29207 14.6461 5.47668V5.47668Z" fill="#747474"/>
+</svg></span>
+                            <div class="section-title-area">
+                                <h2 class="section-title editable" data-field="section-purchase-title">Purchase Options</h2>
+                            </div>
                             <button class="delete-section-btn" onclick="deleteSection(this)" title="Delete Section">✖</button>
                             <button class="drag-handle" draggable="true" title="Drag to reorder">≡</button>
                         </div>
@@ -1850,15 +2328,39 @@
                         <span class="section-toggle"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M14.6461 5.47668L8.33841 11.8459C8.15379 12.0305 7.8461 12.0305 7.66149 11.8459L1.35379 5.47668C1.16918 5.29207 1.16918 4.98438 1.35379 4.79976L2.03072 4.12284C2.21533 3.93822 2.52302 3.93822 2.70764 4.12284L7.66149 9.13822C7.8461 9.32284 8.15379 9.32284 8.33841 9.13822L13.2923 4.15361C13.4769 3.96899 13.7846 3.96899 13.9692 4.15361L14.6461 4.83053C14.7999 5.01514 14.7999 5.29207 14.6461 5.47668V5.47668Z" fill="#747474"/>
 </svg></span>
-                        <h2 class="section-title editable editing" data-field="section-${newSectionId}-title">New Section Title</h2>
+                        <div class="section-title-area">
+                            <h2 class="section-title editable editing" data-field="section-${newSectionId}-title">New Section Title</h2>
+                            <p class="section-description editable editing" data-field="section-${newSectionId}-description">Describe what this section helps users accomplish.</p>
+                        </div>
                         <button class="delete-section-btn editing" onclick="deleteSection(this)" title="Delete Section">✖</button>
                         <button class="drag-handle editing" draggable="true" title="Drag to reorder">≡</button>
                     </div>
                     <div class="section-content">
-                        <p class="section-description editable editing" data-field="section-${newSectionId}-description">Describe what this section helps users accomplish.</p>
-                        
                         <div class="step-item">
-                            <div class="step-icon">○</div>
+                            <div class="step-icon default">
+                                <!-- Default state -->
+                                <svg class="step-state step-default" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" fill="white"/>
+                                    <path d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z" fill="#C9C9C9"/>
+                                </svg>
+                                <!-- Active state -->
+                                <svg class="step-state step-active" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" fill="#0176D3"/>
+                                    <path d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z" fill="white"/>
+                                </svg>
+                                <!-- Complete state -->
+                                <svg class="step-state step-complete" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path d="M11 17C14.3137 17 17 14.3137 17 11C17 7.68629 14.3137 5 11 5C7.68629 5 5 7.68629 5 11C5 14.3137 7.68629 17 11 17Z" fill="#2E844A"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.93826 13.5387L7.3998 10.9849C7.30749 10.8926 7.30749 10.7387 7.3998 10.6464L7.73826 10.308C7.83057 10.2157 7.98441 10.2157 8.07672 10.308L9.98441 12.231C10.046 12.2926 10.1536 12.2926 10.2152 12.231L13.9536 8.46181C14.046 8.3695 14.1998 8.3695 14.2921 8.46181L14.6306 8.80027C14.7229 8.89258 14.7229 9.04642 14.6306 9.13873L10.2767 13.5387C10.1844 13.6464 10.0306 13.6464 9.93826 13.5387V13.5387Z" fill="white"/>
+                                </svg>
+                                <!-- Error state -->
+                                <svg class="step-state step-error" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M10.9999 3.61523C6.93831 3.61523 3.61523 6.93831 3.61523 10.9999C3.61523 15.0614 6.93831 18.3845 10.9999 18.3845C15.0614 18.3845 18.3845 15.0614 18.3845 10.9999C18.3845 6.93831 15.0614 3.61523 10.9999 3.61523ZM5.46141 10.9998C5.46141 7.95367 7.95372 5.46136 10.9999 5.46136C12.1999 5.46136 13.3076 5.83059 14.1999 6.47675L6.4768 14.1998C5.83064 13.3075 5.46141 12.1998 5.46141 10.9998V10.9998ZM10.9997 16.5383C9.79973 16.5383 8.69204 16.1691 7.79973 15.523L15.5228 7.79988C16.169 8.69219 16.5382 9.79988 16.5382 10.9999C16.5382 14.046 14.0459 16.5383 10.9997 16.5383Z" fill="#BA0517"/>
+                                </svg>
+                            </div>
                             <div class="step-title editable editing" data-field="step-${newSectionId}-1-title">New Step Title</div>
                             <a href="#" class="step-action">Action ↗</a>
                         </div>
@@ -2003,6 +2505,12 @@
                 document.querySelectorAll('.delete-section-btn').forEach(btn => {
                     btn.classList.add('editing');
                 });
+                document.querySelectorAll('.add-step-btn').forEach(btn => {
+                    btn.classList.add('editing');
+                });
+                document.querySelectorAll('.remove-step-btn').forEach(btn => {
+                    btn.classList.add('editing');
+                });
                 
                 // Re-setup drag and drop in edit mode
                 setupDragAndDrop();
@@ -2027,6 +2535,12 @@
                     handle.classList.remove('editing');
                 });
                 document.querySelectorAll('.delete-section-btn').forEach(btn => {
+                    btn.classList.remove('editing');
+                });
+                document.querySelectorAll('.add-step-btn').forEach(btn => {
+                    btn.classList.remove('editing');
+                });
+                document.querySelectorAll('.remove-step-btn').forEach(btn => {
                     btn.classList.remove('editing');
                 });
                 
@@ -2205,16 +2719,135 @@
         }
 
         function toggleSection(header) {
-            const toggle = header.querySelector('.section-toggle');
+            const section = header.closest('.config-section');
             const content = header.nextElementSibling;
             
-            if (toggle.textContent === '▼') {
-                toggle.textContent = '▶';
-                content.style.display = 'none';
-            } else {
-                toggle.textContent = '▼';
-                content.style.display = 'block';
+            if (section && content) {
+                if (section.classList.contains('collapsed')) {
+                    section.classList.remove('collapsed');
+                    content.style.display = 'block';
+                } else {
+                    section.classList.add('collapsed');
+                    content.style.display = 'none';
+                }
             }
+        }
+
+        function toggleFeatureState(button) {
+            // Prevent event bubbling to avoid triggering section collapse
+            event.stopPropagation();
+            
+            // Toggle the "on" class
+            button.classList.toggle('on');
+            
+            const isOn = button.classList.contains('on');
+            console.log('Feature toggle state:', isOn ? 'ON' : 'OFF');
+            
+            // If turning on, animate the steps in the Turn On section
+            if (isOn) {
+                animateTurnOnSteps();
+            } else {
+                // Reset all steps to default state
+                resetAllStepsToDefault();
+            }
+        }
+
+        function animateTurnOnSteps() {
+            // Find the Turn On section and get all step icons
+            const turnOnSection = document.querySelector('[data-section-id="turn-on"]');
+            if (!turnOnSection) return;
+            
+            const stepIcons = turnOnSection.querySelectorAll('.step-icon');
+            const totalSteps = stepIcons.length;
+            
+            // Reset all steps to default first
+            stepIcons.forEach(icon => {
+                icon.className = 'step-icon default';
+            });
+            
+            // Animate each step with randomized timing
+            stepIcons.forEach((icon, index) => {
+                // Generate random delays and durations
+                const startDelay = Math.random() * 1000; // 0-1 second delay before starting
+                const activeStateDuration = 800 + Math.random() * 1200; // 0.8-2 seconds in active state
+                const transitionDuration = 300; // 300ms for each transition
+                
+                // Determine if this step should go to error state (only if more than 5 steps)
+                const shouldError = totalSteps > 5 && Math.random() < 0.2 && index !== 0; // 20% chance, never first step
+                
+                setTimeout(() => {
+                    // Transition to active state
+                    icon.className = 'step-icon active';
+                    
+                    setTimeout(() => {
+                        // Transition to final state (complete or error)
+                        icon.className = shouldError ? 'step-icon error' : 'step-icon complete';
+                    }, activeStateDuration);
+                    
+                }, startDelay);
+            });
+        }
+
+        function resetAllStepsToDefault() {
+            // Reset all step icons back to default state
+            document.querySelectorAll('.step-icon').forEach(icon => {
+                icon.className = 'step-icon default';
+            });
+        }
+
+        function addStep(section) {
+            if (!document.body.classList.contains('edit-mode')) return;
+            
+            const stepContainer = section.querySelector('.section-content');
+            const existingSteps = stepContainer.querySelectorAll('.step-item');
+            const stepNumber = existingSteps.length + 1;
+            
+            const newStepHTML = `
+                <div class="step-item">
+                    <div class="step-icon default">
+                        <!-- Default state -->
+                        <svg class="step-state step-default" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" fill="white"/>
+                            <path d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z" fill="#C9C9C9"/>
+                        </svg>
+                        <!-- Active state -->
+                        <svg class="step-state step-active" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                            <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" fill="#0176D3"/>
+                            <path d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z" fill="white"/>
+                        </svg>
+                        <!-- Complete state -->
+                        <svg class="step-state step-complete" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                            <path d="M11 17C14.3137 17 17 14.3137 17 11C17 7.68629 14.3137 5 11 5C7.68629 5 5 7.68629 5 11C5 14.3137 7.68629 17 11 17Z" fill="#2E844A"/>
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M9.93826 13.5387L7.3998 10.9849C7.30749 10.8926 7.30749 10.7387 7.3998 10.6464L7.73826 10.308C7.83057 10.2157 7.98441 10.2157 8.07672 10.308L9.98441 12.231C10.046 12.2926 10.1536 12.2926 10.2152 12.231L13.9536 8.46181C14.046 8.3695 14.1998 8.3695 14.2921 8.46181L14.6306 8.80027C14.7229 8.89258 14.7229 9.04642 14.6306 9.13873L10.2767 13.5387C10.1844 13.6464 10.0306 13.6464 9.93826 13.5387V13.5387Z" fill="white"/>
+                        </svg>
+                        <!-- Error state -->
+                        <svg class="step-state step-error" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22Z" fill="white"/>
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M10.9999 3.61523C6.93831 3.61523 3.61523 6.93831 3.61523 10.9999C3.61523 15.0614 6.93831 18.3845 10.9999 18.3845C15.0614 18.3845 18.3845 15.0614 18.3845 10.9999C18.3845 6.93831 15.0614 3.61523 10.9999 3.61523ZM5.46141 10.9998C5.46141 7.95367 7.95372 5.46136 10.9999 5.46136C12.1999 5.46136 13.3076 5.83059 14.1999 6.47675L6.4768 14.1998C5.83064 13.3075 5.46141 12.1998 5.46141 10.9998V10.9998ZM10.9997 16.5383C9.79973 16.5383 8.69204 16.1691 7.79973 15.523L15.5228 7.79988C16.169 8.69219 16.5382 9.79988 16.5382 10.9999C16.5382 14.046 14.0459 16.5383 10.9997 16.5383Z" fill="#BA0517"/>
+                        </svg>
+                    </div>
+                    <div class="step-title editable editing" data-field="step-${stepNumber}-title">New Step ${stepNumber}</div>
+                    <button class="remove-step-btn editing" onclick="removeStep(this)" title="Remove Step">✖</button>
+                </div>`;
+            
+            stepContainer.insertAdjacentHTML('beforeend', newStepHTML);
+        }
+
+        function removeStep(button) {
+            const stepItem = button.closest('.step-item');
+            const section = stepItem.closest('.config-section');
+            const isTurnOnSection = section.dataset.sectionId === 'turn-on';
+            const remainingSteps = section.querySelectorAll('.step-item').length;
+            
+            // Prevent removing the last step from Turn On section
+            if (isTurnOnSection && remainingSteps <= 1) {
+                alert('Turn On section must have at least one step.');
+                return;
+            }
+            
+            stepItem.remove();
         }
 
         // Initialize the page
@@ -2323,6 +2956,8 @@
                     '.add-section-btn',
                     '.delete-section-btn',
                     '.drag-handle',
+                    '.add-step-btn',
+                    '.remove-step-btn',
                     '#edit-mode-indicator'
                 ];
                 
@@ -2352,18 +2987,79 @@
                         const cleanScript = `
         // Interactive functionality for accordions
         function toggleSection(header) {
-            const toggle = header.querySelector('.section-toggle');
+            const section = header.closest('.config-section');
             const content = header.nextElementSibling;
             
-            if (toggle && content) {
-                if (toggle.textContent === '▼') {
-                    toggle.textContent = '▶';
-                    content.style.display = 'none';
-                } else {
-                    toggle.textContent = '▼';
+            if (section && content) {
+                if (section.classList.contains('collapsed')) {
+                    section.classList.remove('collapsed');
                     content.style.display = 'block';
+                } else {
+                    section.classList.add('collapsed');
+                    content.style.display = 'none';
                 }
             }
+        }
+
+        function toggleFeatureState(button) {
+            // Prevent event bubbling to avoid triggering section collapse
+            event.stopPropagation();
+            
+            // Toggle the "on" class
+            button.classList.toggle('on');
+            
+            const isOn = button.classList.contains('on');
+            console.log('Feature toggle state:', isOn ? 'ON' : 'OFF');
+            
+            // If turning on, animate the steps in the Turn On section
+            if (isOn) {
+                animateTurnOnSteps();
+            } else {
+                // Reset all steps to default state
+                resetAllStepsToDefault();
+            }
+        }
+
+        function animateTurnOnSteps() {
+            // Find the Turn On section and get all step icons
+            const turnOnSection = document.querySelector('[data-section-id="turn-on"]');
+            if (!turnOnSection) return;
+            
+            const stepIcons = turnOnSection.querySelectorAll('.step-icon');
+            const totalSteps = stepIcons.length;
+            
+            // Reset all steps to default first
+            stepIcons.forEach(icon => {
+                icon.className = 'step-icon default';
+            });
+            
+            // Animate each step with randomized timing
+            stepIcons.forEach((icon, index) => {
+                // Generate random delays and durations
+                const startDelay = Math.random() * 1000; // 0-1 second delay before starting
+                const activeStateDuration = 800 + Math.random() * 1200; // 0.8-2 seconds in active state
+                
+                // Determine if this step should go to error state (only if more than 5 steps)
+                const shouldError = totalSteps > 5 && Math.random() < 0.2 && index !== 0; // 20% chance, never first step
+                
+                setTimeout(() => {
+                    // Transition to active state
+                    icon.className = 'step-icon active';
+                    
+                    setTimeout(() => {
+                        // Transition to final state (complete or error)
+                        icon.className = shouldError ? 'step-icon error' : 'step-icon complete';
+                    }, activeStateDuration);
+                    
+                }, startDelay);
+            });
+        }
+
+        function resetAllStepsToDefault() {
+            // Reset all step icons back to default state
+            document.querySelectorAll('.step-icon').forEach(icon => {
+                icon.className = 'step-icon default';
+            });
         }
         
         // Initialize page
