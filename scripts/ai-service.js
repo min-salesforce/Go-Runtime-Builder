@@ -14,7 +14,9 @@ const __dirname = path.dirname(__filename);
 class AIService {
     constructor() {
         this.isProduction = process.env.NODE_ENV === 'production';
-        this.herokuInferenceUrl = process.env.HEROKU_AI_MODEL_URL;
+        this.inferenceUrl = process.env.INFERENCE_URL;
+        this.inferenceKey = process.env.INFERENCE_KEY;
+        this.modelId = process.env.INFERENCE_MODEL_ID || 'gpt-oss-120b';
         this.canonicalContent = null;
         this.decisionTreeContent = null;
         this.contextLoaded = false;
@@ -92,7 +94,7 @@ Provide helpful, conversational responses that guide the user toward the right c
         }
         
         try {
-            if (this.isProduction && this.herokuInferenceUrl) {
+            if (this.isProduction && this.inferenceUrl && this.inferenceKey) {
                 return await this.callHerokuInference(userMessage, conversationHistory);
             } else {
                 return await this.callLocalAI(userMessage, conversationHistory);
@@ -115,8 +117,10 @@ Provide helpful, conversational responses that guide the user toward the right c
             { role: 'user', content: userMessage }
         ];
         
-        const response = await axios.post(`${this.herokuInferenceUrl}/v1/chat/completions`, {
-            model: 'gpt-oss-20b',
+        console.log('🤖 AI Service: Using GPT-OSS-120b via Heroku Inference');
+        
+        const response = await axios.post(`${this.inferenceUrl}/v1/chat/completions`, {
+            model: this.modelId,
             messages: messages,
             max_tokens: 500,
             temperature: 0.7,
@@ -124,7 +128,7 @@ Provide helpful, conversational responses that guide the user toward the right c
         }, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${process.env.HEROKU_AI_API_KEY}`
+                'Authorization': `Bearer ${this.inferenceKey}`
             }
         });
         
