@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/css/how-to-go.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏗️</text></svg>">
+</head>
+<body>
+    <header class="app-header">
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <a href="/" class="brand-link">
+                    <span class="brand-icon">🏗️</span>
+                    <span class="brand-text">Go Runtime Builder</span>
+                </a>
+            </div>
+            <div class="navbar-nav">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/how-to-go" class="nav-link active">🤖 How to Go</a>
+                <a href="/simple" class="nav-link">Simple Generator</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="chat-container">
+            <div class="chat-header">
+                <div class="ai-assistant-info">
+                    <div class="assistant-avatar">AI</div>
+                    <div class="assistant-details">
+                        <h2>Salesforce Go Assistant</h2>
+                        <p>I'll help you discover the right setup approach for your Salesforce Go configuration</p>
+                    </div>
+                </div>
+                <div class="chat-status">
+                    <span class="status-indicator" id="connectionStatus">●</span>
+                    <span class="status-text">Ready</span>
+                </div>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <div class="message ai-message">
+                    <div class="message-avatar">AI</div>
+                    <div class="message-content">
+                        <p>Hi! I'm your Salesforce Go assistant. I'm here to help you create the perfect configuration pages that follow all the official guidelines and standards.</p>
+                        <p>I understand the canonical rules, page hierarchies, and can guide you through the decision tree to determine the best setup type for your needs.</p>
+                        <p><strong>Let's get started:</strong> What are you trying to build or configure in Salesforce?</p>
+                    </div>
+                    <div class="message-time">Just now</div>
+                </div>
+            </div>
+
+            <div class="chat-input-area">
+                <div class="quick-actions">
+                    <button class="quick-action-btn" data-action="feature">🎯 I want to build a feature/capability</button>
+                    <button class="quick-action-btn" data-action="agent">🤖 I need an AI agent/automation</button>
+                </div>
+                
+                <div class="input-container">
+                    <div class="input-wrapper">
+                        <textarea 
+                            id="messageInput" 
+                            class="message-input" 
+                            placeholder="Describe what you're building, or click a quick action above..."
+                            rows="1"
+                        ></textarea>
+                        <button id="sendButton" class="send-button" disabled>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22,2 15,22 11,13 2,9"></polygon>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="input-help">
+                        <span class="typing-indicator" id="typingIndicator" style="display: none;">
+                            <span></span><span></span><span></span> AI is thinking...
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Configuration Summary Panel (Hidden initially) -->
+        <div class="config-panel" id="configPanel" style="display: none;">
+            <div class="config-header">
+                <h3>🎯 Configuration Summary</h3>
+                <button class="minimize-btn" id="minimizeConfig">−</button>
+            </div>
+            <div class="config-content" id="configContent">
+                <!-- Dynamic content populated by AI conversation -->
+            </div>
+            <div class="config-actions">
+                <button class="btn btn-primary" id="generatePages" disabled>
+                    🚀 Generate Pages
+                </button>
+                <button class="btn btn-secondary" id="restartChat">
+                    🔄 Start Over
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script src="/js/how-to-go.js"></script>
+</body>
+</html>

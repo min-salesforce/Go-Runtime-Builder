@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 import QuestionnaireEngine from './scripts/questionnaire.js';
 import ValidationEngine from './scripts/validator.js';
 import EnhancedGenerator from './scripts/enhanced-generator.js';
+import AIService from './scripts/ai-service.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,7 +25,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // Initialize services
-let generator, validator;
+let generator, validator, aiService;
 
 async function initializeServices() {
   try {
@@ -33,6 +34,9 @@ async function initializeServices() {
     
     validator = new ValidationEngine();
     await validator.loadSchemas();
+    
+    aiService = new AIService();
+    await aiService.loadContext();
     
     console.log('✅ Services initialized');
   } catch (error) {
@@ -49,10 +53,15 @@ app.get('/', (req, res) => {
   });
 });
 
-app.get('/questionnaire', (req, res) => {
-  res.render('questionnaire', { 
-    title: 'Configuration Questionnaire'
+app.get('/how-to-go', (req, res) => {
+  res.render('how-to-go', { 
+    title: 'How to Go - AI Configuration Assistant'
   });
+});
+
+// Redirect old questionnaire route for backward compatibility
+app.get('/questionnaire', (req, res) => {
+  res.redirect('/how-to-go');
 });
 
 app.get('/simple', (req, res) => {
@@ -62,6 +71,48 @@ app.get('/simple', (req, res) => {
 });
 
 // API Routes
+
+// AI Chat endpoint for "How to Go" experience
+app.post('/api/chat', async (req, res) => {
+  try {
+    const { message, conversationHistory = [], conversationState = {} } = req.body;
+    
+    if (!message) {
+      return res.status(400).json({
+        success: false,
+        error: 'Message is required'
+      });
+    }
+    
+    // Send message to AI service
+    const aiResponse = await aiService.sendMessage(message, conversationHistory);
+    
+    // Merge the new state with existing conversation state
+    const updatedState = {
+      ...conversationState,
+      ...aiResponse.state
+    };
+    
+    // Check if we can generate pages
+    const canGenerate = aiService.canGeneratePages(updatedState);
+    
+    res.json({
+      success: true,
+      ...aiResponse,
+      conversationState: updatedState,
+      canGenerate: canGenerate,
+      autoGenerate: aiResponse.state && aiResponse.state.stage === 'ready-to-generate'
+    });
+    
+  } catch (error) {
+    console.error('Chat API Error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to process chat message',
+      message: "I'm having trouble right now. Could you try rephrasing your question?"
+    });
+  }
+});
 
 app.post('/api/validate', async (req, res) => {
   try {
@@ -97,8 +148,27 @@ app.post('/api/generate', async (req, res) => {
       });
     }
     
+    // Clean up session data to match schema - remove AI-specific properties
+    const cleanSession = {
+      setupType: session.setupType,
+      metadata: session.metadata
+    };
+    
+    // Add schema-compliant top-level properties
+    if (session.features) {
+      cleanSession.features = session.features;
+    }
+    if (session.agentforce) {
+      cleanSession.agentforce = session.agentforce;
+    }
+    if (session.assets) {
+      cleanSession.assets = session.assets;
+    }
+    
+    console.log('🔄 Generating pages from cleaned questionnaire session');
+    
     // Generate pages
-    const result = await generator.generateFromQuestionnaireSession(session);
+    const result = await generator.generateFromQuestionnaireSession(cleanSession);
     
     // Save session for reference
     const sessionId = Date.now();

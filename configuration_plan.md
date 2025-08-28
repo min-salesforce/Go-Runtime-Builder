@@ -2,7 +2,35 @@
 
 ## Overview
 
-This tool is designed to build a series of static web pages that can be linked together, creating a runtime builder for configuration screens. Users can define different types of setups based on their specific needs and requirements.
+This tool is designed to build a series of static web pages that can be linked together, creating a runtime builder for configuration screens. Users can define different types of setups through two distinct experiences:
+
+1. **"Simple" Experience**: Direct page generation with manual input
+2. **"How to Go" Experience**: AI-powered conversational interface that guides users through discovery, asks intelligent questions, and pre-fills content based on Salesforce Go canonical guidelines
+
+## AI Architecture: "How to Go" Conversational Experience
+
+### AI Model Integration
+- **Local Development**: [GPT-OSS-20b](https://huggingface.co/openai/gpt-oss-20b) via HuggingFace Transformers
+- **Production (Heroku)**: GPT-OSS-20b via [Heroku Inference](https://devcenter.heroku.com/articles/heroku-inference#available-models)
+- **Context Knowledge**: AI references `canonical.md` and `decision tree.md` for intelligent guidance
+
+### Conversational Flow Architecture
+```
+User Input → AI Conversation Engine → Context-Aware Response
+     ↓                    ↑                      ↓
+AI analyzes using:   User clarifies      AI asks follow-up
+- canonical.md       requirements        questions based on:
+- decision tree.md   & provides          - Setup type discovery
+- Previous context   feedback            - Content guidelines
+                                        - Technical constraints
+     ↓
+Final structured data → Same page generation pipeline as "Simple" experience
+```
+
+### AI Knowledge Sources
+1. **`canonical.md`**: Content guidelines, UI text standards, page hierarchy rules
+2. **`decision tree.md`**: Setup type decision logic, content requirements, flow patterns
+3. **Session Context**: Accumulated conversation history and user preferences
 
 ## Setup Types
 

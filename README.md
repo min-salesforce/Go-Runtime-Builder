@@ -38,6 +38,11 @@ npm start
 npm run dev
 ```
 
+**Experience Options:**
+- **🤖 AI-Guided**: Visit `/how-to-go` for conversational AI assistance
+- **🚀 Simple Generator**: Visit `/simple` for direct manual input
+- **📊 Home Dashboard**: Visit `/` for overview and navigation
+
 ### CLI Tool (Alternative)
 
 ```bash
@@ -404,6 +409,33 @@ function updateHeaderState() {
 3. Test with all setup types
 4. Update documentation for any API changes
 5. Ensure accessibility compliance (WCAG 2.1 AA)
+
+---
+
+## 🤖 AI-Powered "How to Go" Experience
+
+### Conversational AI Assistant
+- **GPT-OSS-20b Integration** - Powered by OpenAI's open-source model via Heroku Inference
+- **Canonical Guidelines Knowledge** - AI understands and references official Salesforce Go standards
+- **Decision Tree Integration** - Smart setup type detection based on `decision tree.md` logic
+- **Context-Aware Conversations** - Maintains conversation state and provides increasingly specific guidance
+
+### Intelligent Discovery Process  
+- **Natural Language Interface** - Describe your needs in plain English
+- **Dynamic Question Flow** - AI asks follow-up questions based on your responses and detected patterns
+- **Setup Type Detection** - Automatically identifies Feature, Feature Set, Solution, or Agent configurations
+- **Requirements Gathering** - Guides you through canonical requirements for your chosen setup type
+
+### Dual Experience Architecture
+- **"How to Go" (AI-Guided)** - Conversational discovery perfect for exploring possibilities
+- **"Simple Generator"** - Direct manual input for users who know exactly what they need
+- **Seamless Integration** - Both approaches feed into the same high-quality page generation system
+
+### Production-Ready AI Integration
+- **Local Development** - Smart pattern matching system for development without AI costs
+- **Production Deployment** - Full GPT-OSS-20b integration via Heroku Inference
+- **Fallback Behavior** - Graceful error handling with manual alternatives
+- **Environment Detection** - Automatic switching between local and production AI backends
 
 ---
 
