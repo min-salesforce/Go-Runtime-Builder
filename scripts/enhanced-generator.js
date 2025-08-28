@@ -345,7 +345,7 @@ class EnhancedGenerator {
         
       case 'feature':
         mainPagePath = path.join(this.distDir, 'feature', `${slug}.html`);
-        await this.renderPage('feature', pageModel, mainPagePath);
+        await this.renderPage('feature-2', pageModel, mainPagePath);  // Use advanced template
         generatedPaths.push(mainPagePath);
         break;
         
@@ -422,7 +422,7 @@ class EnhancedGenerator {
     let mainPagePath;
     const templateMap = {
       'feature-set-and-features': 'feature-set',
-      'feature': 'feature',
+      'feature': 'feature-2',  // Use advanced template for all feature pages
       'feature-2': 'feature-2',
       'solution-initial-setup': 'solution',
       'agent-setup': 'agent'

@@ -421,6 +421,19 @@ function updateHeaderState() {
 - **Multiple Formats** - Home, Feature Set, Feature, Solution, and Agent pages
 - **Download Configuration** - Export your session data as JSON
 
+### Ownership State Architecture
+- **Dual-State System** - All feature and agent pages support "unowned" and "owned" states
+- **Dynamic Toggle** - Runtime switching between discovery and configuration modes
+- **Unowned State** - Larger visuals, simplified content, static header for feature discovery
+- **Owned State** - Complete configuration UI with dynamic sticky header and full functionality
+- **Context-Aware Behavior** - Sticky header disabled in unowned state, edit mode prevents state changes
+
+### Advanced UI Features
+- **Sticky Header** - Dynamic header that transforms during scroll for better content visibility
+- **Smooth Transitions** - Production-ready animations and hover effects
+- **Responsive Design** - Optimized for desktop, tablet, and mobile viewing
+- **Visual Feedback** - Clear state indicators and interactive element responses
+
 
 
 ## 🚀 Getting Started Example

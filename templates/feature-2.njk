@@ -500,6 +500,154 @@
             border-bottom: none !important;
         }
 
+        /* Unowned State Styling */
+        .unified-header.unowned {
+            /* Disable sticky header behavior in unowned state */
+            position: static !important;
+            top: auto !important;
+            left: auto !important;
+            right: auto !important;
+            z-index: auto !important;
+            margin-bottom: 24px;
+        }
+
+        .unified-header.unowned .page-header-image {
+            width: 500px !important; /* Larger image in unowned state */
+            max-width: none !important;
+            flex-shrink: 0 !important;
+        }
+
+        .unified-header.unowned .page-header-image img {
+            width: 500px !important; /* Override the base 100% width */
+            height: auto !important; /* Let height scale naturally */
+            max-width: none !important;
+        }
+
+        .unified-header.unowned .page-header-image .preview-placeholder {
+            width: 500px !important; /* Also update placeholder size */
+            height: 200px !important; /* Larger placeholder */
+        }
+
+        .unified-header.unowned .page-title {
+            color: var(--Text-Default, #181818) !important;
+            font-feature-settings: 'liga' off, 'clig' off !important;
+            font-family: "Segoe UI" !important;
+            font-size: 42px !important;
+            font-style: normal !important;
+            font-weight: 400 !important;
+            line-height: 42px !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 12px !important;
+        }
+
+        .unified-header.unowned .lock-icon {
+            display: inline-block !important;
+        }
+
+        .unified-header.unowned .progress-status {
+            display: none !important; /* Hide progress status in unowned state */
+        }
+
+        .unified-header.unowned .unowned-links {
+            display: flex !important;
+            gap: 24px !important;
+            margin-bottom: 16px !important;
+        }
+
+        .unified-header.unowned .unowned-links a {
+            color: #0176d3 !important;
+            text-decoration: none !important;
+            font-size: 14px !important;
+            font-weight: 500 !important;
+        }
+
+        .unified-header.unowned .unowned-links a:hover {
+            text-decoration: underline !important;
+        }
+
+        .unified-header.unowned .view-setup-btn {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            background: #0176d3 !important;
+            color: white !important;
+            padding: 8px 24px !important;
+            border: none !important;
+            border-radius: 4px !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            text-decoration: none !important;
+            cursor: pointer !important;
+            transition: background-color 0.2s ease !important;
+            width: 164px !important;
+            height: 32px !important;
+        }
+
+        .unified-header.unowned .view-setup-btn:hover {
+            background: #0056b3 !important;
+        }
+
+        /* Hide lock icon in owned state */
+        .lock-icon {
+            display: none;
+        }
+
+        /* Hide unowned-specific elements in owned state */
+        .unowned-links,
+        .view-setup-btn {
+            display: none;
+        }
+
+        /* Adjust main-content padding for unowned state */
+        body.unowned .main-content {
+            padding-top: 0 !important; /* Remove fixed padding when static header */
+        }
+
+        /* Production-ready unowned state styling */
+        .unified-header.unowned {
+            /* Enhanced visual prominence for unowned state */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+            border-bottom: 2px solid #e8f4fd !important;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%) !important;
+        }
+
+        .unified-header.unowned .page-title {
+            color: #181818 !important; /* Clean, strong text color */
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important; /* Subtle depth */
+        }
+
+        .unified-header.unowned .lock-icon {
+            color: #0176d3 !important; /* Salesforce blue for lock icon */
+            filter: drop-shadow(0 1px 2px rgba(1, 118, 211, 0.2)) !important;
+        }
+
+        .unified-header.unowned .unowned-links {
+            margin-top: 8px !important; /* Better spacing */
+        }
+
+        .unified-header.unowned .unowned-links a {
+            transition: all 0.2s ease !important;
+            padding: 4px 8px !important;
+            border-radius: 4px !important;
+        }
+
+        .unified-header.unowned .unowned-links a:hover {
+            background-color: #f3f9ff !important;
+            transform: translateY(-1px) !important;
+        }
+
+        .unified-header.unowned .view-setup-btn {
+            box-shadow: 0 2px 8px rgba(1, 118, 211, 0.2) !important;
+            transition: all 0.2s ease !important;
+            font-weight: 600 !important;
+        }
+
+        .unified-header.unowned .view-setup-btn:hover {
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 12px rgba(1, 118, 211, 0.3) !important;
+        }
+
         .unified-header.scrolled .progress-status {
             display: none !important;
         }
@@ -1220,6 +1368,7 @@
             gap: 12px;
         }
 
+        .ownership-toggle-btn,
         .edit-toggle-btn,
         .download-btn {
             border: none;
@@ -1266,6 +1415,27 @@
             background: #0f2a4c;
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(22, 50, 92, 0.4);
+        }
+
+        .ownership-toggle-btn {
+            background: #6c757d;
+            color: #fff;
+        }
+
+        .ownership-toggle-btn:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+        }
+
+        .ownership-toggle-btn.unowned {
+            background: #dc3545;
+        }
+
+        .ownership-toggle-btn.unowned:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
         }
 
         /* Add Section Button */
@@ -1790,13 +1960,27 @@
                                 {% else %}Service
                                 {% endif %}
                             </div>
-                            <h1 class="page-title editable" data-field="title">{{ metadata.name | default("Email-to-Case") }}</h1>
+                            <h1 class="page-title editable" data-field="title">
+                                {{ metadata.name | default("Email-to-Case") }}
+                                <svg class="lock-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.07656 8.76723H6.92271C7.19964 8.76723 7.38425 8.62877 7.38425 8.35186V8.3057C7.38425 5.67501 9.64579 3.50584 12.3227 3.69045C14.7689 3.87506 16.615 5.99808 16.615 8.49031V8.35186C16.615 8.62877 16.7996 8.76723 17.0766 8.76723H18.9227C19.1996 8.76723 19.3843 8.62877 19.3843 8.35186V8.3057C19.3843 4.10583 15.8766 0.736694 11.6304 0.921304C7.70733 1.10591 4.70733 4.42889 4.61502 8.35186C4.66117 8.58262 4.84579 8.76723 5.07656 8.76723ZM4.61511 8.35303V8.53764V8.35303ZM21.2306 12.461C21.2306 11.4456 20.3998 10.6148 19.3844 10.6148H4.6152C3.59981 10.6148 2.76904 11.4456 2.76904 12.461V21.2308C2.76904 22.2462 3.59981 23.0771 4.6152 23.0771H19.3844C20.3998 23.0771 21.2306 22.2462 21.2306 21.2308V12.461ZM14.1228 19.706C14.2151 19.9829 13.9844 20.306 13.6613 20.306H10.2921C9.96898 20.306 9.78436 20.0291 9.83052 19.706L10.6613 16.9368C9.96898 16.4753 9.5536 15.6446 9.69206 14.7215C9.87667 13.8446 10.569 13.1523 11.4921 12.9677C12.969 12.6908 14.2613 13.7523 14.2613 15.1369C14.2613 15.8753 13.8921 16.5676 13.2921 16.9368L14.1228 19.706Z" fill="#181818"/>
+                                </svg>
+                            </h1>
                             <p class="page-subtitle editable" data-field="description">{{ metadata.description | default("Provide seamless support to customers across their favorite communication channels.") }}</p>
                             
                             <div class="progress-status">
                                 <span class="progress-text">5 of 5 Steps Completed</span>
                                 <a href="#" class="refresh-btn">🔄 Refresh</a>
                             </div>
+
+                            <!-- Unowned State Content -->
+                            <div class="unowned-links">
+                                <a href="#">Learn More</a>
+                                <a href="#">Prerequisites</a>
+                                <a href="#">System Requirements</a>
+                                <a href="#">Documentation</a>
+                            </div>
+                            <button class="view-setup-btn">View Setup Options</button>
                         </div>
 
                         <!-- Screenshot/Preview Image -->
@@ -3464,7 +3648,10 @@
             handleScreenshotUpload();
             
             // Add event listener to edit toggle button
-            document.getElementById('edit-toggle').addEventListener('click', toggleEditMode);
+            const editToggle = document.getElementById('edit-toggle');
+            if (editToggle) {
+                editToggle.addEventListener('click', toggleEditMode);
+            }
             
             // Add keyboard shortcut (Ctrl/Cmd + E)
             document.addEventListener('keydown', function(e) {
@@ -3476,6 +3663,23 @@
             
             // Sticky header scroll handling
             setupFixedHeader();
+            
+            // Setup ownership toggle
+            setTimeout(function() {
+                console.log('🔄 Setting up ownership toggle...');
+                const ownershipToggle = document.getElementById('ownership-toggle');
+                
+                if (ownershipToggle) {
+                    console.log('✅ Found ownership toggle button');
+                    ownershipToggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        console.log('🖱️ Ownership toggle clicked!');
+                        toggleOwnershipState();
+                    });
+                } else {
+                    console.error('❌ Ownership toggle button not found');
+                }
+            }, 100); // Small delay to ensure all elements are ready
         });
 
         // Sticky header scroll functionality
@@ -3517,6 +3721,15 @@
                     if (isCurrentlyCompact) {
                         header.classList.remove('scrolled');
                         console.log('🛡️ Header forced to full mode (edit mode active)');
+                    }
+                    return;
+                }
+
+                // Skip scroll state changes when in unowned state - header should remain static
+                if (header.classList.contains('unowned')) {
+                    if (isCurrentlyCompact) {
+                        header.classList.remove('scrolled');
+                        console.log('🏠 Header forced to full mode (unowned state - no sticky behavior)');
                     }
                     return;
                 }
@@ -3582,10 +3795,71 @@
                 console.log('Sticky header initialized - PERFECT with proper content spacing (240px padding)');
             }, 100);
         }
+
+        // Ownership State Management
+        let isUnowned = false;
+        // editMode is already declared above - reuse that variable
+
+        function toggleOwnershipState() {
+            isUnowned = !isUnowned;
+            const body = document.body;
+            const header = document.querySelector('.unified-header');
+            const ownershipToggle = document.getElementById('ownership-toggle');
+            
+            if (isUnowned) {
+                // Switch to unowned state
+                body.classList.add('unowned');
+                header.classList.add('unowned');
+                ownershipToggle.classList.add('unowned');
+                ownershipToggle.textContent = '🔓 Owned State';
+                console.log('🔄 UNOWNED STATE APPLIED:');
+                console.log('  • Body classes:', body.className);
+                console.log('  • Header classes:', header.className);
+                console.log('  • Header has unowned class:', header.classList.contains('unowned'));
+                console.log('  • Page title font-size should be 42px');
+                console.log('  • Page header image width should be 500px');
+                console.log('  • Lock icon should be visible');
+                console.log('  • Progress status should be hidden');
+                console.log('  • Scroll behavior should be DISABLED (static header)');
+                
+                // Disable sticky header scrolling
+                if (typeof updateHeaderState === 'function') {
+                    // Force header to full state and disable scroll listener
+                    header.classList.remove('scrolled');
+                }
+            } else {
+                // Switch to owned state  
+                body.classList.remove('unowned');
+                header.classList.remove('unowned');
+                ownershipToggle.classList.remove('unowned');
+                ownershipToggle.textContent = '🔒 Unowned State';
+                console.log('🔄 OWNED STATE APPLIED:');
+                console.log('  • Body classes:', body.className);
+                console.log('  • Header classes:', header.className);
+                console.log('  • Header has unowned class:', header.classList.contains('unowned'));
+                console.log('  • Page title font-size should be 24px');
+                console.log('  • Page header image width should be 200px');
+                console.log('  • Lock icon should be hidden');
+                console.log('  • Progress status should be visible');
+                console.log('  • Scroll behavior should be ENABLED (dynamic sticky header)');
+                
+                // Re-enable sticky header scrolling
+                if (typeof updateHeaderState === 'function') {
+                    updateHeaderState();
+                }
+            }
+        }
+
+        // toggleEditMode function already defined above - no need for duplicate
+
+
     </script>
 
     <!-- Floating Edit Controls (Development Tools) -->
     <div class="edit-controls">
+        <button id="ownership-toggle" class="ownership-toggle-btn">
+            🔒 Unowned State
+        </button>
         <button id="edit-toggle" class="edit-toggle-btn">
             ✏️ Edit Mode
         </button>

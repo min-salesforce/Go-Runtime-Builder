@@ -289,3 +289,56 @@ This sticky header implementation represents a **complete production-ready solut
 - **User Experience Score**: Significantly improved based on design best practices
 
 The Feature Page Builder now provides a comprehensive, professional, and highly interactive experience for configuring Salesforce features, with a strong foundation for future enhancements and scalability.
+
+## 🔐 Ownership State Architecture
+
+### Dual-State System Implementation
+The Feature Page Builder now supports a sophisticated dual-state architecture that differentiates between feature discovery and configuration phases:
+
+#### Unowned State (Discovery Phase)
+- **Purpose**: Initial feature exploration and claim evaluation
+- **Visual Design**: 
+  - Larger header image (500px wide vs standard 200px)
+  - Enhanced title typography (42px Segoe UI font)
+  - Lock icon indicator next to feature name
+  - Static header positioning (no sticky behavior)
+- **Content Structure**:
+  - Optional discovery links (Learn More, Prerequisites, System Requirements, Documentation)
+  - Prominent "View Setup Options" button (164px × 32px)
+  - Hidden progress status and configuration elements
+
+#### Owned State (Configuration Phase)  
+- **Purpose**: Full feature configuration and management
+- **Visual Design**:
+  - Standard header sizing and typography
+  - Dynamic sticky header with scroll responsiveness
+  - Complete progress indicators and status badges
+- **Content Structure**:
+  - Full configuration sections and step management
+  - Edit mode capabilities and content manipulation
+  - Progress tracking and status management
+
+### Technical Implementation
+
+#### State Management
+- **Toggle Control**: Floating toggle button (🔒/🔓) in bottom-right corner
+- **CSS Classes**: `.unowned` class applied to body and header elements
+- **JavaScript Logic**: Global state tracking with context-aware behavior
+- **Integration**: Seamless integration with existing edit mode and sticky header systems
+
+#### Cross-Template Consistency
+- **Feature Templates**: Both `feature.njk` and `feature-2.njk` use the advanced template system
+- **Agent Templates**: `agent.njk` implements the same ownership pattern for agent discovery vs configuration
+- **Template Mapping**: Updated generator to use `feature-2.njk` for all feature-type pages
+
+#### Production-Ready Styling
+- **Visual Hierarchy**: Clear distinction between states with professional gradients and shadows
+- **Smooth Transitions**: CSS transitions for hover states and interactive elements
+- **Accessibility**: Maintains WCAG 2.1 AA compliance across both states
+- **Responsive Design**: Optimized for all device types and screen sizes
+
+### Business Value
+- **User Experience**: Clear separation between discovery and configuration workflows
+- **Content Strategy**: Supports different content needs for different user contexts
+- **Scalability**: Architecture pattern can be applied to all setup types
+- **Future-Proof**: Foundation for role-based access control and user journey customization

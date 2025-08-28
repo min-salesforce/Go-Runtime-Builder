@@ -536,6 +536,132 @@
         .agentforce-title { font-size: 28px; }
         .agentforce-hero { padding: 24px; }
       }
+
+      /* Ownership Toggle Styles */
+      .edit-controls {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        z-index: 1000;
+      }
+
+      .ownership-toggle-btn {
+        background: #6c757d;
+        color: #fff;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        min-width: 140px;
+      }
+
+      .ownership-toggle-btn:hover {
+        background: #5a6268;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .ownership-toggle-btn.unowned {
+        background: #dc3545;
+      }
+
+      .ownership-toggle-btn.unowned:hover {
+        background: #c82333;
+      }
+
+      /* Unowned State Styles */
+      .page-header.unowned {
+        background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%) !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+        border-bottom: 2px solid #e8f4fd !important;
+      }
+
+      .page-header.unowned .page-title {
+        color: #181818 !important;
+        font-feature-settings: 'liga' off, 'clig' off !important;
+        font-family: "Segoe UI" !important;
+        font-size: 42px !important;
+        font-style: normal !important;
+        font-weight: 400 !important;
+        line-height: 42px !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+      }
+
+      .lock-icon {
+        display: none;
+        color: #0176d3 !important;
+        filter: drop-shadow(0 1px 2px rgba(1, 118, 211, 0.2)) !important;
+      }
+
+      .page-header.unowned .lock-icon {
+        display: inline-block !important;
+      }
+
+      .unowned-links {
+        display: none;
+        gap: 24px !important;
+        margin: 16px 0 !important;
+        flex-wrap: wrap;
+      }
+
+      .page-header.unowned .unowned-links {
+        display: flex !important;
+      }
+
+      .unowned-links a {
+        color: #0176d3 !important;
+        text-decoration: none !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        transition: all 0.2s ease !important;
+        padding: 4px 8px !important;
+        border-radius: 4px !important;
+      }
+
+      .unowned-links a:hover {
+        background-color: #f3f9ff !important;
+        text-decoration: underline !important;
+        transform: translateY(-1px) !important;
+      }
+
+      .view-setup-btn {
+        display: none;
+        align-items: center !important;
+        justify-content: center !important;
+        background: #0176d3 !important;
+        color: white !important;
+        padding: 8px 24px !important;
+        border: none !important;
+        border-radius: 4px !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        text-decoration: none !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+        width: 164px !important;
+        height: 32px !important;
+        box-shadow: 0 2px 8px rgba(1, 118, 211, 0.2) !important;
+      }
+
+      .page-header.unowned .view-setup-btn {
+        display: inline-flex !important;
+      }
+
+      .view-setup-btn:hover {
+        background: #0056b3 !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 4px 12px rgba(1, 118, 211, 0.3) !important;
+      }
     </style>
   </head>
   <body>
@@ -613,11 +739,25 @@
             </div>
 
             <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
-              <h1 class="page-title">{{ title }}</h1>
+              <h1 class="page-title">
+                {{ title }}
+                <svg class="lock-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M5.07656 8.76723H6.92271C7.19964 8.76723 7.38425 8.62877 7.38425 8.35186V8.3057C7.38425 5.67501 9.64579 3.50584 12.3227 3.69045C14.7689 3.87506 16.615 5.99808 16.615 8.49031V8.35186C16.615 8.62877 16.7996 8.76723 17.0766 8.76723H18.9227C19.1996 8.76723 19.3843 8.62877 19.3843 8.35186V8.3057C19.3843 4.10583 15.8766 0.736694 11.6304 0.921304C7.70733 1.10591 4.70733 4.42889 4.61502 8.35186C4.66117 8.58262 4.84579 8.76723 5.07656 8.76723ZM4.61511 8.35303V8.53764V8.35303ZM21.2306 12.461C21.2306 11.4456 20.3998 10.6148 19.3844 10.6148H4.6152C3.59981 10.6148 2.76904 11.4456 2.76904 12.461V21.2308C2.76904 22.2462 3.59981 23.0771 4.6152 23.0771H19.3844C20.3998 23.0771 21.2306 22.2462 21.2306 21.2308V12.461ZM14.1228 19.706C14.2151 19.9829 13.9844 20.306 13.6613 20.306H10.2921C9.96898 20.306 9.78436 20.0291 9.83052 19.706L10.6613 16.9368C9.96898 16.4753 9.5536 15.6446 9.69206 14.7215C9.87667 13.8446 10.569 13.1523 11.4921 12.9677C12.969 12.6908 14.2613 13.7523 14.2613 15.1369C14.2613 15.8753 13.8921 16.5676 13.2921 16.9368L14.1228 19.706Z" fill="#181818"/>
+                </svg>
+              </h1>
               <div style="width: 29px; height: 29px; border: 1px solid #c9c9c9; background: #ffffff; border-radius: 4px; display: flex; align-items: center; justify-content: center; cursor: pointer;">⌄</div>
             </div>
 
             <p style="font-size: 14px; color: #181818; line-height: 1.5; margin-bottom: 16px;">{{ description }}</p>
+
+            <!-- Unowned State Content -->
+            <div class="unowned-links">
+              <a href="#">Learn More</a>
+              <a href="#">Prerequisites</a>
+              <a href="#">Agent Requirements</a>
+              <a href="#">Documentation</a>
+            </div>
+            <button class="view-setup-btn">View Setup Options</button>
 
             <div style="display: flex; justify-content: space-between; align-items: center;">
               <div style="display: flex; align-items: center; gap: 16px;">
@@ -910,7 +1050,15 @@
       </div>
     </div>
 
+    <!-- Ownership Toggle Controls -->
+    <div class="edit-controls">
+      <button id="ownership-toggle" class="ownership-toggle-btn">
+        🔒 Unowned State
+      </button>
+    </div>
+
     <script>
+      // Template toggle functionality
       function toggleTemplate(index) {
         const content = document.getElementById('content-' + index);
         const expand = document.getElementById('expand-' + index);
@@ -923,6 +1071,42 @@
           expand.classList.add('collapsed');
         }
       }
+
+      // Ownership toggle functionality
+      let isUnowned = false;
+
+      function toggleOwnershipState() {
+        isUnowned = !isUnowned;
+        const body = document.body;
+        const header = document.querySelector('.page-header');
+        const ownershipToggle = document.getElementById('ownership-toggle');
+
+        if (isUnowned) {
+          body.classList.add('unowned');
+          header.classList.add('unowned');
+          ownershipToggle.classList.add('unowned');
+          ownershipToggle.textContent = '🔓 Owned State';
+          console.log('🔄 AGENT UNOWNED STATE APPLIED');
+        } else {
+          body.classList.remove('unowned');
+          header.classList.remove('unowned');
+          ownershipToggle.classList.remove('unowned');
+          ownershipToggle.textContent = '🔒 Unowned State';
+          console.log('🔄 AGENT OWNED STATE APPLIED');
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+          const ownershipToggle = document.getElementById('ownership-toggle');
+          if (ownershipToggle) {
+            ownershipToggle.addEventListener('click', function(e) {
+              e.preventDefault();
+              toggleOwnershipState();
+            });
+          }
+        }, 100);
+      });
     </script>
   </body>
 </html>
