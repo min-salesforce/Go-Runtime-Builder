@@ -531,18 +531,27 @@
         .unified-header.unowned .page-title {
             color: var(--Text-Default, #181818) !important;
             font-feature-settings: 'liga' off, 'clig' off !important;
-            font-family: "Segoe UI" !important;
+            /* Use default font stack instead of forcing Segoe UI */
             font-size: 42px !important;
             font-style: normal !important;
             font-weight: 400 !important;
             line-height: 42px !important;
-            display: flex !important;
-            align-items: center !important;
-            gap: 12px !important;
+            /* Remove flex layout to allow inline text flow */
         }
 
-        .unified-header.unowned .lock-icon {
-            display: inline-block !important;
+        /* Lock icon using ::after pseudo-element for inline text flow */
+        .unified-header.unowned .page-title::after {
+            content: '';
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            margin-left: 12px;
+            background-image: url('data:image/svg+xml;charset=utf-8,<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.07656 8.76723H6.92271C7.19964 8.76723 7.38425 8.62877 7.38425 8.35186V8.3057C7.38425 5.67501 9.64579 3.50584 12.3227 3.69045C14.7689 3.87506 16.615 5.99808 16.615 8.49031V8.35186C16.615 8.62877 16.7996 8.76723 17.0766 8.76723H18.9227C19.1996 8.76723 19.3843 8.62877 19.3843 8.35186V8.3057C19.3843 4.10583 15.8766 0.736694 11.6304 0.921304C7.70733 1.10591 4.70733 4.42889 4.61502 8.35186C4.66117 8.58262 4.84579 8.76723 5.07656 8.76723ZM4.61511 8.35303V8.53764V8.35303ZM21.2306 12.461C21.2306 11.4456 20.3998 10.6148 19.3844 10.6148H4.6152C3.59981 10.6148 2.76904 11.4456 2.76904 12.461V21.2308C2.76904 22.2462 3.59981 23.0771 4.6152 23.0771H19.3844C20.3998 23.0771 21.2306 22.2462 21.2306 21.2308V12.461ZM14.1228 19.706C14.2151 19.9829 13.9844 20.306 13.6613 20.306H10.2921C9.96898 20.306 9.78436 20.0291 9.83052 19.706L10.6613 16.9368C9.96898 16.4753 9.5536 15.6446 9.69206 14.7215C9.87667 13.8446 10.569 13.1523 11.4921 12.9677C12.969 12.6908 14.2613 13.7523 14.2613 15.1369C14.2613 15.8753 13.8921 16.5676 13.2921 16.9368L14.1228 19.706Z" fill="%23181818"/></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            vertical-align: baseline;
+            /* Remove blue drop shadow to match text color exactly */
         }
 
         .unified-header.unowned .progress-status {
@@ -551,19 +560,17 @@
 
         .unified-header.unowned .unowned-links {
             display: flex !important;
-            gap: 24px !important;
+            gap: 16px !important; /* Match .section-links gap */
+            font-size: 12px !important; /* Match .section-links font-size */
             margin-bottom: 16px !important;
         }
 
         .unified-header.unowned .unowned-links a {
-            color: #0176d3 !important;
+            color: #0B5CAB !important; /* Match .section-links color */
             text-decoration: none !important;
-            font-size: 14px !important;
-            font-weight: 500 !important;
-        }
-
-        .unified-header.unowned .unowned-links a:hover {
-            text-decoration: underline !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 6px !important; /* Match .section-links a gap for icon spacing */
         }
 
         .unified-header.unowned .view-setup-btn {
@@ -637,15 +644,33 @@
             transform: translateY(-1px) !important;
         }
 
+        .view-setup-btn {
+            display: none; /* Hidden by default, shown in unowned state */
+        }
+
         .unified-header.unowned .view-setup-btn {
+            display: flex !important;
+            height: 32px !important;
+            padding: 1px 16px !important;
+            justify-content: center !important;
+            align-items: center !important;
+            gap: 10px !important;
+            border-radius: 4px !important;
+            background: var(--Foundation-Blue-Blue-50, #0176D3) !important;
+            color: white !important;
+            border: none !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            text-decoration: none !important;
+            cursor: pointer !important;
             box-shadow: 0 2px 8px rgba(1, 118, 211, 0.2) !important;
             transition: all 0.2s ease !important;
-            font-weight: 600 !important;
         }
 
         .unified-header.unowned .view-setup-btn:hover {
             transform: translateY(-1px) !important;
             box-shadow: 0 4px 12px rgba(1, 118, 211, 0.3) !important;
+            background: #0056b3 !important;
         }
 
         .unified-header.scrolled .progress-status {
@@ -1960,12 +1985,7 @@
                                 {% else %}Service
                                 {% endif %}
                             </div>
-                            <h1 class="page-title editable" data-field="title">
-                                {{ metadata.name | default("Email-to-Case") }}
-                                <svg class="lock-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.07656 8.76723H6.92271C7.19964 8.76723 7.38425 8.62877 7.38425 8.35186V8.3057C7.38425 5.67501 9.64579 3.50584 12.3227 3.69045C14.7689 3.87506 16.615 5.99808 16.615 8.49031V8.35186C16.615 8.62877 16.7996 8.76723 17.0766 8.76723H18.9227C19.1996 8.76723 19.3843 8.62877 19.3843 8.35186V8.3057C19.3843 4.10583 15.8766 0.736694 11.6304 0.921304C7.70733 1.10591 4.70733 4.42889 4.61502 8.35186C4.66117 8.58262 4.84579 8.76723 5.07656 8.76723ZM4.61511 8.35303V8.53764V8.35303ZM21.2306 12.461C21.2306 11.4456 20.3998 10.6148 19.3844 10.6148H4.6152C3.59981 10.6148 2.76904 11.4456 2.76904 12.461V21.2308C2.76904 22.2462 3.59981 23.0771 4.6152 23.0771H19.3844C20.3998 23.0771 21.2306 22.2462 21.2306 21.2308V12.461ZM14.1228 19.706C14.2151 19.9829 13.9844 20.306 13.6613 20.306H10.2921C9.96898 20.306 9.78436 20.0291 9.83052 19.706L10.6613 16.9368C9.96898 16.4753 9.5536 15.6446 9.69206 14.7215C9.87667 13.8446 10.569 13.1523 11.4921 12.9677C12.969 12.6908 14.2613 13.7523 14.2613 15.1369C14.2613 15.8753 13.8921 16.5676 13.2921 16.9368L14.1228 19.706Z" fill="#181818"/>
-                                </svg>
-                            </h1>
+                            <h1 class="page-title editable" data-field="title">{{ metadata.name | default("Email-to-Case") }}</h1>
                             <p class="page-subtitle editable" data-field="description">{{ metadata.description | default("Provide seamless support to customers across their favorite communication channels.") }}</p>
                             
                             <div class="progress-status">
