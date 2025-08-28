@@ -3254,15 +3254,14 @@
                 icon.className = 'step-icon default';
             });
             
-            // Animate each step with randomized timing
+            // Animate each step sequentially from top to bottom
             stepIcons.forEach((icon, index) => {
-                // Generate random delays and durations
-                const startDelay = Math.random() * 1000; // 0-1 second delay before starting
-                const activeStateDuration = 800 + Math.random() * 1200; // 0.8-2 seconds in active state
-                const transitionDuration = 300; // 300ms for each transition
+                // Sequential delay: each step starts 400ms after the previous
+                const startDelay = index * 400; // Sequential timing: 0ms, 400ms, 800ms, etc.
+                const activeStateDuration = 1000; // Consistent 1 second in active state
                 
                 // Determine if this step should go to error state (only if more than 5 steps)
-                const shouldError = totalSteps > 5 && Math.random() < 0.2 && index !== 0; // 20% chance, never first step
+                const shouldError = totalSteps > 5 && Math.random() < 0.15 && index !== 0 && index !== totalSteps - 1; // 15% chance, never first or last step
                 
                 setTimeout(() => {
                     // Transition to active state
@@ -3572,14 +3571,14 @@
                 icon.className = 'step-icon default';
             });
             
-            // Animate each step with randomized timing
+            // Animate each step sequentially from top to bottom
             stepIcons.forEach((icon, index) => {
-                // Generate random delays and durations
-                const startDelay = Math.random() * 1000; // 0-1 second delay before starting
-                const activeStateDuration = 800 + Math.random() * 1200; // 0.8-2 seconds in active state
+                // Sequential delay: each step starts 400ms after the previous
+                const startDelay = index * 400; // Sequential timing: 0ms, 400ms, 800ms, etc.
+                const activeStateDuration = 1000; // Consistent 1 second in active state
                 
                 // Determine if this step should go to error state (only if more than 5 steps)
-                const shouldError = totalSteps > 5 && Math.random() < 0.2 && index !== 0; // 20% chance, never first step
+                const shouldError = totalSteps > 5 && Math.random() < 0.15 && index !== 0 && index !== totalSteps - 1; // 15% chance, never first or last step
                 
                 setTimeout(() => {
                     // Transition to active state

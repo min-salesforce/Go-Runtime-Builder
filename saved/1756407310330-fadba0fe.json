@@ -1,0 +1,32 @@
+{
+  "id": "1756407310330-fadba0fe",
+  "slug": "sequential-animation-test",
+  "name": "Sequential Animation Test",
+  "setupType": "feature",
+  "session": {
+    "setupType": "feature",
+    "metadata": {
+      "name": "Sequential Animation Test",
+      "description": "Testing the new sequential step animations",
+      "cloud": "Platform"
+    },
+    "features": [
+      {
+        "id": "sequential-animation-test",
+        "name": "Sequential Animation Test",
+        "slug": "sequential-animation-test",
+        "soldToCustomers": true
+      }
+    ]
+  },
+  "generatedPaths": [
+    "/Users/min.chang/Documents/GitHub/Go Runtime Builder/dist/index.html",
+    "/Users/min.chang/Documents/GitHub/Go Runtime Builder/dist/feature/sequential-animation-test.html"
+  ],
+  "relativePaths": {
+    "home": "dist/index.html",
+    "main": "dist/feature/sequential-animation-test.html"
+  },
+  "createdAt": "2025-08-28T18:55:10.344Z",
+  "lastAccessed": "2025-08-28T18:55:41.741Z"
+}

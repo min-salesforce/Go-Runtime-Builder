@@ -1,0 +1,33 @@
+{
+  "id": "1756414313268-a1fa9f91",
+  "slug": "justins-feature-aint-it-cool",
+  "name": "Justin's Feature, ain't it cool?",
+  "setupType": "feature",
+  "session": {
+    "setupType": "feature",
+    "metadata": {
+      "name": "Justin's Feature, ain't it cool?",
+      "description": "Enhance your Salesforce platform with powerful tools for workflow automation, data management, and user productivity.",
+      "cloud": "Platform"
+    },
+    "features": [
+      {
+        "id": "justins-feature-aint-it-cool",
+        "name": "Justin's Feature, ain't it cool?",
+        "slug": "justins-feature-aint-it-cool",
+        "soldToCustomers": true
+      }
+    ],
+    "assets": {}
+  },
+  "generatedPaths": [
+    "/Users/min.chang/Documents/GitHub/Go Runtime Builder/dist/index.html",
+    "/Users/min.chang/Documents/GitHub/Go Runtime Builder/dist/feature/justin-s-feature-ain-t-it-cool.html"
+  ],
+  "relativePaths": {
+    "home": "dist/index.html",
+    "main": "dist/feature/justin-s-feature-ain-t-it-cool.html"
+  },
+  "createdAt": "2025-08-28T20:51:53.302Z",
+  "lastAccessed": "2025-08-28T20:53:09.554Z"
+}

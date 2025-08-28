@@ -1,0 +1,32 @@
+{
+  "id": "1756402392874-bb18cc5d",
+  "slug": "customer-support-portal",
+  "name": "Customer Support Portal",
+  "setupType": "feature",
+  "session": {
+    "setupType": "feature",
+    "metadata": {
+      "name": "Customer Support Portal",
+      "description": "A comprehensive customer support portal",
+      "cloud": "Service Cloud"
+    },
+    "features": [
+      {
+        "id": "customer-support-portal",
+        "name": "Customer Support Portal",
+        "slug": "customer-support-portal",
+        "soldToCustomers": true
+      }
+    ]
+  },
+  "generatedPaths": [
+    "/Users/min.chang/Documents/GitHub/Go Runtime Builder/dist/index.html",
+    "/Users/min.chang/Documents/GitHub/Go Runtime Builder/dist/feature/customer-support-portal.html"
+  ],
+  "relativePaths": {
+    "home": "dist/index.html",
+    "main": "dist/feature/customer-support-portal.html"
+  },
+  "createdAt": "2025-08-28T17:33:12.886Z",
+  "lastAccessed": "2025-08-28T17:33:18.980Z"
+}

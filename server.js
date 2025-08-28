@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
 import fs from 'fs-extra';
+import crypto from 'crypto';
 import { fileURLToPath } from 'url';
 import QuestionnaireEngine from './scripts/questionnaire.js';
 import ValidationEngine from './scripts/validator.js';
@@ -204,6 +205,83 @@ app.post('/api/generate', async (req, res) => {
   }
 });
 
+// Save page permanently and get shareable URL
+app.post('/api/save', async (req, res) => {
+  try {
+    const { session, pageType, customSlug } = req.body;
+    
+    // Validate required data
+    if (!session || !session.setupType || !session.metadata?.name) {
+      return res.status(400).json({
+        success: false,
+        error: 'Session data and page name are required'
+      });
+    }
+
+    // Generate unique ID for this saved page
+    const timestamp = Date.now();
+    const randomBytes = crypto.randomBytes(4).toString('hex');
+    const uniqueId = `${timestamp}-${randomBytes}`;
+    
+    // Create a clean slug from the name
+    const baseName = session.metadata.name;
+    const slug = customSlug || baseName
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .substring(0, 50);
+    
+    // Generate the page first
+    const cleanSession = {
+      setupType: session.setupType,
+      metadata: session.metadata
+    };
+    if (session.features) { cleanSession.features = session.features; }
+    if (session.agentforce) { cleanSession.agentforce = session.agentforce; }
+    if (session.assets) { cleanSession.assets = session.assets; }
+    
+    const result = await generator.generateFromQuestionnaireSession(cleanSession);
+    
+    // Create saved pages directory
+    const savedDir = path.join(__dirname, 'saved');
+    await fs.ensureDir(savedDir);
+    
+    // Save the page data and metadata
+    const pageData = {
+      id: uniqueId,
+      slug: slug,
+      name: baseName,
+      setupType: session.setupType,
+      session: cleanSession,
+      generatedPaths: result.generatedPaths,
+      relativePaths: result.relativePaths,
+      createdAt: new Date().toISOString(),
+      lastAccessed: new Date().toISOString()
+    };
+    
+    await fs.writeJson(path.join(savedDir, `${uniqueId}.json`), pageData, { spaces: 2 });
+    
+    // Create shareable URL
+    const shareableUrl = `/saved/${slug}/${uniqueId}`;
+    
+    res.json({
+      success: true,
+      url: shareableUrl,
+      id: uniqueId,
+      slug: slug,
+      name: baseName,
+      permanentUrl: `${req.protocol}://${req.get('host')}${shareableUrl}`
+    });
+    
+  } catch (error) {
+    console.error('Save failed:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
 app.get('/api/setup-types', (req, res) => {
   res.json({
     setupTypes: [
@@ -251,6 +329,82 @@ app.get('/health', (req, res) => {
       validator: !!validator
     }
   });
+});
+
+// Serve saved pages permanently
+app.get('/saved/:slug/:id', async (req, res) => {
+  try {
+    const { slug, id } = req.params;
+    
+    // Load saved page data
+    const savedDir = path.join(__dirname, 'saved');
+    const pageDataPath = path.join(savedDir, `${id}.json`);
+    
+    if (!await fs.pathExists(pageDataPath)) {
+      return res.status(404).render('error', { 
+        title: '404 - Page Not Found',
+        error: 'This saved page could not be found. It may have been removed or the URL is incorrect.'
+      });
+    }
+    
+    const pageData = await fs.readJson(pageDataPath);
+    
+    // Update last accessed time
+    pageData.lastAccessed = new Date().toISOString();
+    await fs.writeJson(pageDataPath, pageData, { spaces: 2 });
+    
+    // Regenerate the page to serve fresh content
+    const result = await generator.generateFromQuestionnaireSession(pageData.session);
+    
+    // Determine which file to serve based on setup type
+    let filePath;
+    if (pageData.setupType === 'agent-setup' || pageData.setupType === 'agent') {
+      filePath = path.join(__dirname, 'dist', 'agent', `${pageData.slug}.html`);
+    } else {
+      filePath = path.join(__dirname, 'dist', 'feature', `${pageData.slug}.html`);
+    }
+    
+    // If the exact slug file doesn't exist, use the main generated path
+    if (!await fs.pathExists(filePath)) {
+      const mainPath = result.relativePaths.main;
+      filePath = path.join(__dirname, 'dist', mainPath.startsWith('dist/') 
+        ? mainPath.substring(5) 
+        : mainPath
+      );
+    }
+    
+    if (!await fs.pathExists(filePath)) {
+      return res.status(404).render('error', { 
+        title: '404 - Page Not Found',
+        error: 'The generated page file could not be found.'
+      });
+    }
+    
+    // Read and serve the HTML file
+    const htmlContent = await fs.readFile(filePath, 'utf8');
+    
+    // Add some metadata to indicate this is a saved page
+    const modifiedHtml = htmlContent.replace(
+      '<head>',
+      `<head>
+    <!-- Saved Page: ${pageData.name} -->
+    <!-- Created: ${pageData.createdAt} -->
+    <!-- ID: ${pageData.id} -->
+    <meta name="description" content="Saved Salesforce Go configuration page: ${pageData.name}">
+    <meta property="og:title" content="${pageData.name} - Salesforce Go">
+    <meta property="og:description" content="Saved configuration page for ${pageData.name}">
+    <meta property="og:type" content="website">`
+    );
+    
+    res.send(modifiedHtml);
+    
+  } catch (error) {
+    console.error('Error serving saved page:', error);
+    res.status(500).render('error', { 
+      title: '500 - Server Error',
+      error: 'An error occurred while loading this saved page.'
+    });
+  }
 });
 
 // 404 handler

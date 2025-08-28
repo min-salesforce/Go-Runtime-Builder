@@ -1,0 +1,32 @@
+{
+  "id": "1756402301245-e3680b2f",
+  "slug": "test-marketing-feature",
+  "name": "Test Marketing Feature",
+  "setupType": "feature",
+  "session": {
+    "setupType": "feature",
+    "metadata": {
+      "name": "Test Marketing Feature",
+      "description": "A test marketing feature",
+      "cloud": "Marketing Cloud"
+    },
+    "features": [
+      {
+        "id": "test-marketing-feature",
+        "name": "Test Marketing Feature",
+        "slug": "test-marketing-feature",
+        "soldToCustomers": true
+      }
+    ]
+  },
+  "generatedPaths": [
+    "/Users/min.chang/Documents/GitHub/Go Runtime Builder/dist/index.html",
+    "/Users/min.chang/Documents/GitHub/Go Runtime Builder/dist/feature/test-marketing-feature.html"
+  ],
+  "relativePaths": {
+    "home": "dist/index.html",
+    "main": "dist/feature/test-marketing-feature.html"
+  },
+  "createdAt": "2025-08-28T17:31:41.278Z",
+  "lastAccessed": "2025-08-28T17:33:01.339Z"
+}

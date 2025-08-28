@@ -1,0 +1,33 @@
+{
+  "id": "1756403105021-6d28f6e6",
+  "slug": "test-bot",
+  "name": "Test Bot",
+  "setupType": "feature",
+  "session": {
+    "setupType": "feature",
+    "metadata": {
+      "name": "Test Bot",
+      "description": "Enhance your Salesforce platform with powerful tools for workflow automation, data management, and user productivity.",
+      "cloud": "Platform"
+    },
+    "features": [
+      {
+        "id": "test-bot",
+        "name": "Test Bot",
+        "slug": "test-bot",
+        "soldToCustomers": true
+      }
+    ],
+    "assets": {}
+  },
+  "generatedPaths": [
+    "/Users/min.chang/Documents/GitHub/Go Runtime Builder/dist/index.html",
+    "/Users/min.chang/Documents/GitHub/Go Runtime Builder/dist/feature/test-bot.html"
+  ],
+  "relativePaths": {
+    "home": "dist/index.html",
+    "main": "dist/feature/test-bot.html"
+  },
+  "createdAt": "2025-08-28T17:45:05.044Z",
+  "lastAccessed": "2025-08-28T17:45:12.851Z"
+}
