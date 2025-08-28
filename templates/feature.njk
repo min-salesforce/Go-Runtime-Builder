@@ -23,6 +23,26 @@
         position: sticky;
         top: 0;
         z-index: 100;
+        transition: all 0.3s ease-in-out;
+      }
+
+      .global-header.scrolled {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        border-bottom: 2px solid #1589ee;
+      }
+
+      .global-header.scrolled .header-masthead {
+        padding: 4px 16px;
+        min-height: 32px;
+      }
+
+      .global-header.scrolled .header-nav {
+        height: 28px;
+        padding: 0 12px;
+      }
+
+      .global-header.scrolled .setup-title {
+        font-size: 16px;
       }
 
       .header-masthead {
@@ -1421,5 +1441,67 @@
         </div>
       </div>
     </div>
+
+    <script>
+        // Enhanced sticky header functionality for regular feature pages
+        function setupStickyHeader() {
+            const header = document.querySelector('.global-header');
+            const body = document.body;
+            
+            if (!header) {
+                console.log('Header not found');
+                return;
+            }
+            
+            function updateHeaderBehavior() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const isCurrentlyCompact = header.classList.contains('scrolled');
+                
+                // Hysteresis thresholds to prevent oscillation
+                const compactThreshold = 50;    // Scroll down this much to go compact
+                const fullThreshold = 20;       // Scroll up to this position to go full
+                
+                // Determine desired state based on scroll position
+                let shouldBeCompact;
+                if (isCurrentlyCompact) {
+                    // If currently compact, only expand when near top
+                    shouldBeCompact = scrollTop > fullThreshold;
+                } else {
+                    // If currently full, only compact after significant scroll
+                    shouldBeCompact = scrollTop > compactThreshold;
+                }
+                
+                // Apply state changes with improved logic
+                if (shouldBeCompact && !isCurrentlyCompact) {
+                    console.log(`Header compact mode at ${scrollTop}px`);
+                    header.classList.add('scrolled');
+                    
+                } else if (!shouldBeCompact && isCurrentlyCompact) {
+                    console.log(`Header full mode at ${scrollTop}px`);
+                    header.classList.remove('scrolled');
+                }
+            }
+            
+            // Add scroll listener with throttling
+            let ticking = false;
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    requestAnimationFrame(() => {
+                        updateHeaderBehavior();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }, { passive: true });
+            
+            // Initialize
+            updateHeaderBehavior();
+        }
+        
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            setupStickyHeader();
+        });
+    </script>
   </body>
 </html>
