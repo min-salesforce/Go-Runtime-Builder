@@ -122,7 +122,7 @@ Provide helpful, conversational responses that guide the user toward the right c
         const response = await axios.post(`${this.inferenceUrl}/v1/chat/completions`, {
             model: this.modelId,
             messages: messages,
-            max_tokens: 500,
+            max_tokens: 1500,
             temperature: 0.7,
             stream: false
         }, {
@@ -168,7 +168,7 @@ Provide helpful, conversational responses that guide the user toward the right c
             options: {
                 temperature: 0.7,
                 top_p: 0.9,
-                max_tokens: 500
+                max_tokens: 1500
             }
         });
         
