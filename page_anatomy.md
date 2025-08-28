@@ -8,6 +8,12 @@ This guide outlines the components that comprise a setup page and their default 
 
 - **Agentforce header**
 - **Feature page header**
+  - **Sticky Header Behavior** *(Feature Pages)*: Dynamic responsive header that transitions between full and compact states during scrolling
+    - **Full State**: Complete header with breadcrumbs, title, description, and header image (~220px height)
+    - **Compact State**: Condensed header with hidden elements for better content visibility (~120px height)
+    - **Smart Transitions**: Content-aligned positioning (304px-right) with zero-bounce scroll behavior
+    - **Edit Mode Protection**: Header remains in full state during editing for complete access
+    - **Trigger Logic**: Compact at 50px down, full at 20px up, immediate at ≤5px from top
 - **Progress badge**: shows how many templates are ON (e.g., X of Y ON). Place near the header area.
 
 ### 2) Turn on Agentforce (Section card)

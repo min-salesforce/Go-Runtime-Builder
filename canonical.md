@@ -161,6 +161,15 @@ Key practices for Help topics referenced from Go, or about features included in 
 
 The feature page header contains a combination of text and visual assets that introduce the feature.
 
+### Sticky Header Behavior *(Feature Pages)*
+
+The feature page header implements dynamic sticky behavior that affects content visibility:
+
+- **Full State**: Complete header content including screenshot, title, description, and breadcrumbs
+- **Compact State**: Condensed header with hidden screenshot and reduced padding for optimal scrolling experience  
+- **Content Rules**: All required assets (screenshot, video, etc.) must still be provided as per normal rules
+- **Design Consideration**: Screenshots should be designed knowing they will be hidden in compact state during scrolling
+
 ### Screenshot
 
 Single snapshot of a feature’s UI with circled highlights for important points.
