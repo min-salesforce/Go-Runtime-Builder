@@ -22,6 +22,34 @@ Following the Figma design pattern:
 3. **Feature Pages** - Individual feature configuration
 4. **Solution/Agent Pages** - Specialized setup types
 
+## 🤖 AI-Powered "How to Go" Experience
+
+### Intelligent Discovery Process
+The "How to Go" experience transforms traditional form-based configuration into an intelligent conversation that:
+
+- **Understands Intent** - Detects whether users need Features, Agents, or Solutions
+- **Generates Contextual Content** - Creates domain-specific placeholder content based on Salesforce Clouds (Sales, Service, Marketing, Platform)
+- **Follows Canonical Rules** - Ensures all generated content adheres to `canonical.md` guidelines
+- **Validates Schemas** - Produces schema-compliant data for seamless page generation
+
+### Dual Experience Architecture
+- **Discovery Mode (Unowned State)** - AI conversation with large headers and lock icons
+- **Configuration Mode (Owned State)** - Detailed editing with sticky headers and progress indicators
+- **Seamless Transition** - One-click toggle between states with preserved content
+
+### Production-Ready AI Integration
+- **Local Development** - GPT-OSS-20b via Ollama for cost-effective development
+- **Production Deployment** - Heroku Inference for scalable cloud AI processing
+- **Intelligent Fallbacks** - Pattern-matching fallbacks when AI services are unavailable
+- **Domain Expertise** - Built-in knowledge of Salesforce terminology and best practices
+
+### End-to-End AI Workflow
+1. **Natural Conversation** - "I want to create a Sales Pipeline Feature"
+2. **Domain Detection** - AI identifies Sales Cloud context automatically
+3. **Content Generation** - Creates realistic, contextually-appropriate placeholder content
+4. **Schema Validation** - Ensures compatibility with existing generation pipeline
+5. **Page Rendering** - Produces professional, styled pages ready for refinement
+
 ## 🚀 Quick Start
 
 ### Web Application
@@ -39,7 +67,7 @@ npm run dev
 ```
 
 **Experience Options:**
-- **🤖 AI-Guided**: Visit `/how-to-go` for conversational AI assistance
+- **🤖 How to Go (AI-Powered)**: Visit `/how-to-go` for intelligent conversational assistance
 - **🚀 Simple Generator**: Visit `/simple` for direct manual input
 - **📊 Home Dashboard**: Visit `/` for overview and navigation
 
@@ -152,6 +180,7 @@ Go Runtime Builder/
 │   └── content.schema.json
 ├── scripts/                    # Core application logic
 │   ├── cli.js                 # Main CLI interface
+│   ├── ai-service.js          # AI conversation and content generation
 │   ├── questionnaire.js       # Interactive questionnaire engine
 │   ├── validator.js           # Schema and canonical validation
 │   ├── enhanced-generator.js   # Page generation engine
@@ -160,8 +189,20 @@ Go Runtime Builder/
 │   ├── home.njk               # Home/overview page
 │   ├── feature-set.njk        # Feature set pages
 │   ├── feature.njk            # Individual feature pages
+│   ├── feature-2.njk          # Enhanced feature pages with ownership states
 │   ├── solution.njk           # Solution setup pages
 │   └── agent.njk              # Agentforce configuration
+├── views/                      # EJS web application views
+│   ├── index.ejs              # Main landing page
+│   ├── how-to-go.ejs          # AI conversational interface
+│   └── simple-questionnaire.ejs # Direct questionnaire form
+├── public/                     # Frontend assets (not committed)
+│   ├── css/
+│   │   ├── app.css            # Main application styles
+│   │   └── how-to-go.css      # AI chat interface styles
+│   └── js/
+│       ├── app.js             # Main application logic
+│       └── how-to-go.js       # AI chat frontend logic
 ├── styles/
 │   └── slds2-temp.css         # SLDS2 styling tokens
 ├── content/                    # Content and labels
@@ -175,9 +216,20 @@ Go Runtime Builder/
     └── agent/
 ```
 
-## 🔄 Questionnaire Flow
+## 🔄 Generation Flow
 
-The interactive questionnaire follows the decision tree logic:
+### AI-Powered Flow ("How to Go")
+The intelligent conversation flow powered by GPT-OSS-20b:
+
+1. **Natural Language Input** - "I want to create a Sales Pipeline Feature"
+2. **Intent Detection** - AI determines Feature vs Agent vs Solution setup type
+3. **Domain Recognition** - Identifies Salesforce Cloud context (Sales/Service/Marketing/Platform)
+4. **Contextual Content Generation** - Creates realistic, domain-specific placeholder content
+5. **Schema Validation** - Ensures compatibility with generation pipeline
+6. **Instant Page Generation** - Professional pages ready for editing and refinement
+
+### Traditional Questionnaire Flow
+The structured form-based approach follows decision tree logic:
 
 1. **Basic Information** - Name, description, cloud type
 2. **Experience Type Selection** - Determines setup category

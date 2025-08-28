@@ -26,20 +26,65 @@
 5) Generator renders static HTML using templates and injects `styles/slds2-temp.css`
 6) Exporter writes pages to `dist/` with routes and cross-links
 
+### AI-Enhanced Flow ("How to Go" Experience)
+
+The AI service extends the traditional flow with intelligent conversation capabilities:
+
+1) **Natural Language Processing** → AI Service parses user intent from conversational input
+2) **Domain Detection** → Identifies Salesforce Cloud context (Sales/Service/Marketing/Platform/Commerce/Analytics)
+3) **Setup Type Classification** → AI determines appropriate setup type (Feature vs Agent vs Solution)
+4) **Contextual Content Generation** → Creates realistic, domain-specific placeholder content
+5) **Schema Compliance** → Ensures generated content matches existing validation schemas
+6) **Integration with Traditional Pipeline** → Passes to existing Validator → Assembler → Generator flow
+
+#### AI Service Architecture
+
+**Local Development:**
+- **GPT-OSS-20b via Ollama** - Runs locally for cost-effective development
+- **Pattern Matching Fallback** - Intelligent heuristics when AI service unavailable
+- **Context Loading** - Reads `canonical.md` and `decision tree.md` for domain knowledge
+
+**Production Deployment:**
+- **Heroku Inference** - Cloud-based GPT-OSS-20b processing
+- **Environment Detection** - Automatic selection between local/cloud AI services
+- **Graceful Degradation** - Falls back to pattern matching if AI services fail
+
+**AI Knowledge Sources:**
+- `canonical.md` - Content rules and constraints
+- `decision tree.md` - Setup type decision logic
+- Domain templates - Sales/Service/Marketing/Platform content patterns
+- Schema definitions - Ensures AI output conforms to validation rules
+
+#### Dual Experience States
+
+**Discovery Mode (Unowned State):**
+- Large header images with lock icons
+- Conversational AI interface
+- Simplified navigation focused on intent gathering
+- Optional links and setup buttons
+
+**Configuration Mode (Owned State):**
+- Sticky header behavior with progress indicators
+- Detailed editing interface
+- Full component configuration
+- Traditional form-based refinement
+
 ### Core modules
 
-- Questionnaire Engine: Renders questions, persists `QuestionnaireSession`
-- Type Resolver: Chooses `feature-set-and-features | feature | solution-initial-setup | agent-setup`
-- Policy Validator: Canonical rules (assets, labels, counts, states)
-- Content Assembler: Builds `SetupDefinition` and `PageModel`; merges labels from `content/**/content.md` (YAML front matter validated by `schemas/content.schema.json`)
-- Page Generator: Template renderer (Nunjucks/Handlebars-compatible)
-- Style Layer: Includes `styles/slds2-temp.css`; resolves hooks from SLDS2
-- Asset Manager: Validates/collects screenshot, video URL, Trailhead IDs, RN links
-- Linker: Builds nav, breadcrumbs, and cross-references
+- **AI Service**: Conversational intelligence, domain detection, and content generation
+- **Questionnaire Engine**: Renders questions, persists `QuestionnaireSession`
+- **Type Resolver**: Chooses `feature-set-and-features | feature | solution-initial-setup | agent-setup`
+- **Policy Validator**: Canonical rules (assets, labels, counts, states)
+- **Content Assembler**: Builds `SetupDefinition` and `PageModel`; merges labels from `content/**/content.md` (YAML front matter validated by `schemas/content.schema.json`)
+- **Page Generator**: Template renderer (Nunjucks/Handlebars-compatible)
+- **Style Layer**: Includes `styles/slds2-temp.css`; resolves hooks from SLDS2
+- **Asset Manager**: Validates/collects screenshot, video URL, Trailhead IDs, RN links
+- **Linker**: Builds nav, breadcrumbs, and cross-references
 
 ### Data models (JSON)
 
 - `QuestionnaireSession` (answers collected)
+- `ConversationState` (AI session data with intent, metadata, and generated content)
 - `SetupDefinition` (normalized config for generation)
 - `PageModel` (final page tree with components)
 - `ContentFrontMatter` (labels/text from `content.md`)
